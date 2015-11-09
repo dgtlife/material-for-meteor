@@ -1,0 +1,25 @@
+// @file Defines the styles for the MD Menu.
+// @author Derek Gransaull <derek@dgtlife.com>
+// @copyright DGTLife, LLC 2015
+//
+// Created on 10/13/2015
+
+@require '../md-common'
+
+/////////////////////    VARIABLES FOR MD MENU STYLES    ///////////////////////
+$md-menu__bg-color = #FFFFFF
+$md-menu__color = $md-primary-text__color
+$md-menu__item--selected__bg-color = #EAEAEA
+
+/////////////////////////    STYLES FOR MD MENU    /////////////////////////////
+.md-menu
+  background-color $md-menu__bg-color
+  border-radius 0.125rem
+  color $md-menu__color
+  display block
+  padding 0.5rem 0
+.md-item
+  &:focus
+    outline 0
+.md-item[data-menu-item].selected
+  background-color $md-menu__item--selected__bg-color

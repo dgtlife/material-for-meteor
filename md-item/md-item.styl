@@ -1,0 +1,49 @@
+// @file Defines the styles for the MD Item.
+// @author Derek Gransaull <derek@dgtlife.com>
+// @copyright DGTLife, LLC 2015
+//
+// Created on 10/13/2015
+
+@require '../md-common'
+
+/////////////////////////    VARIABLES FOR MD ITEM    //////////////////////////
+$md-item__font-size = 0.9375rem
+$md-item__font-weight = 400
+$md-item--disabled__color = rgba(0,0,0,0.26)
+
+//////////////////////////    STYLES FOR MD ITEM    ////////////////////////////
+.md-item
+  cursor pointer
+  min-height 3rem
+  overflow hidden
+  padding 0 1rem
+  position relative
+  -ms-flex-align center
+  -webkit-align-items center
+  align-items center
+  display -ms-flexbox
+  display -webkit-flex
+  display flex
+  -ms-flex-direction row
+  -webkit-flex-direction row
+  flex-direction row
+.md-item[data-disabled]
+  background-color transparent
+  color $md-item--disabled__color
+  cursor default
+.md-item__icon
+  width 3.5rem
+  -ms-flex-align center
+  -webkit-align-items center
+  align-items center
+  display -ms-flexbox
+  display -webkit-flex
+  display flex
+  -ms-flex-direction row
+  -webkit-flex-direction row
+  flex-direction row
+.md-item__text
+  font-size $md-item__font-size
+  white-space nowrap
+.md-item.md-item--inactive
+  cursor default

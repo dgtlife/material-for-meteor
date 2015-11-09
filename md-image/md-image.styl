@@ -1,0 +1,26 @@
+// @file Defines the styles for the MD Image.
+// @author Derek Gransaull <derek@dgtlife.com>
+// @copyright DGTLife, LLC 2015
+//
+// Created on 10/31/2015
+
+.md-image
+  display inline-block
+  overflow hidden
+  position relative
+.md-image__img
+  display block
+.md-image__placeholder
+  bottom 0
+  left 0
+  opacity 1
+  position absolute
+  right 0
+  top 0
+.md-image__placeholder.with-img
+  background-color transparent
+  background-repeat no-repeat
+  background-position top left
+.md-image__placeholder.faded-out
+  transition opacity 0.35s linear
+  opacity 0

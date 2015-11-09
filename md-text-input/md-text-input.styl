@@ -1,0 +1,46 @@
+// @file Defines the styles for the MD Text Inputs.
+// @author Derek Gransaull <derek@dgtlife.com>
+// @copyright DGTLife, LLC 2015
+//
+// Created on 10/13/2015
+
+@require '../md-common'
+
+///////////////    STYLES FOR MD TEXT FIELD and MD TEXT AREA    ////////////////
+.md-field__input-container
+  -ms-flex-align center
+  -webkit-align-items center
+  align-items center
+  display -ms-flexbox
+  display -webkit-flex
+  display flex
+  -ms-flex-direction row
+  -webkit-flex-direction row
+  flex-direction row
+.md-field__prefix,
+.md-field__suffix
+  white-space nowrap
+.md-field__input[data-text-field-input]
+  margin 0
+.md-field__input[data-text-area-input]
+  margin 0 0 -0.25rem 0
+  resize none
+.md-text-area__size-detector
+  background-color transparent
+  border none
+  box-shadow none
+  color $md-field__input__color
+  display inline-block
+  font-size $md-field__input__font-size
+  left 0
+  line-height normal
+  min-height 1.1875rem
+  min-width 0
+  outline none
+  padding 0.5rem 0
+  position absolute
+  text-align left
+  text-rendering optimizeLegibility
+  top 1.375rem
+  visibility hidden
+  width 100%

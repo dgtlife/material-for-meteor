@@ -1,0 +1,55 @@
+//- @file Defines the template for the MD Spinner.
+    @author Derek Gransaull <derek@dgtlife.com>
+    @copyright DGTLife, LLC 2015
+    Created on 10/30/2015
+
+//-///////////////////////////    MD SPINNER    ////////////////////////////////
+//- An MD Spinner is a component used to provide a visual indication that an
+    operation is still in progress (c.f. paper-spinner).
+    An MD Spinner
+      * can be multi-colored
+      * can be mono-colored
+template(name="md_spinner")
+  .md-spinner(
+    id=id
+    name=name
+    class=classes
+    data-spinner=""
+    data-color=color
+    data-color-1=color_1
+    data-color-2=color_2
+    data-color-3=color_3
+    data-color-4=color_4
+  )
+    .md-spinner__container.spinning
+      .md-spinner__layer.layer-1(data-spinner-layer-1="")
+        .md-spinner__circle-clipper.left
+          .md-spinner__circle.clipper-left
+        .md-spinner__gap-patch
+          .md-spinner__circle.gap-patch
+        .md-spinner__circle-clipper.right
+          .md-spinner__circle.clipper-right
+
+      .md-spinner__layer.layer-2(data-spinner-layer-2="")
+        .md-spinner__circle-clipper.left
+          .md-spinner__circle.clipper-left
+        .md-spinner__gap-patch
+          .md-spinner__circle.gap-patch
+        .md-spinner__circle-clipper.right
+          .md-spinner__circle.clipper-right
+
+      .md-spinner__layer.layer-3(data-spinner-layer-3="")
+        .md-spinner__circle-clipper.left
+          .md-spinner__circle.clipper-left
+        .md-spinner__gap-patch
+          .md-spinner__circle.gap-patch
+        .md-spinner__circle-clipper.right
+          .md-spinner__circle.clipper-right
+
+      .md-spinner__layer.layer-4(data-spinner-layer-4="")
+        .md-spinner__circle-clipper.left
+          .md-spinner__circle.clipper-left
+        .md-spinner__gap-patch
+          .md-spinner__circle.gap-patch
+        .md-spinner__circle-clipper.right
+          .md-spinner__circle.clipper-right

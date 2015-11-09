@@ -1,0 +1,87 @@
+//- @file Defines the templates for MD Radio Button and MD Radio Group.
+    @author Derek Gransaull <derek@dgtlife.com>
+    @copyright DGTLife, LLC 2015
+
+    Created on 10/13/2015
+
+//-/////////////////////////  MD RADIO BUTTON  /////////////////////////////////
+//- An MD radio button (cf. paper-radio-button) is a button that toggle between
+    a 'checked' and an 'unchecked' state.
+
+    At least 2 of these buttons must be used inside of a radio group element. To
+    enable proper behavior of the radio group, the name attribute of each
+    button must be the group name, and the name attribute of the radio group
+    element must be the group name.
+
+    This button
+      * can be part of an MD radio group
+      * can be disabled with the template attribute 'disabled="true"'
+      * can ripple on click with the template attribute 'ripple=true'
+      * uses the 'md_radio_button template which supports the following
+        parameters:
+        @param {string} id - the id of the radio button
+        ToDo: complete this
+template(name="md_radio_button")
+  .md-radio-button(
+    id=id
+    name=name
+    class=classes
+    data-radio-button=""
+    data-group=group
+    data-value=value
+    data-checked=checked
+    data-disabled=disabled
+  )
+    .md-radio-button__container
+      input.md-radio-button__input(
+        type="radio"
+        value=value
+        disabled=disabled
+      )
+      .md-radio-button__outer
+      .md-radio-button__inner
+      if ripple
+        +md_ripple
+    span.md-radio-button__label(for=id)=label
+
+//-/////////////////////////  MD RADIO GROUP  //////////////////////////////////
+//- An MD radio group is a group of radio button elements within a supervisory
+    radio group element (cf. paper-radio-group). An MD radio group
+      * can have its associated radio elements specified in two ways:
+          1. using a 'buttons'  helper which provides metadata for each button
+          2. using a special div with attribute 'data-buttons-for=name', where
+             name is the name of the radio group. The radio button templates or
+             raw HTML is placed within the div. The radio button nodes are moved
+             automatically into the radio group at render time.
+      * can hold the selected value of the radio group in the 'data-selected'
+        attribute
+      * uses the 'md_radio_group' template which supports the following
+        parameters:
+        @param {string} id - the id of the radio group
+        ToDo: finish this
+template(name="md_radio_group")
+  .md-label.label--radio-group(class=classes)=label
+  .md-radio-group(
+    id=id
+    name=name
+    class=classes
+    data-radio-group=""
+    data-selected=selected
+  )
+    if buttons
+      +each buttons
+        +md_radio_button(
+          id=id
+          name=name
+          classes=classes
+          group=group
+          value=value
+          label=label
+          checked=checked
+          disabled=disabled
+          ripple=ripple
+        )
+
+    //- If a buttons helper is not used to provide the radio buttons, then the
+        buttons placed in a div with an attribute of
+        'data-buttons-for=name' will be automatically inserted here.

@@ -1,0 +1,51 @@
+//- @file Defines the template for MD Item
+    @author Derek Gransaull <derek@dgtlife.com>
+    @copyright DGTLife, LLC 2015
+
+    Created on 10/13/2015
+
+//-/////////////////////////////  MD ITEM //////////////////////////////////////
+//- MD Item is a generic list item (cf. paper-item/paper-icon-item). An MD item
+      * can include an MD icon
+      * can ripple when clicked
+      * can display a tooltip on hover (item must have an id to enable tooltip)
+      * can be an item in an MD menu
+      * uses the 'md_item' template which supports the following parameters.
+
+      @param {string} [id] - the id of the item
+      @param {string} [name] - the name of the item
+      @param {string} [classes] - a space-separate list of classes of the item
+      @param {string} text - the text content of the item
+      @param {string} [text__classes] - a space-separate list of classes of the
+                                        item text
+      @param {string} [menu_item] - indicates that it is a menu item
+      @param {string} [menu] - the id of the menu that the item is in
+      @param {string} [icon] - the icon id of an icon to include in the item
+      @param {string} [icon__classes] - a space-separate list of classes of the
+                                        icon
+      @param {boolean} [ripple] - true if the item should ripple on click
+      @param {string} [centered_ripple] - 'center'|'offset' to select the origin
+                                        of the ripple
+      @param {boolean} [has_tooltip] - true if the item should have a tooltip
+      @param {string} [tooltip__position] - true if the item should have a tooltip
+      @param {string} [tooltip__text] - the text if the item should have a tooltip
+                                           
+template(name="md_item")
+  .md-item(
+    id=id
+    name=name
+    class=classes
+    data-item=""
+    data-value=text
+    data-menu-item=menu_item
+    data-menu=menu
+    data-disabled=disabled
+  )
+    if icon
+      .md-item__icon(class=icon__classes)
+        +si(icon=icon)
+    .md-item__text(class=text__classes)=text
+    if ripple
+      +md_ripple(center=centered_ripple)
+  if has_tooltip
+    +md_tooltip(target=id position=tooltip__position text=tooltip__text)

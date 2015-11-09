@@ -1,0 +1,28 @@
+// @file Defines the styles for the MD Popup Menu.
+// @author Derek Gransaull <derek@dgtlife.com>
+// @copyright DGTLife, LLC 2015
+//
+// Created on 10/13/2015
+
+@require '../md-common'
+@require '../md-shadow/md-shadow'
+
+//////////////////    VARIABLES FOR MD POPUP MENU STYLES    ////////////////////
+$md-item__font-size--popup-menu = 0.875rem
+
+///////////////////////    STYLES FOR MD POPUP MENU    /////////////////////////
+.md-popup-menu
+  display inline-block
+  margin auto
+  outline none
+  padding 0
+  position relative
+.md-menu[data-popup-menu]
+  display none
+  z-index 100
+.md-menu[data-popup-menu],
+.md-menu[data-dropdown-menu]
+  position absolute
+  $md-shadow--8dp()
+  .md-item__text
+    font-size $md-item__font-size--popup-menu

@@ -1,0 +1,66 @@
+//- @file Defines the template for the MD Dropdown Menu.
+    @author Derek Gransaull <derek@dgtlife.com>
+    @copyright DGTLife, LLC 2015
+
+    Created on 10/15/2015
+
+//-//////////////////////////  MD DROPDOWN MENU  ///////////////////////////////
+//- An MD Dropdown Menu is a menu that opens from a text input and presents the
+    possible values of the input as menu items. (cf. paper-dropdown-menu).
+    This menu
+      * depends on the md_label, md_underline, and md_popup_menu components
+      * opens when the input field or the dropdown arrow is clicked
+      * closes when an item is selected with a click
+      * closes when the body is clicked
+      * opens horizontally centered with respect to the input field
+      * opens upward, downward, or vertically centered with respect to the input
+        field
+      * is best composed with items that do not contain ripple
+      * can be assigned a preset value using the template attribute 'selected'
+      ToDo: complete this
+template(name="md_dropdown_menu")
+  .md-dropdown-menu(
+    data-dropdown-menu=""
+    id=id
+    name=name
+    class=classes
+    data-selected=selected
+    disabled=disabled
+  )
+    .md-field__container
+      +md_label(
+        classes=label__classes
+        label=label
+        no_label_float=no_label_float
+      )
+      input.md-field__input.md-field__input--dropdown-menu(
+        data-dropdown-input=""
+        id=input__id
+        name=input__name
+        type="text"
+        value=value
+        disabled=disabled
+        autofocus=autofocus
+        form=form
+        readonly=readonly
+        required=required
+      )
+      +md_underline
+    if helper_text
+      .md-helper-text.md-text-field__helper-text(id=helper_text__id)=helper_text
+    .md-error-text.md-text-field__error-text(id=error_text__id)
+    +md_popup_menu(
+      position=position
+      _dropdown_popup=""
+      _in_dropdown=true
+      icon="arrow-drop-down"
+      icon_button=""
+      no_trigger_ripple=true
+      menu__id=menu__id
+      menu__name=menu__name
+      menu__name=menu__classes
+      items=items
+    )
+      //- If an items helper is not used to provide the menu items, then the
+          menu items placed in a div with an attribute of
+          'data-items-for=menu__id' will be automatically inserted here.

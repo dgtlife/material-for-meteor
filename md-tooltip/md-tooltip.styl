@@ -1,0 +1,30 @@
+// @file Defines the styles for the MD Tooltip.
+// @author Derek Gransaull <derek@dgtlife.com>
+// @copyright DGTLife, LLC 2015
+//
+// Created on 10/13/2015
+
+@require '../md-common'
+
+////////////////////    VARIABLES FOR MD TOOLTIP STYLES    /////////////////////
+$md-tooltip__bg-color = #313131
+$md-tooltip__color = #FEFEFE
+$md-tooltip__font-size = 0.75rem
+
+/////////////////////////    STYLES FOR MD TOOLTIP    //////////////////////////
+.md-tooltip
+  display block
+  visibility hidden
+  position absolute
+  z-index 1000
+.md-tooltip__text
+  background-color $md-tooltip__bg-color
+  border-radius 0.125rem
+  color $md-tooltip__color
+  display block
+  font-size $md-tooltip__font-size
+  opacity 0.95
+  padding 0.5rem
+  white-space nowrap
+.md-tooltip.show-tooltip
+  visibility visible

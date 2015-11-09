@@ -1,0 +1,174 @@
+// @file Defines the styles for the MD Button.
+// @author Derek Gransaull <derek@dgtlife.com>
+// @copyright DGTLife, LLC 2015
+//
+// Created on 10/13/2015
+
+@require '../md-common'
+@require '../md-shadow/md-shadow'
+
+////////////////////    VARIABLES FOR MD BUTTON STYLES    //////////////////////
+/////  MD BUTTON  /////
+$md-button__border-radius = 0.125rem
+$md-button__height = 2.25rem
+$md-button__margin = 0.25rem
+$md-button__min-width = 5.5rem          // conflicts with 4rem
+$md-button__padding = 0.5rem
+$md-button__font-size = 0.875rem        // 14sp
+$md-button__font-weight = 500
+$md-button__color = #009688
+$md-button--hover__bg-color = #E0F2F1
+$md-button--focus__bg-color = #B2DFDB
+$md-button--pressed__bg-color = #80CBC4
+$md-button--disabled__bg-color = rgba(0,0,0,0.12)
+$md-button--disabled__color = rgba(0,0,0,0.26)
+$md-button--primary__bg-color = #FF6F00
+
+/////  MD ICON BUTTON  /////
+$md-icon-button__color = rgba(0,0,0,0.87)
+
+/////  MD FAB  /////
+$md-button--fab__color = #FEFEFE
+$md-button--fab__bg-color = #009688
+$md-button--fab__size = 3.5rem
+$md-button--fab__padding = 0
+$md-button--mini-fab__size = 2.5rem
+$md-button--mini-fab__padding = 0
+
+////////////////////////    STYLES FOR MD BUTTON    ////////////////////////////
+/////  MD FLAT BUTTON (default)  /////
+.md-button
+  align-items(center)
+  background-color transparent
+  border none
+  border-radius $md-button__border-radius
+  color $md-button__color
+  cursor pointer
+  display inline-block
+  height $md-button__height
+  margin 0 $md-button__margin
+  min-width $md-button__min-width
+  padding 0 $md-button__padding
+  position relative
+  outline 0
+  overflow hidden
+  text-align center
+  text-decoration none
+  will-change box-shadow, transform
+  transition:
+    box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1),
+    background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.2s cubic-bezier(0.4, 0, 0.2, 1)
+  z-index 0
+  //&:focus:not(:active),
+  &:active
+    background-color transparent
+  &::-moz-focus-inner
+    border 0
+// A 'hoverable' button that is hovered.
+.md-button[hovered]
+  background-color $md-button--hover__bg-color
+// A toggle button that is pressed.
+.md-button[data-pressed]
+  background-color $md-button--pressed__bg-color
+
+// DISABLED FLAT BUTTON
+.md-button[disabled]
+  color $md-button--disabled__color
+  pointer-events none
+  &:focus:not(:active),
+  &:active
+    background-color transparent
+
+/////  MD RAISED BUTTON  /////
+.md-button[data-raised]
+  $md-shadow--2dp()
+  // &:focus:not(:active)
+  //   background-color $md-button--focus__bg-color
+  &:active
+  //   background-color $md-button--pressed__bg-color
+     $md-shadow--8dp()
+.md-button[data-raised][data-pressed]
+  $md-shadow--8dp()
+
+// DISABLED RAISED BUTTON
+.md-button[data-raised][disabled]
+  background-color $md-button--disabled__bg-color
+  box-shadow none
+  color $md-button--disabled__color
+  pointer-events none
+  //&:focus:not(:active),
+  &:active
+    background-color $md-button--disabled__bg-color
+
+// BUTTON LABEL
+.md-button > .md-button__label
+  font-size 0.875rem
+  font-weight 500
+  pointer-events none
+  text-transform uppercase
+  letter-spacing 0
+
+// BUTTON WITH AN ICON
+// (typically raised)
+.md-button__icon
+  padding 0 0.5rem 0 0
+  pointer-events none
+
+/////  MD ICON BUTTON  /////
+// (i.e. an icon as a button)
+.md-button[data-icon-button]
+  color $md-icon-button__color
+  height auto
+  margin 0
+  min-width 0
+  padding 0.75rem
+  position relative
+  //&:focus:not(:active),
+  &:active
+    background-color transparent
+.md-button[data-icon-button] > .md-button__icon
+  padding 0
+
+/////  MD FAB  /////
+// STANDARD FAB
+.md-button[data-fab]
+  color $md-button--fab__color
+  background-color $md-button--fab__bg-color
+  border-radius 50%
+  box-sizing border-box
+  height $md-button--fab__size
+  margin 0
+  min-width 0
+  width $md-button--fab__size
+  padding $md-button--fab__padding
+  $md-shadow--6dp()
+  &:active
+    background-color $md-button--fab__bg-color
+    $md-shadow--12dp()
+  &::-moz-focus-inner
+    border 0
+.md-button[data-fab] > .md-button__icon
+  padding 1rem
+// A pressed FAB
+.md-button[data-fab][data-pressed]
+  $md-shadow--12dp()
+
+// MINI FAB
+.md-button[data-fab=mini]
+  height $md-button--mini-fab__size
+  padding $md-button--mini-fab__padding
+  width $md-button--mini-fab__size
+
+// DISABLED FAB
+.md-button[data-fab][disabled],
+.md-button[data-fab][disabled=true]
+  background-color $md-button--disabled__bg-color
+  box-shadow none
+  color $md-button--disabled__color
+  pointer-events none
+  //&:focus:not(:active),
+  &:active
+    background-color $md-button--disabled__bg-color
+.md-button[data-fab=mini] > .md-button__icon
+  padding 0.5rem

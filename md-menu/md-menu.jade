@@ -1,0 +1,50 @@
+//- @file Defines the templates for the MD Menu.
+    @author Derek Gransaull <derek@dgtlife.com>
+    @copyright DGTLife, LLC 2015
+
+    Created on 10/13/2015
+
+//-//////////////////////////////  MD MENU  ////////////////////////////////////
+//- An MD Menu is a generic menu (cf. paper-menu) that is always visible, e.g. a
+    drawer menu. An MD menu
+      * uses MD items as its children
+      * uses the 'md_menu' template which supports the following parameters.
+
+    @param {string} id - the id of the menu
+    @param {string} [name] - the name of the menu
+    @param {string} [classes] - a space-separate list of classes of the menu
+    @param {Array} [items] - an array of objects to populate the md_item template
+                             and create the menu items
+    @param {string} [_popup_menu] - indicates that it is in a popup menu
+    @param {string} [_popup_menu] - indicates that it is in a dropdown menu
+    ToDo: Finish this.
+template(name="md_menu")
+  .md-menu(
+    id=id
+    name=name
+    class=classes
+    data-menu=""
+    data-popup-menu=_popup_menu
+    data-dropdown-menu=_dropdown_menu
+  )
+    if items
+      +each items
+        +md_item(
+          menu_item=""
+          menu=menu
+          id=id
+          name=name
+          classes=classes
+          text=text
+          text__classes=text__classes
+          icon=icon
+          icon__classes=icon__classes
+          ripple=ripple
+          centered_ripple=centered_ripple
+          has_tooltip=has_tooltip
+          tooltip__position=tooltip__position
+          tooltip__text=tooltip__text
+        )
+    //- If an items helper is not used to provide the menu items, then the menu
+        items placed in a div with an attribute of 'data-items-for=menu__id'
+        will be automatically inserted here.

@@ -1,0 +1,89 @@
+// @file Defines the common styles for the MD components.
+// @author Derek Gransaull <derek@dgtlife.com>
+// @copyright DGTLife, LLC 2015
+//
+// Created on 9/29/2015
+
+/////////////////////////////////  MD FONT  ////////////////////////////////////
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500)
+
+/////////////////////////////  COMMON VARIABLES  ///////////////////////////////
+$md-font-family = "Roboto", "Noto", "Helvetica Neue", Helvetica, "Segoe", Arial, sans-serif !important
+$md-primary-text__color = rgba(0, 0, 0, 0.87)
+$md-secondary-text__color = rgba(0, 0, 0, 0.54)
+$md-field__input__color = $md-primary-text__color
+$md-field__input__font-size = 1rem
+$md-helper-text__color = rgba(0, 0, 0, 0.38)
+$md-error-text__color = #DD2C00
+$md-divider__color = rgba(0, 0, 0, 0.12)
+
+//////////////////////////////  COMMON MIXINS  /////////////////////////////////
+/////  ANIMATION  /////
+$md-timing-function--fast-out-slow-in = cubic-bezier(0.4, 0, 0.2, 1)
+$md-timing-function--linear-out-slow-in = cubic-bezier(0, 0, 0.2, 1)
+$md-timing-function--fast-out-linear-in = cubic-bezier(0.4, 0, 1, 1)
+$md-timing-function--default = $md-timing-function--fast-out-slow-in
+
+$md-transition--default()
+  transition-duration 0.25s
+  transition-timing-function $md-timing-function--fast-out-slow-in
+
+//////////////////////////////  COMMON STYLES  /////////////////////////////////
+///// Font
+.md-button__label,
+.md-card,
+.md-dialog,
+.md-error-text,
+.md-field__label,
+.md-field__input,
+.md-field__prefix,
+.md-field__suffix,
+.md-helper-text,
+.md-item__text,
+.md-label,
+.md-radio-button__label,
+.md-text-area__size-detector,
+.md-tooltip__text
+  font-family $md-font-family
+
+/////  Fields
+.md-field__container
+  position relative
+// Field inputs: suppress the native style of input elements.
+.md-field__input
+  background-color transparent
+  border none
+  box-shadow none
+  color $md-field__input__color
+  display inline-block
+  font-size $md-field__input__font-size
+  line-height normal
+  min-width 0
+  outline none
+  padding 0.5rem 0
+  text-align left
+  text-rendering optimizeLegibility
+  width 100%
+
+// Helper text
+.md-helper-text
+  color $md-helper-text__color
+  font-size 0.75rem
+  line-height normal
+  margin 0.25rem 0
+  text-align left
+
+// Error text
+.md-error-text
+  color $md-error-text__color
+  font-size 0.75rem
+  line-height normal
+  margin 0.25rem 0
+  text-align left
+
+// Divider
+.md-divider
+  background-color $md-divider__color
+  height 1px
+  margin 0.5rem 0
+  width 100%

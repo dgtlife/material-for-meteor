@@ -1,0 +1,96 @@
+//- @file Defines the templates for MD Text Inputs
+    @author Derek Gransaull <derek@dgtlife.com>
+    @copyright DGTLife, LLC 2015
+
+    Created on 10/13/2015
+
+//-/////////////////////////    MD TEXT FIELD    ///////////////////////////////
+//- An MD text field is an input field for a single line of text input
+    (cf. paper-input). An MD text field
+      * depends on md_label and md_underline components
+      * can have an animated floating label
+      * can be disabled with the template attribute 'disabled="true"'
+      * can have integral helper text
+      * can have integral error text (populated by the package user)
+      ToDo: Finish this.
+template(name="md_text_field")
+  .md-field.md-text-field(id=id name=name class=classes data-text-field="")
+    .md-field__container
+      +md_label(
+        classes=label__classes
+        label=label
+        no_label_float=no_label_float
+      )
+      .md-field__input-container
+        if prefix
+          .md-field__prefix(data-text-field-prefix="")=prefix
+        input.md-field__input(
+          id=input__id
+          name=input__name
+          class=input__classes
+          type=type
+          value=value
+          disabled=disabled
+          autocomplete=autocomplete
+          autofocus=autofocus
+          form=form
+          list=list
+          max=max
+          maxlength=maxlength
+          min=min
+          minlength=minlength
+          pattern=pattern
+          placeholder=placeholder
+          readonly=readonly
+          required=required
+          size=size
+          step=step
+          data-text-field-input=""
+        )
+        if suffix
+          .md-field__suffix(data-text-field-suffix="")=suffix
+      +md_underline
+    if helper_text
+      .md-helper-text.md-text-field__helper-text(id=helper_text__id data-text-input-helper-text="")=helper_text
+    .md-error-text.md-text-field__error-text(id=error_text__id data-text-input-error-text="")
+
+//-//////////////////////////    MD TEXT AREA    ///////////////////////////////
+//- An MD text area is an input field for multiple lines of text input
+    (cf. paper-textarea). An MD text area
+      * depends on md_label and md_underline components
+      * can have an animated floating label
+      * will automatically grow as input is received
+      * can be disabled with the template attribute 'disabled="true"'
+      * can have integral helper text
+      * can have integral error text (populated by the package user)
+template(name="md_text_area")
+  .md-field.md-text-area(id=id name=name class=classes data-text-area="")
+    .md-field__container
+      +md_label(
+        classes=label__classes
+        label=label
+        no_label_float=no_label_float
+      )
+      textarea.md-field__input(
+        id=textarea__id
+        name=textarea__name
+        rows="1"
+        cols=cols
+        disabled=disabled
+        autocomplete=autocomplete
+        autofocus=autofocus
+        form=form
+        maxlength=maxlength
+        minlength=minlength
+        placeholder=placeholder
+        readonly=readonly
+        required=required
+        spellcheck=spellcheck
+        wrap=wrap
+        data-text-area-input=""
+      )=value
+      .md-text-area__size-detector(data-size-detector="")=value
+      +md_underline
+    if helper_text
+      .md-helper-text.md-text-area__helper-text(id=helper_text__id data-text-input-helper-text="")=helper_text
+    .md-error-text.md-text-area__error-text(id=error_text__id data-text-input-error-text="")

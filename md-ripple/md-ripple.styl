@@ -1,0 +1,42 @@
+// @file Defines styles for the MD Ripple.
+// @author Derek Gransaull <derek@dgtlife.com>
+// @copyright DGTLife, LLC 2015
+//
+// Created on 10/13/2015
+
+@require '../md-common'
+
+////////////////////////    VARIABLES FOR MD RIPPLE    /////////////////////////
+$md-ripple__color = #009688
+
+/////////////////////////    STYLES FOR MD RIPPLE    ///////////////////////////
+.md-ripple
+  display block
+  height 100%
+  left 0
+  position absolute
+  border-radius inherit
+  overflow hidden
+  top 0
+  width 100%
+.md-ripple__wave
+  background-color $md-ripple__color
+  border-radius 50%
+  display block
+  opacity 0
+  pointer-events none
+  height 100%
+  width 100%
+.md-ripple.is-rippling >
+  .md-ripple__wave
+    -moz-animation ripple 0.35s $md-timing-function--linear-out-slow-in
+    -webkit-animation ripple 0.35s $md-timing-function--linear-out-slow-in
+    animation ripple 0.35s $md-timing-function--linear-out-slow-in
+
+@keyframes ripple
+  0%
+    opacity 1
+    transform: scale(0)
+  100%
+    opacity 0
+    transform scale(1)

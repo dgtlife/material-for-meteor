@@ -1,0 +1,18 @@
+//- @file Defines the template for MD Label.
+    @author Derek Gransaull <derek@dgtlife.com>
+    @copyright DGTLife, LLC 2015
+
+    Created on 10/17/2015
+
+//-////////////////////////////    MD LABEL    /////////////////////////////////
+//- An MD Label is a component used to add a floatable label to a text input
+    field. An MD Label
+      * can be an animated floating label (default)
+      * can be a non-floating label
+template(name="md_label")
+  .md-field__spacer--floating-label(data-no-float=no_label_float)
+  .md-field__label(
+    data-label=""
+    data-no-float=no_label_float
+    class=classes
+  )=label

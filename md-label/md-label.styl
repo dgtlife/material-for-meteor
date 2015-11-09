@@ -1,0 +1,55 @@
+// @file Defines the styles for the MD Label.
+// @author Derek Gransaull <derek@dgtlife.com>
+// @copyright DGTLife, LLC 2015
+//
+// Created on 9/29/2015
+
+@require '../md-common'
+
+////////////////////////    VARIABLES FOR MD LABEL    //////////////////////////
+$md-label__color = rgba(0, 0, 0, 0.54)
+$md-field__label__color = #757575
+$md-field__label--focused__color = #009688
+$md-field__label--errored__color = #DD2C00
+$md-field__label__font-size = 0.75rem
+
+/////////////////////////    STYLES FOR MD LABEL    ////////////////////////////
+// Static general purpose label
+.md-label
+  color $md-label__color
+
+// Floatable field label
+.md-field__spacer--floating-label
+  height 1.375rem
+//.md-field__spacer--floating-label[data-no-float]
+//  height 0.75rem
+.md-field__label
+  color $md-field__label__color
+  font-weight 400
+  line-height normal
+  margin 0
+  padding 0 0 0.5rem
+  pointer-events none
+  position absolute
+  text-align left
+  top 1.875rem
+  white-space nowrap
+  width 100%
+  $md-transition--default()
+.md-field__label.floating
+  display block
+  font-size $md-field__label__font-size
+  left 0
+  overflow hidden
+  padding 0.5rem 0 0
+  right 0
+  text-overflow ellipsis
+  top 0
+.md-field__label.focused.floating
+  color $md-field__label--focused__color
+.md-field__label.errored.floating
+  color $md-field__label--errored__color
+//.md-field__label[data-no-float]
+//  top 1.25rem
+.md-field__label.hide-label
+  display none

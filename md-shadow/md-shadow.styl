@@ -1,0 +1,70 @@
+// @file Defines the styles for the MD Shadow.
+// @author Derek Gransaull <derek@dgtlife.com>
+// @copyright DGTLife, LLC 2015
+//
+// Created on 10/13/2015
+
+////////////////////    VARIABLES FOR MD SHADOW STYLES    //////////////////////
+$md-shadow__penumbra-color = rgba(0, 0, 0, 0.14)
+$md-shadow__umbra-color = rgba(0,0,0,0.2)
+$md-shadow__ambient-color = rgba(0, 0, 0, 0.12)
+
+///////////////////////  MIXINS FOR MD SHADOW STYLES  //////////////////////////
+$md-shadow--1dp()
+  box-shadow:
+    0 1px 1px 0 $md-shadow__penumbra-color,
+    0 1px 0px -1px $md-shadow__umbra-color,
+    0 1px 5px 0 $md-shadow__ambient-color
+$md-shadow--2dp()
+  box-shadow:
+    0 2px 2px 0 $md-shadow__penumbra-color,
+    0 3px 1px -2px $md-shadow__umbra-color,
+    0 1px 5px 0 $md-shadow__ambient-color
+$md-shadow--3dp()
+  box-shadow:
+    0 3px 4px 0 $md-shadow__penumbra-color,
+    0 3px 3px -2px $md-shadow__umbra-color,
+    0 1px 8px 0 $md-shadow__ambient-color
+$md-shadow--4dp()
+  box-shadow:
+    0 4px 5px 0 $md-shadow__penumbra-color,
+    0 2px 4px -1px $md-shadow__umbra-color,
+    0 1px 10px 0 $md-shadow__ambient-color
+$md-shadow--6dp()
+  box-shadow:
+    0 6px 10px 0 $md-shadow__penumbra-color,
+    0 3px 5px -1px $md-shadow__umbra-color,
+    0 1px 18px 0 $md-shadow__ambient-color
+$md-shadow--8dp()
+  box-shadow:
+    0 8px 10px 1px $md-shadow__penumbra-color,
+    0 5px 5px -3px $md-shadow__umbra-color,
+    0 3px 14px 2px $md-shadow__ambient-color
+$md-shadow--12dp()
+  box-shadow:
+    0 12px 18px 2px $md-shadow__penumbra-color,
+    0 6px 8px -4px $md-shadow__umbra-color,
+    0 3px 22px 3px $md-shadow__ambient-color
+$md-shadow--16dp()
+  box-shadow:
+    0 16px 24px 2px $md-shadow__penumbra-color,
+    0  8px 10px -5px $md-shadow__umbra-color,
+    0  6px 30px 5px $md-shadow__ambient-color
+
+////////////////////////    STYLES FOR MD SHADOW    ////////////////////////////
+.md-shadow--1dp
+  $md-shadow--1dp()
+.md-shadow--2dp
+  $md-shadow--2dp()
+.md-shadow--3dp
+  $md-shadow--3dp()
+.md-shadow--4dp
+  $md-shadow--4dp()
+.md-shadow--6dp
+  $md-shadow--6dp()
+.md-shadow--8dp
+  $md-shadow--8dp()
+.md-shadow--12dp
+  $md-shadow--12dp()
+.md-shadow--16dp
+  $md-shadow--16dp()

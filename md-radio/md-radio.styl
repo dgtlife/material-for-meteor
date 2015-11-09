@@ -1,0 +1,93 @@
+// @file Defines the styles for the MD Radio Button and MD Radio Group.
+// @author Derek Gransaull <derek@dgtlife.com>
+// @copyright DGTLife, LLC 2015
+//
+// Created on 10/13/2015
+
+@require '../md-common'
+
+/////////////////    VARIABLES FOR MD RADIO BUTTON STYLES    ///////////////////
+$md-button--radio__unchecked-color = rgba(33,33,33,1)
+$md-button--radio__checked-color = #009688
+$md-button--radio__disabled-color = rgba(33,33,33,0.5)
+
+//////////////////////    STYLES FOR MD RADIO BUTTON    ////////////////////////
+.md-radio-group
+  display inline-block
+  outline 0
+.md-radio-button
+  display inline-block
+  padding 0.75rem
+  position relative
+  white-space nowrap
+  &:focus
+    outline 0
+.md-radio-button__container
+  cursor pointer
+  display inline-block
+  height 16px
+  position relative
+  vertical-align middle
+  width 16px
+input.md-radio-button__input
+  position absolute
+  width 0
+  height 0
+  margin 0
+  padding 0
+  opacity 0
+  -ms-appearance none
+  -moz-appearance none
+  -webkit-appearance none
+  appearance none
+  border none
+.md-radio-button__outer
+  border-color $md-button--radio__unchecked-color
+  border-radius: 50%
+  border solid 0.125rem
+  box-sizing content-box
+  height 0.75rem
+  left 0
+  position absolute
+  top 0
+  transition border-color 0.28s
+  width 0.75rem
+.md-radio-button__inner
+  background-color $md-button--radio__checked-color
+  border-radius 50%
+  box-sizing content-box
+  height 0.5rem
+  left 0.25rem
+  position absolute
+  top 0.25rem
+  -webkit-transform scale(0)
+  transform scale(0)
+  transition -webkit-transform ease 0.28s
+  transition transform ease 0.28s
+  width 0.5rem
+.md-radio-button__label
+  display inline-block
+  font-weight normal
+  line-height 1
+  padding  0 0 0 0.5rem
+  pointer-events none
+  position relative
+  vertical-align middle
+  white-space normal
+.md-radio-button[data-checked=true]
+  .md-radio-button__outer
+    border-color $md-button--radio__checked-color
+  .md-radio-button__inner
+    -webkit-transform scale(1)
+    transform scale(1)
+.md-radio-button[data-disabled=true]
+  .md-radio-button__container
+    cursor default
+  .md-radio-button__outer
+    border-color $md-button--radio__disabled-color
+    opacity 0.5
+  .md-radio-button__inner
+    background-color $md-button--radio__disabled-color
+    opacity 0.5
+  .md-radio-button__label
+    opacity 0.65

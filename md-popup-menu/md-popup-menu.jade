@@ -1,0 +1,62 @@
+//- @file Defines the templates for the MD Popup Menu.
+    @author Derek Gransaull <derek@dgtlife.com>
+    @copyright DGTLife, LLC 2015
+
+    Created on 10/13/2015
+
+//-//////////////////////////  MD POPUP MENU  //////////////////////////////////
+//- An MD Popup Menu is a menu that pops open when a trigger button is clicked
+    (cf. paper-menu-button).
+    This menu
+      * depends on the md_button and md_menu components
+      * pops up when an associated icon button (trigger) is clicked
+      * automatically closes when an item is selected with a click/touch
+      * is best composed with items that do not contain ripple
+      ToDo: complete this
+template(name="md_popup_menu")
+  .md-popup-menu(
+    id=id
+    name=name
+    class=classes
+    data-popup-menu=""
+    data-position=position
+    data-dropdown-popup=_dropdown_popup
+    disabled=disabled
+  )
+    if _in_dropdown
+      +md_button(
+        id=button__id
+        classes=button__classes
+        icon=icon
+        icon_button=""
+        no_ripple=no_trigger_ripple
+        _dropdown_trigger=""
+        _trigger_target=menu__id
+      )
+      +md_menu(
+        id=menu__id
+        name=menu__name
+        classes=menu__classes
+        _dropdown_menu=""
+        items=items
+      )
+    else
+      +md_button(
+        id=button__id
+        classes=button__classes
+        icon=icon
+        icon_button=""
+        no_ripple=no_trigger_ripple
+        _popup_trigger=""
+        _trigger_target=menu__id
+      )
+      +md_menu(
+        id=menu__id
+        name=menu__name
+        classes=menu__classes
+        _popup_menu=""
+        items=items
+      )
+      //- If an items helper is not used to provide the menu items, then the
+          menu items placed in a div with an attribute of
+          'data-items-for=menu__id' will be automatically inserted here.

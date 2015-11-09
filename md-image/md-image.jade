@@ -1,0 +1,39 @@
+//- @file Defines the template for MD Image
+    @author Derek Gransaull <derek@dgtlife.com>
+    @copyright DGTLife, LLC 2015
+
+    Created on 10/31/2015
+
+//-////////////////////////////  MD IMAGE //////////////////////////////////////
+//- An MD Image is a component for the enhanced display of an image
+    (cf. iron-image). An MD Image
+      * can display an image with different sizing options
+      * can display a background while an image loads
+      * can display another image while an image loads
+template(name="md_image")
+  .md-image(
+    data-image=""
+    id=id
+    class=classes
+    data-height=height
+    data-width=width
+    data-sizing=sizing
+    data-position=position
+    data-placeholder-bg=bg_color
+    data-placeholder-img=placeholder
+    data-preload=preload
+    data-fade=fade
+  )
+    unless sizing
+      img.md-image__img(
+        data-image-img=""
+        src=src
+        srcset=srcset
+        alt=alt
+        longdesc=longdesc
+        crossorigin=cross_origin
+      )
+    .md-image__placeholder(
+      data-image-placeholder=""
+      class=placeholder__classes
+    )

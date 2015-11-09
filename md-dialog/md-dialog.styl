@@ -1,0 +1,60 @@
+// @file Defines the styles for the MD Dialog.
+// @author Derek Gransaull <derek@dgtlife.com>
+// @copyright DGTLife, LLC 2015
+//
+// Created on 11/6/2015
+
+@require '../md-shadow/md-shadow'
+
+////////////////////    VARIABLES FOR MD DIALOG STYLES    //////////////////////
+$md-dialog__bg-color = #FFFFFF
+$md-backdrop__bg-color = #000000
+
+/////////////////////////    STYLES FOR MD DIALOG    ///////////////////////////
+.md-dialog
+  background-color $md-dialog__bg-color
+  border-radius 0.125rem
+  box-sizing border-box
+  display none
+  outline none
+  position fixed
+  z-index -5
+  $md-shadow--16dp()
+// Open without animation
+.md-dialog[data-dialog-open]
+  display block
+  opacity 1
+  z-index 12
+
+//.md-dialog[data-open-animation=default]
+
+.md-dialog__container
+  padding 1.5rem 0 0 0
+.md-dialog__title
+  font-size 1.25rem
+  font-weight 500
+  padding 0 1.5rem 1.25rem
+  pointer-events none
+.md-dialog__content
+  overflow-y hidden
+  overflow-y scroll
+  padding 0 1.5rem 1.5rem
+.md-dialog__actions
+  padding 0.5rem 0.5rem 0.5rem 1.5rem
+  text-align right
+  > .md-button:last-of-type
+    margin-right 0
+[data-backdrop]
+  background-color $md-backdrop__bg-color
+  height 100vh
+  left 0
+  opacity 0
+  position fixed
+  top 0
+  transition opacity 0.2s
+  width 100vw
+  z-index 10
+[data-backdrop][data-backdrop-open]
+  opacity 0.5
+.md-backdrop--modal[data-backdrop][data-backdrop-open]
+  opacity 0.75

@@ -1,0 +1,44 @@
+// @file Defines the styles for the MD Underline.
+// @author Derek Gransaull <derek@dgtlife.com>
+// @copyright DGTLife, LLC 2015
+//
+// Created on 10/17/2015
+
+@require '../md-common'
+
+///////////////////    VARIABLES FOR MD UNDERLINE STYLES    ////////////////////
+$md-field__underline__color = $md-divider__color
+$md-field__underline--focused__color = #009688
+$md-field__underline--errored__color = #DD2C00
+
+//////////////////////  MIXINS FOR MD UNDERLINE STYLES  ////////////////////////
+$md-transition--field__underline()
+  transition-duration 0.2s
+  transition-timing-function $md-timing-function--fast-out-linear-in
+
+///////////////////////    STYLES FOR MD UNDERLINE    //////////////////////////
+.md-field__underline-container
+  background-color transparent
+  height 0.125rem
+.md-field__underline
+  background-color $md-field__underline__color
+  height 0.0625rem
+.md-field__underline.focused,
+.md-field__underline.errored
+  height 0
+.md-field__underline.disabled
+  background-color transparent
+  border-top 1px dotted $md-field__underline__color
+.md-field__underline--modified
+  background-color transparent
+  height 0.125rem
+  margin 0 auto
+  width 0
+.md-field__underline--modified.focused
+  background-color $md-field__underline--focused__color
+  width 100%
+  $md-transition--field__underline()
+.md-field__underline--modified.errored
+  background-color $md-field__underline--errored__color
+  width 100%
+  $md-transition--field__underline()
