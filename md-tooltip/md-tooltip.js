@@ -14,35 +14,37 @@ _.extend(Material.prototype, {
   /**
    * Register a tooltip with its target element.
    *
-   * @param {string} id - the HTML id of the target element
+   * @param {string} id - the id of the target element of the tooltip
    */
   registerTooltip: function (id) {
     "use strict";
     var self = this;
 
-    if (self.dqS('#' + id)) {
-      self.dqS('#' + id).setAttribute('data-has-tooltip', 'true');
+    if (self.dgEBI(id)) {
+      self.dgEBI(id).setAttribute('data-has-tooltip', 'true');
     } else return false;
   },
 
   /**
-   * Show a tooltip.
+   * Pre-position a tooltip, so that its first display is right where it should
+   * be.
    *
-   * @param {Object} target - the target element of the tooltip
+   * @param {Object} tooltip - the tooltip element
+   * @param {string} id - the id of the tooltip target
    */
-  showTooltip: function (target) {
+  positionTooltip: function (tooltip, id) {
     "use strict";
     var self = this;
 
-    var targetHeight, targetWidth, targetX, targetY, tooltip, tooltipPosition,
+    var target, targetHeight, targetWidth, targetX, targetY, tooltipPosition,
         tooltipHeight, tooltipWidth, tooltipX, tooltipY, tooltipMarginTop,
         tooltipMarginLeft, tooltipStyle;
 
+    target = self.dgEBI(id);
     targetHeight = target.getBoundingClientRect().height;
     targetWidth = target.getBoundingClientRect().width;
     targetX = target.getBoundingClientRect().left;
     targetY = target.getBoundingClientRect().top;
-    tooltip = self.dqS('[data-target=' + target.id + ']');
     tooltipHeight = tooltip.getBoundingClientRect().height;
     tooltipWidth = tooltip.getBoundingClientRect().width;
     tooltipX = tooltip.getBoundingClientRect().left;
@@ -92,6 +94,19 @@ _.extend(Material.prototype, {
     }
     // Apply the style attribute to position the tooltip.
     tooltip.setAttribute('style', tooltipStyle);
+  },
+
+  /**
+   * Show a tooltip.
+   *
+   * @param {string} id - the id of the tooltip target.
+   */
+  showTooltip: function (id) {
+    "use strict";
+    var self = this;
+
+    // Get the tooltip.
+    var tooltip = self.dqS('[data-target=' + id + ']');
     // Reveal the tooltip.
     tooltip.classList.add('show-tooltip');
   },
@@ -99,34 +114,30 @@ _.extend(Material.prototype, {
   /**
    * Hide a tooltip.
    *
-   * @param {string} id - the HTML id of the tooltip.
+   * @param {string} id - the id of the tooltip target.
    */
   hideTooltip: function (id) {
     "use strict";
     var self = this;
 
-    var tooltip;
-
-    tooltip = self.dqS('[data-target=' + id + ']');
+    // Get the tooltip.
+    var tooltip = self.dqS('[data-target=' + id + ']');
     // Hide the tooltip;
     tooltip.classList.remove('show-tooltip');
-    // Remove the 'style' attribute that positioned the tooltip.
-    tooltip.removeAttribute('style');
   }
 });
 
 ///////////////////////  EVENT HANDLERS FOR MD TOOLTIP  ////////////////////////
 Template.body.events({
-  'mouseenter [data-has-tooltip=true]': function (event) {
+  'mouseenter [data-has-tooltip]': function () {
     "use strict";
-    event.preventDefault();
+    var self = this;
 
-    MD.showTooltip(event.currentTarget);
+    MD.showTooltip(self.id);
   },
 
-  'mouseleave [data-has-tooltip=true]': function (event) {
+  'mouseleave [data-has-tooltip]': function () {
     "use strict";
-    event.preventDefault();
     var self = this;
 
     MD.hideTooltip(self.id);
@@ -134,10 +145,18 @@ Template.body.events({
 });
 
 //////////////////    ON-RENDER CALLBACK FOR MD TOOLTIP    /////////////////////
-Template.md_tooltip.onRendered(function () {
+Template.mdTooltip.onRendered(function () {
   "use strict";
   var self = this;
 
   // Register with target element.
   MD.registerTooltip(self.data.target);
+  // Pre-position the tooltip.
+  MD.positionTooltip(self.firstNode, self.data.target);
+  // Add a listener to keep the tooltip positioned when the screen is resized.
+  window.onresize = function () {
+    "use strict";
+
+    MD.positionTooltip(self.firstNode, self.data.target);
+  };
 });

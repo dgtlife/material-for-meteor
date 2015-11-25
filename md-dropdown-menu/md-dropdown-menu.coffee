@@ -11,31 +11,31 @@
 _.extend Material.prototype,
 
   ###*
-  # Open a dropdown menu.
+  # Set the position of a dropdown menu via the style attribute.
   #
-  # @param {Object} menu - the popup menu element embedded in the dropdown menu
-  # @param {Object} field - the dropdown menu field element
+  # @param {Object} field - the field element
+  # @param {Object} menu - the embedded menu element
   # @private
   ###
-  _openDropdownMenu: (menu, field) ->
+  _setPositionOfDropdownMenu: (field, menu) ->
     "use strict"
 
-    # Close any open menus.
-    @_closeOpenMenus()
     # Get the specified position for the menu from the parent element.
     position = menu.parentElement.getAttribute 'data-position'
-
-    # Compose the style that positions the menu.
+    # Get the element dimensions to compute the menu position settings.
     input = @eqS field, '[data-dropdown-input]'
+    menu.setAttribute 'style', 'display: block; opacity: 0;'
     left = (input.clientWidth - menu.clientWidth) / 2
     topMiddle = - ((menu.clientHeight - 35) / 2)
+    menu.removeAttribute 'style'
+    # Compose the style that positions the menu.
     composeStyle = (spec) ->
       if spec is 'down'
-        'top: 0; left: ' + left + 'px; visibility: visible; z-index: 100;'
+        'top: 0; left: ' + left + 'px; z-index: 8;'
       else if spec is 'middle'
-        'top: ' + topMiddle + 'px; left: ' + left + 'px; visibility: visible; z-index: 100;'
+        'top: ' + topMiddle + 'px; left: ' + left + 'px; z-index: 8;'
       else if spec is 'up'
-        'bottom: 0; left: ' + left + 'px; visibility: visible; z-index: 100;'
+        'bottom: 0; left: ' + left + 'px; z-index: 8;'
     switch position
       when 'dropdown-up' then style = composeStyle 'up'
       when 'dropdown-middle' then style = composeStyle 'middle'
@@ -44,28 +44,54 @@ _.extend Material.prototype,
 
     # Set the style on the menu; it will display automatically.
     menu.setAttribute 'style', style
+
+  ###*
+  # Open a dropdown menu.
+  #
+  # @param {Object} menu - the popup menu element embedded in the dropdown menu
+  # @private
+  ###
+  _openDropdownMenu: (menu) ->
+    "use strict"
+
+    # Close any open menus.
+    @_closeOpenMenus()
+
+    # Get the field element.
+    field = menu.parentElement.parentElement
+    # Set the label and underline to focused style.
+    @_setLabelAndUnderlineFocused field
+
+    # Set the position of the popup menu.
+    @_setPositionOfDropdownMenu field, menu
+
+    # Set an animation attribute, if necessary.
+    if menu.parentElement.hasAttribute 'data-opening-animation'
+      openingAnimation = menu.parentElement.getAttribute 'data-opening-animation'
+      menu.setAttribute 'data-opening-animation', openingAnimation
+
     # Set the 'data-menu-open' attribute to indicate that the menu is open.
     menu.setAttribute 'data-menu-open', 'true'
 
     # Attach a listener for closing the menu with a click.
-    # [The following code is inspired by Material Design Lite, menu.js,
-    # lines 406 - 417, however, we just wait a tad before attaching the event
-    # listener.]
-    # Define an event handler for the 'click' event listener
-    closeThisMenu = (event) ->
+    # Note: This will close the menu with a click on the document, including any
+    # item on this menu.
+    #
+    # Define an event handler for the click event listener
+    __closeThisMenu = (event) ->
       "use strict"
       event.preventDefault()
 
-      # Close this menu, and reset the label and underline.
-      MD._closeMenu menu
+      # Close this menu.
+      MD.closePopupMenu menu
+      # Reset the label and underline.
       MD._setLabelAndUnderlineUnfocused field
-
-      # Detach the event listeners.
-      document.removeEventListener 'click', closeThisMenu
+      # Remove the event listeners.
+      document.removeEventListener 'click', __closeThisMenu
 
     # Attach the event listeners.
     Meteor.setTimeout ->
-      document.addEventListener 'click', closeThisMenu
+      document.addEventListener 'click', __closeThisMenu
     , 0
 
   ###*
@@ -133,24 +159,3 @@ _.extend Material.prototype,
     @_setLabelAndUnderlineUnfocused field
     # Clear the value of the embedded menu.
     @clearValueOfMenu embeddedMenu
-
-  ###*
-  # Toggle the state (open|closed) of a dropdown menu.
-  #
-  # @param {Object} menu - the popup menu element embedded in the dropdown menu
-  ###
-  toggleDropdownMenu: (menu) ->
-    "use strict"
-
-    field = menu.parentElement.parentElement
-    if menu.getAttribute 'data-menu-open'
-      # It's open; close it.
-      @_closeMenu menu
-      @_setLabelAndUnderlineUnfocused field
-    else
-      @_setLabelAndUnderlineFocused field
-      @_openDropdownMenu menu, field
-
-#/////////////////  ON-RENDER CALLBACK FOR MD DROPDOWN MENU  ///////////////////
-#Template.md_dropdown_menu.onRendered ->
-#  "use strict"

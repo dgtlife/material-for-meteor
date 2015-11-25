@@ -11,7 +11,7 @@
 
 Package.describe({
   summary: 'Material is a "native" implementation of Material Design components for Meteor',
-  version: '0.5.0',
+  version: '0.6.0',
   name: 'dgtlife:material',
   git: ''
 });
@@ -20,18 +20,24 @@ Package.describe({
 Package.onUse(function (api) {
   "use strict";
 
+  Npm.depends({
+    xml2js: "0.4.12"
+  });
   //api.versionsFrom('METEOR@1.2');
 
   api.use('templating', 'client');
   api.use('dalgard:jade', 'client');
   api.use('stylus', 'client');
-  api.use('coffeescript', 'client');
-  api.use('reactive-dict');
-  api.use('underscore');
+  api.use('coffeescript', ['client', 'server']);
+  api.use('reactive-dict', ['client', 'server']);
+  api.use('underscore', ['client', 'server']);
+  api.use('check', ['client', 'server']);
+  api.use('random', ['client', 'server']);
+  api.use('tracker', ['client', 'server']);
 
   api.addFiles('md-common.styl', 'client');
-  api.addFiles('md.js', 'client');
-  api.addFiles('md-utils.js', 'client');
+  api.addFiles('md.js', ['client', 'server']);
+  api.addFiles('md-utils.coffee', 'client');
 
   api.addFiles('md-button/md-button.styl', 'client');
   api.addFiles('md-button/md-button.jade', 'client');
@@ -46,6 +52,10 @@ Package.onUse(function (api) {
   api.addFiles('md-dropdown-menu/md-dropdown-menu.styl', 'client');
   api.addFiles('md-dropdown-menu/md-dropdown-menu.jade', 'client');
   api.addFiles('md-dropdown-menu/md-dropdown-menu.coffee', 'client');
+
+  api.addFiles('md-icon/md-icon.styl', 'client');
+  api.addFiles('md-icon/md-icon.jade', 'client');
+  api.addFiles('md-icon/md-icon.coffee', ['client', 'server']);
 
   api.addFiles('md-image/md-image.styl', 'client');
   api.addFiles('md-image/md-image.jade', 'client');
@@ -64,7 +74,7 @@ Package.onUse(function (api) {
 
   api.addFiles('md-popup-menu/md-popup-menu.styl', 'client');
   api.addFiles('md-popup-menu/md-popup-menu.jade', 'client');
-  api.addFiles('md-popup-menu/md-popup-menu.js', 'client');
+  api.addFiles('md-popup-menu/md-popup-menu.coffee', 'client');
 
   api.addFiles('md-radio/md-radio.styl', 'client');
   api.addFiles('md-radio/md-radio.jade', 'client');
@@ -75,6 +85,10 @@ Package.onUse(function (api) {
   api.addFiles('md-ripple/md-ripple.coffee', 'client');
 
   api.addFiles('md-shadow/md-shadow.styl', 'client');
+
+  api.addFiles('md-snackbar/md-snackbar.styl', 'client');
+  api.addFiles('md-snackbar/md-snackbar.jade', 'client');
+  api.addFiles('md-snackbar/md-snackbar.coffee', 'client');
 
   api.addFiles('md-spinner/md-spinner-keyframes.css', 'client');
   api.addFiles('md-spinner/md-spinner.styl', 'client');
@@ -93,7 +107,7 @@ Package.onUse(function (api) {
   api.addFiles('md-underline/md-underline.jade', 'client');
   api.addFiles('md-underline/md-underline.coffee', 'client');
 
-  api.export('MD', 'client');
+  api.export('MD', ['client', 'server']);
 });
 
 // Test environment

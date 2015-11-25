@@ -8,7 +8,7 @@
 //- An MD Dropdown Menu is a menu that opens from a text input and presents the
     possible values of the input as menu items. (cf. paper-dropdown-menu).
     This menu
-      * depends on the md_label, md_underline, and md_popup_menu components
+      * depends on the mdLabel, mdUnderline, and mdPopupMenu components
       * opens when the input field or the dropdown arrow is clicked
       * closes when an item is selected with a click
       * closes when the body is clicked
@@ -18,17 +18,17 @@
       * is best composed with items that do not contain ripple
       * can be assigned a preset value using the template attribute 'selected'
       ToDo: complete this
-template(name="md_dropdown_menu")
+template(name="mdDropdownMenu")
   .md-dropdown-menu(
     data-dropdown-menu=""
     id=id
     name=name
     class=classes
     data-selected=selected
-    disabled=disabled
+    data-disabled=disabled
   )
     .md-field__container
-      +md_label(
+      +mdLabel(
         classes=label__classes
         label=label
         no_label_float=no_label_float
@@ -45,12 +45,13 @@ template(name="md_dropdown_menu")
         readonly=readonly
         required=required
       )
-      +md_underline
+      +mdUnderline
     if helper_text
       .md-helper-text.md-text-field__helper-text(id=helper_text__id)=helper_text
     .md-error-text.md-text-field__error-text(id=error_text__id)
-    +md_popup_menu(
+    +mdPopupMenu(
       position=position
+      opening_animation=opening_animation
       _dropdown_popup=""
       _in_dropdown=true
       icon="arrow-drop-down"

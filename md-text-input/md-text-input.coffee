@@ -244,12 +244,11 @@ _.extend Material.prototype,
       # Show the helper text.
       helperTextElement.removeAttribute 'style'
 
-
 #/////////////////////////////    MD TEXT FIELD    /////////////////////////////
 #///////////////////////////////////////////////////////////////////////////////
 
 #/////////////////////  EVENT HANDLERS FOR MD TEXT FIELD  //////////////////////
-Template.md_text_field.events
+Template.mdTextField.events
   'focus [data-text-field-input]': (event) ->
     "use strict"
 
@@ -269,7 +268,7 @@ Template.md_text_field.events
     MD._setStyleOfNonFloatableLabelOnInput field
 
 #////////////////    ON-RENDER CALLBACK FOR MD TEXT FIELD    ///////////////////
-Template.md_text_field.onRendered ->
+Template.mdTextField.onRendered ->
   "use strict"
 
   field = @firstNode
@@ -280,13 +279,11 @@ Template.md_text_field.onRendered ->
   # Set the label position, after the embedded input is loaded.
   MD.eqS(field, '[data-text-field-input]').onload = MD._setStyleOfLabelUnfocused field
 
-
-
 #/////////////////////////////    MD TEXT AREA    //////////////////////////////
 #///////////////////////////////////////////////////////////////////////////////
 
 #/////////////////////  EVENT HANDLERS FOR MD TEXT AREA  ///////////////////////
-Template.md_text_area.events
+Template.mdTextArea.events
   'focus [data-text-area-input]': (event) ->
     "use strict"
 
@@ -314,7 +311,7 @@ Template.md_text_area.events
     MD.setHeightOfTextarea field
 
 #/////////////////    ON-RENDER CALLBACK FOR MD TEXT AREA    ///////////////////
-Template.md_text_area.onRendered ->
+Template.mdTextArea.onRendered ->
   "use strict"
 
   field = @firstNode

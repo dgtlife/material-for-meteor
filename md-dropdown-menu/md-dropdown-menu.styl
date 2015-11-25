@@ -4,6 +4,8 @@
 //
 // Created on 10/15/2015
 
+@require '../md-common'
+
 /////////////////////    STYLES FOR MD DROPDOWN MENU    ////////////////////////
 .md-dropdown-menu
   position relative
@@ -21,6 +23,45 @@
     float right
     margin-right -0.375rem
 .md-menu[data-dropdown-menu]
-  display block
-  visibility hidden
+  display none
   z-index -5
+.md-menu[data-dropdown-menu][data-menu-open]
+  display block
+
+/////  Animations
+// Down - default
+.md-menu[data-dropdown-menu][data-menu-open][data-opening-animation=dropdown-down--default]
+  -moz-animation dropdown-down--default 0.25s $md-timing-function--linear-out-slow-in
+  -webkit-animation dropdown-down--default 0.25s $md-timing-function--linear-out-slow-in
+  animation dropdown-down--default 0.25s $md-timing-function--linear-out-slow-in
+@keyframes dropdown-down--default
+  0%
+    transform scale(0)
+    transform-origin center top
+  100%
+    transform scale(1)
+    transform-origin center top
+// Middle - default
+.md-menu[data-dropdown-menu][data-menu-open][data-opening-animation=dropdown-middle--default]
+  -moz-animation dropdown-middle--default 0.25s $md-timing-function--linear-out-slow-in
+  -webkit-animation dropdown-middle--default 0.25s $md-timing-function--linear-out-slow-in
+  animation dropdown-middle--default 0.25s $md-timing-function--linear-out-slow-in
+@keyframes dropdown-middle--default
+  0%
+    transform scale(0)
+    transform-origin center center
+  100%
+    transform scale(1)
+    transform-origin center center
+// Up - default
+.md-menu[data-dropdown-menu][data-menu-open][data-opening-animation=dropdown-up--default]
+  -moz-animation dropdown-up--default 0.25s $md-timing-function--linear-out-slow-in
+  -webkit-animation dropdown-up--default 0.25s $md-timing-function--linear-out-slow-in
+  animation dropdown-up--default 0.25s $md-timing-function--linear-out-slow-in
+@keyframes dropdown-up--default
+  0%
+    transform scale(0)
+    transform-origin center bottom
+  100%
+    transform scale(1)
+    transform-origin center bottom

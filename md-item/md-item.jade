@@ -10,7 +10,7 @@
       * can ripple when clicked
       * can display a tooltip on hover (item must have an id to enable tooltip)
       * can be an item in an MD menu
-      * uses the 'md_item' template which supports the following parameters.
+      * uses the 'mdItem' template which supports the following parameters.
 
       @param {string} [id] - the id of the item
       @param {string} [name] - the name of the item
@@ -24,13 +24,12 @@
       @param {string} [icon__classes] - a space-separate list of classes of the
                                         icon
       @param {boolean} [ripple] - true if the item should ripple on click
-      @param {string} [centered_ripple] - 'center'|'offset' to select the origin
-                                        of the ripple
+      @param {string} [offset_ripple] - to set the origin of the ripple
       @param {boolean} [has_tooltip] - true if the item should have a tooltip
       @param {string} [tooltip__position] - true if the item should have a tooltip
       @param {string} [tooltip__text] - the text if the item should have a tooltip
-                                           
-template(name="md_item")
+
+template(name="mdItem")
   .md-item(
     id=id
     name=name
@@ -42,10 +41,9 @@ template(name="md_item")
     data-disabled=disabled
   )
     if icon
-      .md-item__icon(class=icon__classes)
-        +si(icon=icon)
+      +mdIcon(icon=icon classes="md-item__icon")
     .md-item__text(class=text__classes)=text
     if ripple
-      +md_ripple(center=centered_ripple)
+      +mdRipple(offset=offset_ripple)
   if has_tooltip
-    +md_tooltip(target=id position=tooltip__position text=tooltip__text)
+    +mdTooltip(target=id position=tooltip__position text=tooltip__text)

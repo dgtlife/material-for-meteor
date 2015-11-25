@@ -10,61 +10,54 @@
 _.extend Material.prototype,
 
   ###*
-  # Compute the CSS styles for size and position of the ripple.
+  # Event handler for launching the ripple.
   #
-  # @param {string} origin - 'center'|'offset', i.e. where should the ripple
-  #                          originate from
-  # @param {Object} target - the dimensions of the target, i.e. the element
-  #                          that contains the ripple
-  # @param {number} [eventX] - the distance (in pixels) from the left edge of
-  #                            the target rectangle to the event position
-  # @param {number} [eventY] - the distance (in pixels) from the top edge of
-  #                            the target rectangle to the event position
-  # @private
+  # @param {Object} ripple - the ripple element
+  # @param {number} eventX - the x coordinate of the mouse/touch event relative
+  #                          to the ripple target
+  # @param {number} eventY - the y coordinate of the mouse/touch event relative
+  #                          to the ripple target
   ###
-  _computeRippleStyle: (origin, target, eventX, eventY) ->
+  launchRipple: (ripple, eventX, eventY) ->
     "use strict"
 
-    # Set the width and height to be equal to 1.5 times the longer side of the
-    # ripple target.
-    if target.width >= target.height
-      height = target.width * 1.5
-      width = target.width * 1.5
-    else
-      height = target.height * 1.5
-      width = target.height * 1.5
+    # Don't ripple on a disabled element.
+    if ripple.parentElement.hasAttribute('disabled') or
+       ripple.parentElement.hasAttribute('data-disabled') or
+       ripple.parentElement.parentElement.hasAttribute('data-disabled')
+        false
 
-    # Set the position.
-    if origin is 'center'
-      # Center the ripple on the ripple target.
-      top = - ((height - target.height) / 2)
-      left = - ((width - target.width) / 2)
-    else
-      # Center the ripple on the click/touch position.
-      top = - ((height / 2) - eventY)
-      left = - ((width / 2) - eventX)
+    # Set the size and position of the ripple, if necessary.
+    if ripple.hasAttribute('data-offset') or (not ripple.hasAttribute 'style')
+      MD.setRippleStyle ripple, eventX, eventY
 
-    # Compose the ripple style.
-    rippleStyle = 'width: ' + width + 'px; ' +
-                  'height: ' + height + 'px; ' +
-                  'top: ' + top + 'px; ' +
-                  'left: ' + left + 'px;'
-    return rippleStyle
+    # Add the class to trigger animation of the wave.
+    ripple.classList.add 'is-rippling'
+
+    Meteor.setTimeout ->
+      # Remove the class after 350ms
+      ripple.classList.remove 'is-rippling'
+      # If it's an offset ripple remove the style as it's a function of the
+      # touch coordinates.
+      if ripple.hasAttribute 'data-offset'
+        ripple.removeAttribute 'style'
+    , 350
 
   ###*
   # Set the size and position of the ripple.
   #
   # @param {Object} ripple - the ripple element
+  # @param {number} [eventX] - the distance (in pixels) from the left edge of
+  #                            the target rectangle to the event position
+  # @param {number} [eventY] - the distance (in pixels) from the top edge of
+  #                            the target rectangle to the event position
   ###
-  setRippleStyle: (ripple) ->
+  setRippleStyle: (ripple, eventX, eventY) ->
     "use strict"
 
     target = {}
     target.height = ripple.parentElement.offsetHeight
     target.width = ripple.parentElement.offsetWidth
-    eventX = event.offsetX
-    eventY = event.offsetY
-
     # The style for this ripple is not yet set.
     if ripple.parentElement.parentElement.hasAttribute('data-radio-button')
       # It's an MD radio button. Set the pre-determined size and position of
@@ -83,44 +76,85 @@ _.extend Material.prototype,
       rippleStyle = 'width: 3rem; height: 3rem; top: 0; left: 0;'
     else if ripple.hasAttribute('data-offset')
       # It's an element with an offset ripple. Compute the ripple style.
-      rippleStyle = MD._computeRippleStyle 'offset', target, eventX, eventY
+      rippleStyle = @_computeRippleStyle 'offset', target, eventX, eventY
     else
       # It's an element with the default centered ripple. Compute the ripple
       # style.
-      rippleStyle = MD._computeRippleStyle 'center', target
+      rippleStyle = @_computeRippleStyle 'center', target
 
     ripple.setAttribute 'style', rippleStyle
 
+  ###*
+  # Compute the CSS styles for size and position of the ripple.
+  #
+  # @param {string} origin - 'center'|'offset', i.e. where should the ripple
+  #                          originate from
+  # @param {Object} target - the dimensions of the target, i.e. the element
+  #                          that contains the ripple
+  # @param {number} [eventX] - the distance (in pixels) from the left edge of
+  #                            the target rectangle to the event position
+  # @param {number} [eventY] - the distance (in pixels) from the top edge of
+  #                            the target rectangle to the event position
+  # @private
+  ###
+  _computeRippleStyle: (origin, target, eventX, eventY) ->
+    "use strict"
+
+    # Set the width and height to be equal to 2 times the longer side of the
+    # ripple target.
+    if target.width >= target.height
+      height = target.width * 2
+      width = target.width * 2
+    else
+      height = target.height * 2
+      width = target.height * 2
+
+    # Set the position.
+    if origin is 'center'
+      # Center the ripple on the ripple target.
+      top = - ((height - target.height) / 2)
+      left = - ((width - target.width) / 2)
+    else
+      # Center the ripple on the click/touch position.
+      top = - ((height / 2) - eventY)
+      left = - ((width / 2) - eventX)
+
+    # Compose the ripple style.
+    rippleStyle = 'width: ' + width + 'px; ' +
+                  'height: ' + height + 'px; ' +
+                  'top: ' + top + 'px; ' +
+                  'left: ' + left + 'px;'
+    return rippleStyle
+
 #////////////////////    EVENT HANDLERS FOR MD RIPPLE    ///////////////////////
-Template.md_ripple.events
-  # Ripple on click or touch.
+Template.mdRipple.events
+  # Trigger the ripple with a mousedown in a mouse environment.
   'mousedown [data-ripple]': (event) ->
     "use strict"
-    event.preventDefault()
 
+    # Chrome on Android fires the touchstart, then the mousedown, whereas Safari
+    # on iOS fires only the touchstart. So if the ripple has already been
+    # launched, do nothing.
+    if event.currentTarget.classList.contains 'is-rippling'
+      return false
+
+    # Launch the ripple.
+    MD.launchRipple event.currentTarget, event.offsetX, event.offsetY
+
+  # Trigger the ripple with a touchstart in a touch environment.
+  'touchstart [data-ripple]': (event) ->
+    "use strict"
+
+    # The touch event object is quite different from the mouse event object. We
+    # must compute the touch coordinates relative to the ripple target.
     ripple = event.currentTarget
-    # Don't ripple on a disabled element.
-    if ripple.parentElement.hasAttribute('disabled') or
-       ripple.parentElement.hasAttribute('data-disabled') or
-       ripple.parentElement.parentElement.hasAttribute('data-disabled')
-        false
+    rippleRect = ripple.getBoundingClientRect()
+    touch = event.originalEvent.touches[0]
+    offsetX = touch.pageX - (window.pageXOffset + rippleRect.left)
+    offsetY = touch.pageY - (window.pageYOffset + rippleRect.top)
 
-    # Set the size and position of the ripple, if necessary.
-    if not ripple.hasAttribute('style')
-      MD.setRippleStyle ripple
-
-    # Set up event listeners/handlers to remove the 'is-rippling' class 500ms
-    # after the ripple has started.
-    eventNames = ['animationstart', 'webkitAnimationStart', 'mozAnimationStart']
-    _.each eventNames, (eventName) ->
-      ripple.addEventListener eventName, (animationEvent) ->
-        if animationEvent.animationName is 'ripple'
-          Meteor.setTimeout ->
-            ripple.classList.remove 'is-rippling'
-          , 500
-
-    # Add the class to trigger animation of the wave.
-    ripple.classList.add 'is-rippling'
+    # Launch the ripple.
+    MD.launchRipple ripple, offsetX, offsetY
 
   # Ignore double clicks.
   'dblclick [data-ripple]': (event) ->
@@ -130,8 +164,9 @@ Template.md_ripple.events
     return false
 
 #/////////////////////  ON-RENDER CALLBACK FOR MD RIPPLE  //////////////////////
-Template.md_ripple.onRendered ->
+Template.mdRipple.onRendered ->
   "use strict"
 
-  # Initialize the ripple size and position.
-  MD.setRippleStyle @firstNode
+  ripple = @firstNode
+  # Pre-position the ripple, unless it is an offset ripple.
+  MD.setRippleStyle(ripple) unless ripple.hasAttribute 'data-offset'

@@ -20,13 +20,28 @@ Material = function () {
 
   // Initialize the _config object.
   self.config = {
-    // Hide/show the helper text when an error is set on a text input field.
+    // Setting to hide/show the helper text when an error is set on a text input
+    // field.
     hideHelperTextOnError: true,
 
-    // The maximum render delay (in ms) to be applied on load/reload.
-    MAX_RENDER_DELAY: 0
+    // The asset file configuration for icons defined with <symbol> tags.
+    iconsBySymbols: null,
+
+    // The asset file configuration for icons defined with <svg> tags.
+    iconsBySvgs: null,
+
+    // The elements to move with the snackbar as it is raised and lowered.
+    elementsToMove: []
   };
 
+  // The client-side SVG metadata.
+  self._svgMetadata = [];
+
+  // The client-side snackbar queue.
+  self._snackbars = [];
+
+  // The platform detection utility.
+  self.platform = {};
 };
 
 ////////////////////////////////  PROTOTYPE  ///////////////////////////////////
@@ -47,7 +62,6 @@ _.extend(Material.prototype, {
 
     // Check the configuration options supplied by the package user.
     check(_config.hideHelperTextOnError, Match.Optional(Boolean));
-    check(_config.MAX_RENDER_DELAY, Match.Optional(Match.Integer));
 
     // Update the configuration values.
     self.config = _.extend(self.config, _config);
@@ -64,5 +78,17 @@ if (Meteor.isClient) {
 
     if (MD.options)
       MD.configure(MD.options);
+
+    // Load the SVG metadata from the asset files.
+    MD.loadSvgMetadata();
+
+    // Register the icon helper.
+    MD.registerIconHelper();
+
+    // Initialize the snackbarCount reactive variable
+    MD.reactive.set('snackbarCount', 0);
+
+    // Run the platform detection function.
+    MD.runPlatformDetection();
   });
 }

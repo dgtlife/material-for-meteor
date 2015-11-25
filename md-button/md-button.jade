@@ -15,9 +15,9 @@
       * can be disabled with the template attribute 'disabled=""'
       * can toggle with the template attribute 'toggle=""' or 'toggle=true'
       * will display a ripple on click unless template attribute 'no_ripple=""'
-      * can have a ripple that radiates from the center of the button, or from 
+      * can have a ripple that radiates from the center of the button, or from
         the event location using
-        * 'centered_ripple=""' (if ripple is to be centered)
+        * 'offset_ripple=""' (if ripple is to emanate from the event location)
       * will always center the ripple on a FAB
       * can display a tooltip if the button has an id, and with the template
         attributes:
@@ -29,17 +29,17 @@
       * can be a trigger for a popup menu
       * can carry arbitrary data in the template attribute
         '__data=someDataAsString'
-template(name="md_button")
+template(name="mdButton")
   button.md-button(
+    data-button=""
     id=id
     name=name
     class=classes
     disabled=disabled
-    data-button=""
     data-raised=raised
     data-fab=fab
     data-icon-button=icon_button
-    data-hover=hover
+    data-snackbar-button=_snackbar_button
     data-toggle=toggle
     data-badge-count=badge_count
     data-popup-trigger=_popup_trigger
@@ -48,10 +48,10 @@ template(name="md_button")
     data-mdb=__data
   )
     if icon
-      +si(icon=icon classes="md-button__icon")
+      +mdIcon(icon=icon classes="md-button__icon")
     if label
       span.md-button__label=label
     unless no_ripple
-      +md_ripple(center=centered_ripple)
+      +mdRipple(offset=offset_ripple)
   if has_tooltip
-    +md_tooltip(target=id position=tooltip__position text=tooltip__text)
+    +mdTooltip(target=id position=tooltip__position text=tooltip__text)

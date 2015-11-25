@@ -17,11 +17,11 @@
       * can be part of an MD radio group
       * can be disabled with the template attribute 'disabled="true"'
       * can ripple on click with the template attribute 'ripple=true'
-      * uses the 'md_radio_button template which supports the following
+      * uses the 'mdRadioButton template which supports the following
         parameters:
         @param {string} id - the id of the radio button
         ToDo: complete this
-template(name="md_radio_button")
+template(name="mdRadioButton")
   .md-radio-button(
     id=id
     name=name
@@ -41,7 +41,7 @@ template(name="md_radio_button")
       .md-radio-button__outer
       .md-radio-button__inner
       if ripple
-        +md_ripple
+        +mdRipple
     span.md-radio-button__label(for=id)=label
 
 //-/////////////////////////  MD RADIO GROUP  //////////////////////////////////
@@ -55,11 +55,11 @@ template(name="md_radio_button")
              automatically into the radio group at render time.
       * can hold the selected value of the radio group in the 'data-selected'
         attribute
-      * uses the 'md_radio_group' template which supports the following
+      * uses the 'mdRadioGroup' template which supports the following
         parameters:
         @param {string} id - the id of the radio group
         ToDo: finish this
-template(name="md_radio_group")
+template(name="mdRadioGroup")
   .md-label.label--radio-group(class=classes)=label
   .md-radio-group(
     id=id
@@ -70,7 +70,7 @@ template(name="md_radio_group")
   )
     if buttons
       +each buttons
-        +md_radio_button(
+        +mdRadioButton(
           id=id
           name=name
           classes=classes

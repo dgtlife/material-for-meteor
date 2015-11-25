@@ -74,7 +74,7 @@ _.extend Material.prototype,
   # Set the image as a background image for the .md-image, and apply the sizing.
   #
   # @param {Object} image - the MD Image element
-  # @param {string} data - data from the md_image template
+  # @param {string} data - data from the mdImage template
   # @private
   ###
   _setImageSizing: (image, data) ->
@@ -89,7 +89,7 @@ _.extend Material.prototype,
     image.setAttribute 'style', imageStyle
 
 #/////////////////////  ON-RENDER CALLBACK FOR MD IMAGE  ///////////////////////
-Template.md_image.onRendered ->
+Template.mdImage.onRendered ->
   "use strict"
 
   image = @firstNode

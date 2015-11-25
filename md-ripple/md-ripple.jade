@@ -8,10 +8,10 @@
 //- An MD ripple (cf. paper-ripple). This ripple
       * can be made to originate from the center of the associated element or
         from the event position
-template(name="md_ripple")
+template(name="mdRipple")
   .md-ripple(
-    class=classes
     data-ripple=""
-    data-center=center
+    class=classes
+    data-offset=offset
   )
     .md-ripple__wave

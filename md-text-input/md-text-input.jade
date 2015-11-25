@@ -7,16 +7,16 @@
 //-/////////////////////////    MD TEXT FIELD    ///////////////////////////////
 //- An MD text field is an input field for a single line of text input
     (cf. paper-input). An MD text field
-      * depends on md_label and md_underline components
+      * depends on mdLabel and mdUnderline components
       * can have an animated floating label
       * can be disabled with the template attribute 'disabled="true"'
       * can have integral helper text
       * can have integral error text (populated by the package user)
       ToDo: Finish this.
-template(name="md_text_field")
+template(name="mdTextField")
   .md-field.md-text-field(id=id name=name class=classes data-text-field="")
     .md-field__container
-      +md_label(
+      +mdLabel(
         classes=label__classes
         label=label
         no_label_float=no_label_float
@@ -49,7 +49,7 @@ template(name="md_text_field")
         )
         if suffix
           .md-field__suffix(data-text-field-suffix="")=suffix
-      +md_underline
+      +mdUnderline
     if helper_text
       .md-helper-text.md-text-field__helper-text(id=helper_text__id data-text-input-helper-text="")=helper_text
     .md-error-text.md-text-field__error-text(id=error_text__id data-text-input-error-text="")
@@ -57,16 +57,16 @@ template(name="md_text_field")
 //-//////////////////////////    MD TEXT AREA    ///////////////////////////////
 //- An MD text area is an input field for multiple lines of text input
     (cf. paper-textarea). An MD text area
-      * depends on md_label and md_underline components
+      * depends on mdLabel and mdUnderline components
       * can have an animated floating label
       * will automatically grow as input is received
       * can be disabled with the template attribute 'disabled="true"'
       * can have integral helper text
       * can have integral error text (populated by the package user)
-template(name="md_text_area")
+template(name="mdTextArea")
   .md-field.md-text-area(id=id name=name class=classes data-text-area="")
     .md-field__container
-      +md_label(
+      +mdLabel(
         classes=label__classes
         label=label
         no_label_float=no_label_float
@@ -77,7 +77,6 @@ template(name="md_text_area")
         rows="1"
         cols=cols
         disabled=disabled
-        autocomplete=autocomplete
         autofocus=autofocus
         form=form
         maxlength=maxlength
@@ -90,7 +89,7 @@ template(name="md_text_area")
         data-text-area-input=""
       )=value
       .md-text-area__size-detector(data-size-detector="")=value
-      +md_underline
+      +mdUnderline
     if helper_text
       .md-helper-text.md-text-area__helper-text(id=helper_text__id data-text-input-helper-text="")=helper_text
     .md-error-text.md-text-area__error-text(id=error_text__id data-text-input-error-text="")

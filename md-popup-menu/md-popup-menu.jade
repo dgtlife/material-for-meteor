@@ -8,23 +8,24 @@
 //- An MD Popup Menu is a menu that pops open when a trigger button is clicked
     (cf. paper-menu-button).
     This menu
-      * depends on the md_button and md_menu components
+      * depends on the mdButton and mdMenu components
       * pops up when an associated icon button (trigger) is clicked
       * automatically closes when an item is selected with a click/touch
       * is best composed with items that do not contain ripple
       ToDo: complete this
-template(name="md_popup_menu")
+template(name="mdPopupMenu")
   .md-popup-menu(
     id=id
     name=name
     class=classes
     data-popup-menu=""
     data-position=position
+    data-opening-animation=opening_animation
     data-dropdown-popup=_dropdown_popup
-    disabled=disabled
+    data-disabled=disabled
   )
     if _in_dropdown
-      +md_button(
+      +mdButton(
         id=button__id
         classes=button__classes
         icon=icon
@@ -33,7 +34,7 @@ template(name="md_popup_menu")
         _dropdown_trigger=""
         _trigger_target=menu__id
       )
-      +md_menu(
+      +mdMenu(
         id=menu__id
         name=menu__name
         classes=menu__classes
@@ -41,7 +42,7 @@ template(name="md_popup_menu")
         items=items
       )
     else
-      +md_button(
+      +mdButton(
         id=button__id
         classes=button__classes
         icon=icon
@@ -50,7 +51,7 @@ template(name="md_popup_menu")
         _popup_trigger=""
         _trigger_target=menu__id
       )
-      +md_menu(
+      +mdMenu(
         id=menu__id
         name=menu__name
         classes=menu__classes

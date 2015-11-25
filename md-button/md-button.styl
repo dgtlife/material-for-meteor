@@ -19,6 +19,7 @@ $md-button__font-weight = 500
 $md-button__color = #009688
 $md-button--hover__bg-color = #E0F2F1
 $md-button--focus__bg-color = #B2DFDB
+$md-button--active__bg-color = #80CBC4
 $md-button--pressed__bg-color = #80CBC4
 $md-button--disabled__bg-color = rgba(0,0,0,0.12)
 $md-button--disabled__color = rgba(0,0,0,0.26)
@@ -29,16 +30,22 @@ $md-icon-button__color = rgba(0,0,0,0.87)
 
 /////  MD FAB  /////
 $md-button--fab__color = #FEFEFE
-$md-button--fab__bg-color = #009688
+$md-button--fab__bg-color = #03A9F4
 $md-button--fab__size = 3.5rem
 $md-button--fab__padding = 0
 $md-button--mini-fab__size = 2.5rem
 $md-button--mini-fab__padding = 0
 
+/////  MD SNACKBAR BUTTON  /////
+$md-button--snackbar__padding = 1.5rem
+
 ////////////////////////    STYLES FOR MD BUTTON    ////////////////////////////
 /////  MD FLAT BUTTON (default)  /////
 .md-button
-  align-items(center)
+  -webkit-tap-highlight-color transparent
+  align-items center
+  -webkit-appearance none
+  appearance none
   background-color transparent
   border none
   border-radius $md-button__border-radius
@@ -50,56 +57,50 @@ $md-button--mini-fab__padding = 0
   min-width $md-button__min-width
   padding 0 $md-button__padding
   position relative
-  outline 0
+  outline none
   overflow hidden
   text-align center
   text-decoration none
+  -webkit-user-select none
+  user-select none
   will-change box-shadow, transform
   transition:
     box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1),
     background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
     color 0.2s cubic-bezier(0.4, 0, 0.2, 1)
   z-index 0
-  //&:focus:not(:active),
+  &:hover
+    background-color $md-button--hover__bg-color
   &:active
-    background-color transparent
-  &::-moz-focus-inner
-    border 0
-// A 'hoverable' button that is hovered.
-.md-button[hovered]
-  background-color $md-button--hover__bg-color
-// A toggle button that is pressed.
-.md-button[data-pressed]
-  background-color $md-button--pressed__bg-color
-
-// DISABLED FLAT BUTTON
+    background-color $md-button--active__bg-color
+// Active state on a button in Chrome on Android
+.md-button[data-active]
+  //background-color $md-button--active__bg-color
+  background-color transparent
+// Disabled flat button
 .md-button[disabled]
   color $md-button--disabled__color
   pointer-events none
-  &:focus:not(:active),
-  &:active
-    background-color transparent
 
 /////  MD RAISED BUTTON  /////
 .md-button[data-raised]
   $md-shadow--2dp()
-  // &:focus:not(:active)
-  //   background-color $md-button--focus__bg-color
   &:active
-  //   background-color $md-button--pressed__bg-color
-     $md-shadow--8dp()
-.md-button[data-raised][data-pressed]
+    $md-shadow--8dp()
+// Active state on a raised button in Chrome on Android
+.md-button[data-raised][data-active]
   $md-shadow--8dp()
-
-// DISABLED RAISED BUTTON
+// Disabled raised button
 .md-button[data-raised][disabled]
   background-color $md-button--disabled__bg-color
   box-shadow none
-  color $md-button--disabled__color
-  pointer-events none
-  //&:focus:not(:active),
-  &:active
-    background-color $md-button--disabled__bg-color
+
+/////  MD TOGGLE BUTTON  /////
+.md-button[data-toggle][data-pressed]
+  background-color $md-button--pressed__bg-color
+// A raised toogle button
+.md-button[data-raised][data-toggle][data-pressed]
+  $md-shadow--8dp()
 
 // BUTTON LABEL
 .md-button > .md-button__label
@@ -110,23 +111,26 @@ $md-button--mini-fab__padding = 0
   letter-spacing 0
 
 // BUTTON WITH AN ICON
-// (typically raised)
-.md-button__icon
+.md-icon.md-button__icon
+  color inherit
   padding 0 0.5rem 0 0
   pointer-events none
 
 /////  MD ICON BUTTON  /////
 // (i.e. an icon as a button)
 .md-button[data-icon-button]
+  background-color transparent
   color $md-icon-button__color
   height auto
   margin 0
   min-width 0
   padding 0.75rem
   position relative
-  //&:focus:not(:active),
+  &:hover,
   &:active
     background-color transparent
+.md-button[data-icon-button][data-active]
+  background-color transparent
 .md-button[data-icon-button] > .md-button__icon
   padding 0
 
@@ -144,14 +148,11 @@ $md-button--mini-fab__padding = 0
   padding $md-button--fab__padding
   $md-shadow--6dp()
   &:active
-    background-color $md-button--fab__bg-color
     $md-shadow--12dp()
-  &::-moz-focus-inner
-    border 0
 .md-button[data-fab] > .md-button__icon
   padding 1rem
-// A pressed FAB
-.md-button[data-fab][data-pressed]
+// An active FAB in Chrome on Android
+.md-button[data-fab][data-active]
   $md-shadow--12dp()
 
 // MINI FAB
@@ -161,14 +162,20 @@ $md-button--mini-fab__padding = 0
   width $md-button--mini-fab__size
 
 // DISABLED FAB
-.md-button[data-fab][disabled],
-.md-button[data-fab][disabled=true]
+.md-button[data-fab][disabled]
   background-color $md-button--disabled__bg-color
   box-shadow none
   color $md-button--disabled__color
   pointer-events none
-  //&:focus:not(:active),
-  &:active
-    background-color $md-button--disabled__bg-color
 .md-button[data-fab=mini] > .md-button__icon
   padding 0.5rem
+
+// SNACKBAR BUTTON
+.md-button[data-snackbar-button]
+  margin 0
+  min-width 0
+  padding 0 $md-button--snackbar__padding
+
+@media only screen and (max-width: 599px)
+  .md-button[data-snackbar-button]
+    padding 0 $md-button--snackbar__padding 0 0

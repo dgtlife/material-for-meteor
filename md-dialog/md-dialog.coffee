@@ -15,10 +15,10 @@ _.extend Material.prototype,
   # @param {string} id - the id of the dialog
   # @private
   ###
-  _importDialogContent: (id) ->
-    "use strict";
+  importDialogContent: (id) ->
+    "use strict"
 
-    dialogContainer = @eqS @dqS('#' + id), '[data-dialog-container]'
+    dialogContainer = @eqS @dgEBI(id), '[data-dialog-container]'
     # Look for any node containing content for this dialog.
     tempContentContainer = @dqS('[data-content-for="' + id + '"]')
     if tempContentContainer
@@ -33,11 +33,13 @@ _.extend Material.prototype,
     else
       false
 
-  _initializeDialogPosition: (dialog) ->
+  ###*
+  # Compute and set the size and position of the dialog via its style attribute.
+  #
+  # @param {Object} dialog - the dialog element
+  ###
+  _setDialogSizeAndPosition: (dialog) ->
     "use strict"
-
-    console.log dialog
-    console.log 'setting style'
 
     # Assign the dialog width. Use the specified width, if provided.
     if dialog.hasAttribute 'data-width'
@@ -73,9 +75,23 @@ _.extend Material.prototype,
                   'width: ' + dialogWidth + 'px; ' +
                   'top: ' + top + 'px; ' +
                   'left: ' + left + 'px;'
-
-    console.log dialogStyle
     dialog.setAttribute 'style', dialogStyle
+
+  ###*
+  # If it is a scrollable dialog, scroll content to the top of its range and
+  # turn ON the scroll monitor.
+  #
+  # @param {Object} scrollableElement - the scrollable content element in the
+  #                                     dialog
+  ###
+  _initializeScroller: (scrollableElement) ->
+    "use strict"
+
+    # Scroll fully down.
+    scrollableElement.scrollTop = 0
+    scrollableElement.classList.add 'scrolled-down'
+    # Turn ON the scroll monitor.
+    @scrollMonitor scrollableElement, 'on'
 
   ###*
   # Compute the value of the dialog element from a dialogSpec value.
@@ -84,7 +100,7 @@ _.extend Material.prototype,
   #                                       the dialog element itself
   # @private
   ###
-  _computeDialog: (dialogSpec) ->
+  _getDialog: (dialogSpec) ->
     "use strict"
 
     if _.isString dialogSpec
@@ -108,96 +124,155 @@ _.extend Material.prototype,
   openDialog: (dialogSpec) ->
     "use strict"
 
+    # Get the dialog element.
+    dialog = @_getDialog dialogSpec
+
+    # Unless it is closed, do nothing.
+    return false unless not dialog.hasAttribute 'data-dialog-open'
+
     # Close any open dialog(s).
     @closeAnyOpenDialog()
 
-    # Get the dialog element.
-    dialog = @_computeDialog dialogSpec
+    # Set the size and position of the dialog.
+    @_setDialogSizeAndPosition dialog
 
-    # If it's a modal, insert the modal backdrop.
+    # Insert the backdrop.
+    backdropType = 'default'
     if dialog.hasAttribute 'data-modal'
-      @_insertBackdrop('modal')
-    # If it's a non-modal with a backdrop, insert the default backdrop.
-    if dialog.hasAttribute 'data-with-backdrop'
-      @_insertBackdrop()
+      backdropType = 'modal'
+    backdropOpacity = 0
+    if dialog.hasAttribute 'data-backdrop-opacity'
+      backdropOpacity = dialog.getAttribute 'data-backdrop-opacity'
+    @_insertBackdrop backdropType, backdropOpacity
 
-    # Size and position the dialog.
-    @_initializeDialogPosition dialog
+    # Add animation attribute and post-animation handler, if necessary.
+    if dialog.hasAttribute 'data-opening-animation'
+      dialog.setAttribute 'data-opening', 'true'
+      # Define an event handler to remove the above attribute after the opening
+      # animation has ended.
+      eventNames = ['animationend', 'webkitAnimationEnd', 'mozAnimationEnd']
+      __onAnimationEnd = (event) ->
+        "use strict"
+        event.preventDefault()
 
-    # Show the dialog.
+        # Turn OFF the opening animation.
+        dialog.removeAttribute 'data-opening'
+        # Remove the event listeners.
+        _.each eventNames, (eventName) ->
+          dialog.removeEventListener eventName, __onAnimationEnd
+
+      # Set up event listeners for the end of the opening animation.
+      _.each eventNames, (eventName) ->
+        dialog.addEventListener eventName, __onAnimationEnd
+    else
+      dialog.setAttribute 'data-no-opening-animation', 'true'
+
+    # Show the dialog by setting the 'data-dialog-open' attribute (this is the
+    # master switch that makes everything happen).
     dialog.setAttribute 'data-dialog-open', 'true'
 
-    # Attach auto close click handler.
-    MD._attachAutoCloseListener dialog
+    # If it's a scrollable dialog, scroll to the top, and turn ON the scroll
+    # monitor.
+    scrollableElement = @eqS dialog, '.md-dialog__content-to-scroll'
+    @_initializeScroller(scrollableElement) unless not scrollableElement
 
+    # Turn ON the size and position monitor.
+    @_sizeAndPositionMonitor dialog, 'on'
+
+    # Attach the auto-close listener.
+    @_attachAutoCloseListener dialog
+
+  ###*
+  # Attach a listener to the backdrop to close the dialog when it is clicked.
+  #
+  # @param {Object} dialog - the dialog element
+  ###
   _attachAutoCloseListener: (dialog) ->
-    # Define and attach an event handler to close the dialog in the non-modal
-    # cases.
-    closeThisDialog = (event) ->
+    "use strict"
+
+    # Define an event handler to close the dialog in the non-modal cases.
+    __closeThisDialog = (event) ->
       "use strict"
       event.preventDefault()
 
-      # In order to prevent clicks on this dialog from closing it, we need to
-      # ensure that the dialog itself is not in the event propagation path. On
-      # Chrome, we probe the event.path. On Safari we look at the immediate or
-      # next level parent.
-      if event.path
-        # We are on Chrome.
-        pathNodes = event.path
-        clickedOnSameDialog =
-          _.find pathNodes, (pathNode) ->
-            pathNode is dialog
-      else
-        # We are on Safari (or Firefox?)
-        if event.target
-          if event.target.classList.contains 'md-dialog'
-            clickedOnSameDialog = true
-          else if event.target.classList.contains 'md-dialog__container'
-            clickedOnSameDialog = true
-          else if event.target.classList.contains 'md-dialog__title'
-            clickedOnSameDialog = true
-          else if event.target.classList.contains 'md-dialog__content'
-            clickedOnSameDialog = true
-          else if event.target.classList.contains 'md-dialog__actions'
-            clickedOnSameDialog = true
-          else
-            clickedOnSameDialog = false
-        else
-          clickedOnSameDialog = false
-
-      if clickedOnSameDialog
-        # The click is on this dialog; do nothing.
-        false
-      else
-        # Otherwise, we can close it, and remove the listener.
-        MD.closeDialog dialog
-        document.removeEventListener 'click', closeThisDialog
-
-    # Unless it's a modal, wait a tad for the dialog to open before attaching
-    # the listener.
+      MD.closeDialog dialog
+    # Unless it's a modal, attach the 'click' listener.
     if not dialog.hasAttribute 'data-modal'
-      Meteor.setTimeout ->
-        document.addEventListener 'click', closeThisDialog
-      , 10
+      backdrop = @dqS '[data-backdrop]'
+      backdrop.onclick = __closeThisDialog
 
+  ###*
+  # Check whether a dialog is open.
+  #
+  # @param {(string|Object)} dialogSpec - a selector for the dialog element or
+  #                                       the dialog element itself
+  ###
   isDialogOpen: (dialogSpec) ->
     "use strict"
 
-    dialog = @_computeDialog dialogSpec
+    dialog = @_getDialog dialogSpec
     dialog.hasAttribute 'data-dialog-open'
 
+  ###*
+  # Close a dialog.
+  #
+  # @param {(string|Object)} dialogSpec - a selector for the dialog element or
+  #                                       the dialog element itself
+  ###
   closeDialog: (dialogSpec) ->
     "use strict"
 
-    dialog = @_computeDialog dialogSpec
-    if dialog.hasAttribute 'data-dialog-open'
-      # It's open; close it.
-      dialog.removeAttribute 'data-dialog-open'
-      dialog.removeAttribute 'style'
-      @_removeBackdrop()
-      document.body.click()
-    else false
+    dialog = @_getDialog dialogSpec
+    # Unless it is open, do nothing.
+    return false unless dialog.hasAttribute 'data-dialog-open'
 
+    # OK, it's open; so we can actually close it.
+    # Put all animation-independent closing tasks in a function, so that they
+    # can be executed in either case.
+    __closeDialog = ->
+      # Remove the backdrop.
+      MD._removeBackdrop()
+
+      # Remove the 'open' attribute.
+      dialog.removeAttribute 'data-dialog-open'
+      # Remove the size and position styles.
+      dialog.removeAttribute 'style'
+      # Turn OFF the size and position monitor. [currently ignore by ]
+      MD._sizeAndPositionMonitor dialog, 'off'
+
+      # If it's a scrollable dialog turn OFF the scroll monitor.
+      scrollableElement = MD.eqS dialog, '.md-dialog__content-to-scroll'
+      MD.scrollMonitor(scrollableElement, 'off') unless not scrollableElement
+
+    # Account for any animation.
+    if dialog.hasAttribute 'data-closing-animation'
+      # We are closing with animation.
+      dialog.setAttribute 'data-closing', 'true'
+      # Define an event handler to continue the closing process after the
+      # animation has ended.
+      eventNames = ['animationend', 'webkitAnimationEnd', 'mozAnimationEnd']
+      __onAnimationEnd = ->
+        "use strict"
+
+        # Turn OFF the closing animation.
+        dialog.removeAttribute 'data-closing'
+        # Execute the closing tasks.
+        __closeDialog()
+
+        # Remove the event listener.
+        _.each eventNames, (eventName) ->
+          dialog.removeEventListener eventName, __onAnimationEnd
+
+      # Set up event listeners for the end of the closing animation.
+      _.each eventNames, (eventName) ->
+        dialog.addEventListener eventName, __onAnimationEnd
+    else
+      # There will be no animation. Just close.
+      __closeDialog()
+
+  ###*
+  # Close any open dialog, regardless of how it may have remained open.
+  ###
   closeAnyOpenDialog: ->
     "use strict"
 
@@ -206,44 +281,91 @@ _.extend Material.prototype,
       openDialog.removeAttribute 'data-dialog-open'
       openDialog.removeAttribute 'style'
       @_removeBackdrop()
+      @_sizeAndPositionMonitor openDialog, 'off'
     else false
 
+  ###*
+  # Check whether a dialog is closed.
+  #
+  # @param {(string|Object)} dialogSpec - a selector for the dialog element or
+  #                                       the dialog element itself
+  ###
   isDialogClosed: (dialogSpec) ->
     "use strict"
 
-    dialog = @_computeDialog dialogSpec
+    dialog = @_getDialog dialogSpec
     not dialog.hasAttribute 'data-dialog-open'
 
-  _insertBackdrop: (type) ->
+  ###*
+  # Insert the backdrop for a dialog.
+  #
+  # @param {string} type - (default|modal) the type of dialog the backdrop is for
+  # @param {number} opacity - the opacity of the backdrop
+  ###
+  _insertBackdrop: (type, opacity) ->
     "use strict"
 
     # Create the backdrop element.
     backdrop = document.createElement 'div'
     backdrop.setAttribute 'data-backdrop', 'true'
     backdrop.classList.add 'md-backdrop'
-    # If it's a modal dialog, set the modal backdrop class.
     if type is 'modal'
+      # It's for a modal dialog. Add the 'md-backdrop--modal' class.
       backdrop.classList.add 'md-backdrop--modal'
+      # If an opacity was provided along with 'modal' type, then this opacity
+      # should override the default modal opacity of 0.75.
+      backdropStyle = 'opacity: 0.75;'
+      if opacity
+        backdropStyle = 'opacity: ' + opacity + ';'
+    else
+      # If an opacity was provided, then this opacity should override the
+      # default of 0.
+      backdropStyle = 'opacity: 0;'
+      if opacity
+        backdropStyle = 'opacity: ' + opacity + ';'
+    # Set the backdrop opacity.
+    backdrop.setAttribute 'style', backdropStyle
     # Insert the backdrop into the DOM.
     document.body.appendChild backdrop
     # Display the backdrop.
     backdrop.setAttribute 'data-backdrop-open', 'true'
 
+  ###*
+  # Remove the backdrop.
+  ###
   _removeBackdrop: ->
     "use strict"
 
     backdrop = @dqS '[data-backdrop]'
-    if backdrop
-      backdrop.parentElement.removeChild backdrop
-    else false
+    backdrop.parentElement.removeChild(backdrop) unless not backdrop
+
+  ###*
+  # Maintain the relative size and positioning of the dialog as the screen size
+  # changes.
+  #
+  # @param {Object} dialog - the dialog element
+  # @param {string} state - the state (on|off) of the scroller monitor
+  ###
+  _sizeAndPositionMonitor: (dialog, state) ->
+    "use strict"
+
+    resizeHandler = (event) ->
+      "use strict"
+      event.preventDefault()
+
+      dialogIsClosed = not dialog.hasAttribute 'data-dialog-open'
+      MD._setDialogSizeAndPosition(dialog) unless dialogIsClosed
+
+    if state is 'on'
+      window.addEventListener 'resize', resizeHandler
+    else
+      # [Currently, this does not remove the listener]
+      # ToDo: try some other method of listener removal.
+      window.removeEventListener 'resize', resizeHandler
 
 #////////////////////  ON-RENDER CALLBACK FOR MD DIALOG  ///////////////////////
-Template.md_dialog.onRendered ->
+Template.mdDialog.onRendered ->
   "use strict"
 
   # Import the content for this dialog (if necessary)
-  MD._importDialogContent @data.id
-
-  # Reset the position, when the window is resized.
-  # window.addEventListener 'resize', ->
-  #   MD._positionDialog @data.id
+  MD.importDialogContent @data.id

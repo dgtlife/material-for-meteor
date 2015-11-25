@@ -17,13 +17,13 @@ _.extend(Material.prototype, {
    * @param {string} id - the id of the menu
    * @private
    */
-  _importMenuItems: function (id) {
+  importMenuItems: function (id) {
     "use strict";
     var self = this;
 
     var menu, tempMenuItemContainer, itemNodes;
 
-    menu = self.dqS('#' + id);
+    menu = self.dgEBI(id);
     // Look for any node containing menu items for this menu.
     tempMenuItemContainer = self.dqS('[data-items-for="' + id + '"]');
     if (tempMenuItemContainer) {
@@ -47,71 +47,74 @@ _.extend(Material.prototype, {
    * @param {Object} item - the menu item that was clicked or touched
    * @private
    */
-  _handleClickOnMenuItem: function (item) {
+  handleClickOnMenuItem: function (item) {
     "use strict";
     var self = this;
 
     // Assign the value of the item to its menu.
     self._assignItemValueToMenu(item);
 
-    // Give focus to the selected element, if specified.
-    if (item.getAttribute('data-keyboard-nav'))
-      item.focus();
+    // ToDo: [keyboard navigation]
+    // // Give focus to the selected element, if specified.
+    // if (item.getAttribute('data-keyboard-nav'))
+    //   item.focus();
   },
 
-  _handleKeyboardNavigationOfMenu: function (event, menuItem) {
-    "use strict";
-    var self = this;
-    // ToDo: clean up this method.
-    var menu, menuItems, index, next, previous, nextValue, previousValue;
-
-    menu = self.dqS('#' + menuItem.menu);
-    menuItems = self.nodeListToArray(self.eqSA(menu, '[data-menu-item]'));
-    index = menuItems.indexOf(event.currentTarget);
-    if (event.which === 40) {
-      // DOWN key was pressed.
-      if (index === (menuItems.length - 1)) {
-        next = 0;
-      } else {
-        next = index + 1;
-      }
-      nextValue = menuItems[next].getAttribute('data-value');
-      // Clear the previously selected item.
-      _.each(menuItems, function (item) {
-        item.classList.remove('selected');
-      });
-      // Attach the '.selected' class to the selected item.
-      menuItems[next].classList.add('selected');
-      // Set the "data-selected" value in the corresponding menu element.
-      menu.setAttribute('data-selected', nextValue);
-      // Give focus to the selected element.
-      menuItems[next].focus();
-    } else if (event.which === 38) {
-      // UP key was pressed.
-      if (index === 0) {
-        previous = menuItems.length - 1;
-      } else {
-        previous = index - 1;
-      }
-      previousValue = menuItems[previous].getAttribute('data-value');
-      // Clear the previously selected item.
-      _.each(menuItems, function (item) {
-        item.classList.remove('selected');
-      });
-      // Attach the '.selected' class to the selected item.
-      menuItems[previous].classList.add('selected');
-      // Set the "data-selected" value in the corresponding menu element.
-      menu.setAttribute('data-selected', previousValue);
-      // Give focus to the selected element.
-      menuItems[previous].focus();
-    } else if (event.which === 27) {
-      // ESC key was pressed.
-      event.currentTarget.classList.remove('selected');
-      event.currentTarget.blur();
-    } else {
-      return false;
-    }
-  },
+  // ToDo: [keyboard navigation] ... if necessary, probably with aria?
+  //
+  // _handleKeyboardNavigationOfMenu: function (event, menuItem) {
+  //   "use strict";
+  //   var self = this;
+  //   // ToDo: clean up this method.
+  //   var menu, menuItems, index, next, previous, nextValue, previousValue;
+  //
+  //   menu = self.dgEBI(menuItem.menu);
+  //   menuItems = self.nodeListToArray(self.eqSA(menu, '[data-menu-item]'));
+  //   index = menuItems.indexOf(event.currentTarget);
+  //   if (event.which === 40) {
+  //     // DOWN key was pressed.
+  //     if (index === (menuItems.length - 1)) {
+  //       next = 0;
+  //     } else {
+  //       next = index + 1;
+  //     }
+  //     nextValue = menuItems[next].getAttribute('data-value');
+  //     // Clear the previously selected item.
+  //     _.each(menuItems, function (item) {
+  //       item.classList.remove('selected');
+  //     });
+  //     // Attach the '.selected' class to the selected item.
+  //     menuItems[next].classList.add('selected');
+  //     // Set the "data-selected" value in the corresponding menu element.
+  //     menu.setAttribute('data-selected', nextValue);
+  //     // Give focus to the selected element.
+  //     menuItems[next].focus();
+  //   } else if (event.which === 38) {
+  //     // UP key was pressed.
+  //     if (index === 0) {
+  //       previous = menuItems.length - 1;
+  //     } else {
+  //       previous = index - 1;
+  //     }
+  //     previousValue = menuItems[previous].getAttribute('data-value');
+  //     // Clear the previously selected item.
+  //     _.each(menuItems, function (item) {
+  //       item.classList.remove('selected');
+  //     });
+  //     // Attach the '.selected' class to the selected item.
+  //     menuItems[previous].classList.add('selected');
+  //     // Set the "data-selected" value in the corresponding menu element.
+  //     menu.setAttribute('data-selected', previousValue);
+  //     // Give focus to the selected element.
+  //     menuItems[previous].focus();
+  //   } else if (event.which === 27) {
+  //     // ESC key was pressed.
+  //     event.currentTarget.classList.remove('selected');
+  //     event.currentTarget.blur();
+  //   } else {
+  //     return false;
+  //   }
+  // },
 
   /**
    * Assign the value of a selected menu item to its menu, i.e. after the user
@@ -126,7 +129,7 @@ _.extend(Material.prototype, {
 
     var menu, value;
 
-    menu = self.dqS('#' + item.getAttribute('data-menu'));
+    menu = self.dgEBI(item.getAttribute('data-menu'));
     value = item.getAttribute('data-value');
     self.setValueOfMenu(menu, value);
   },
@@ -176,7 +179,7 @@ _.extend(Material.prototype, {
     // Get the menu.
     menu = self._computeMenu(menuSpec);
 
-    // Add the 'selected' class to the selected item and remove the same
+    // Add the 'selected' class to the selected item and remove the 'selected'
     // class from all other items.
     menuItems = self.nodeListToArray(self.eqSA(menu, '[data-menu-item]'));
     _.each(menuItems, function (menuItem) {
@@ -192,8 +195,14 @@ _.extend(Material.prototype, {
     // Assign the value to the "data-selected" attribute of the menu element.
     menu.setAttribute('data-selected', value);
 
-    // If this menu is in a dropdown menu, assign the same value to the input
-    // element and the dropdown menu element.
+    // If this menu is embedded in a popup menu, assign the same value to the
+    // popup menu element, then close the menu.
+    if (menu.hasAttribute('data-popup-menu')) {
+      self._assignValueOfPopupMenu(menu, value);
+    }
+
+    // If this menu is embedded in a dropdown menu, assign the same value to
+    // the input element and the dropdown menu element, then close the menu.
     if (menu.hasAttribute('data-dropdown-menu')) {
       self._assignValueOfDropdownMenu(menu, value);
     }
@@ -236,38 +245,39 @@ _.extend(Material.prototype, {
 });
 
 ///////////////////////    EVENT HANDLERS FOR MD MENU    ///////////////////////
-Template.md_menu.events({
+Template.mdMenu.events({
   // Selection of a menu item with a click.
   'click [data-menu-item]': function (event) {
     "use strict";
-    event.preventDefault();
+    //event.preventDefault();
 
-    var hasRipple = !! MD.eqS(event.currentTarget, '#ripple');
+    var hasRipple = MD.eqS(event.currentTarget, '[data-ripple]');
     if (hasRipple) {
-      // Wait 50ms so that ripple animation is partially visible.
+      // Wait 75ms so that ripple animation is partially visible.
       Meteor.setTimeout(function () {
-        MD._handleClickOnMenuItem(event.currentTarget);
-      }, 50);
+        MD.handleClickOnMenuItem(event.currentTarget);
+      }, 75);
     } else {
-      MD._handleClickOnMenuItem(event.currentTarget);
+      MD.handleClickOnMenuItem(event.currentTarget);
     }
-  },
-
-  // Navigation through the menu items using the keyboard
-  'keydown [data-menu-item]': function (event) {
-    "use strict";
-    var self=this;
-    event.preventDefault();
-
-    MD._handleKeyboardNavigationOfMenu(event, self);
   }
+
+  // ToDo: [keyboard navigation]
+  // // Navigation through the menu items using the keyboard
+  // 'keydown [data-menu-item]': function (event) {
+  //   "use strict";
+  //   var self=this;
+  //   event.preventDefault();
+  //
+  //   MD._handleKeyboardNavigationOfMenu(event, self);
+  // }
 });
 
 //////////////////////  ON-RENDER CALLBACK FOR MD MENU  ////////////////////////
-Template.md_menu.onRendered(function () {
+Template.mdMenu.onRendered(function () {
   "use strict";
   var self = this;
 
   // Import the menu items for this menu (if necessary)
-  MD._importMenuItems(self.data.id);
+  MD.importMenuItems(self.data.id);
 });

@@ -243,17 +243,17 @@ _.extend(Material.prototype, {
 });
 
 ////////////////////  EVENT HANDLERS FOR MD RADIO GROUP  ///////////////////////
-Template.md_radio_group.events({
+Template.mdRadioGroup.events({
+  // Click on a radio button.
   'click [data-radio-button]': function (event) {
     "use strict";
-    event.preventDefault();
 
     MD._handleClickOnRadioButton(event.currentTarget);
   }
 });
 
 ////////////////    ON-RENDER CALLBACK FOR MD RADIO GROUP    ///////////////////
-Template.md_radio_group.onRendered(function () {
+Template.mdRadioGroup.onRendered(function () {
   "use strict";
   var self = this;
 
@@ -263,4 +263,3 @@ Template.md_radio_group.onRendered(function () {
   // Set the initial value of the radio group.
   MD._initializeValueOfRadioGroup(self.lastNode);
 });
-

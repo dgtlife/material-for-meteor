@@ -6,7 +6,7 @@
 
 //-///////////////////////////  MD DIALOG //////////////////////////////////////
 //- An MD Dialog is a component that displays a dialog.
-template(name="md_dialog")
+template(name="mdDialog")
   .md-dialog(
     data-dialog=""
     id=id
@@ -14,13 +14,14 @@ template(name="md_dialog")
     class=classes
     data-height=height
     data-width=width
-    data-with-backdrop=backdrop
+    data-backdrop-opacity=backdrop_opacity
     data-modal=modal
-    data-open-animation=open_animation
-    data-close-animation=close_animation
+    data-scrollable=scrollable
+    data-opening-animation=opening_animation
+    data-closing-animation=closing_animation
   )
     .md-dialog__container(data-dialog-container="")
       //- If a dialog content helper is not used to provide the content, then the
           content placed in a div with an attribute of 'data-content-for=id' will
           be automatically inserted here.
-    
+

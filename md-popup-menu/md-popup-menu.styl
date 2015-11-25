@@ -17,12 +17,64 @@ $md-item__font-size--popup-menu = 0.875rem
   outline none
   padding 0
   position relative
-.md-menu[data-popup-menu]
-  display none
-  z-index 100
 .md-menu[data-popup-menu],
 .md-menu[data-dropdown-menu]
   position absolute
   $md-shadow--8dp()
   .md-item__text
     font-size $md-item__font-size--popup-menu
+.md-menu[data-popup-menu]
+  display none
+  z-index 15
+.md-menu[data-popup-menu][data-menu-open]
+  display block
+
+/////  Animations
+// Top left - default
+.md-menu[data-popup-menu][data-menu-open][data-opening-animation=popup-top-left--default]
+  -moz-animation popup-top-left--default 0.25s $md-timing-function--linear-out-slow-in
+  -webkit-animation popup-top-left--default 0.25s $md-timing-function--linear-out-slow-in
+  animation popup-top-left--default 0.25s $md-timing-function--linear-out-slow-in
+@keyframes popup-top-left--default
+  0%
+    transform scale(0)
+    transform-origin right bottom
+  100%
+    transform scale(1)
+    transform-origin right bottom
+// Top right - default
+.md-menu[data-popup-menu][data-menu-open][data-opening-animation=popup-top-right--default]
+  -moz-animation popup-top-right--default 0.25s $md-timing-function--linear-out-slow-in
+  -webkit-animation popup-top-right--default 0.25s $md-timing-function--linear-out-slow-in
+  animation popup-top-right--default 0.25s $md-timing-function--linear-out-slow-in
+@keyframes popup-top-right--default
+  0%
+    transform scale(0)
+    transform-origin left bottom
+  100%
+    transform scale(1)
+    transform-origin left bottom
+// Bottom left - default
+.md-menu[data-popup-menu][data-menu-open][data-opening-animation=popup-bottom-left--default]
+  -moz-animation popup-bottom-left--default 0.25s $md-timing-function--linear-out-slow-in
+  -webkit-animation popup-bottom-left--default 0.25s $md-timing-function--linear-out-slow-in
+  animation popup-bottom-left--default 0.25s $md-timing-function--linear-out-slow-in
+@keyframes popup-bottom-left--default
+  0%
+    transform scale(0)
+    transform-origin right top
+  100%
+    transform scale(1)
+    transform-origin right top
+// Bottom right - default
+.md-menu[data-popup-menu][data-menu-open][data-opening-animation=popup-bottom-right--default]
+  -moz-animation popup-bottom-right--default 0.25s $md-timing-function--linear-out-slow-in
+  -webkit-animation popup-bottom-right--default 0.25s $md-timing-function--linear-out-slow-in
+  animation popup-bottom-right--default 0.25s $md-timing-function--linear-out-slow-in
+@keyframes popup-bottom-right--default
+  0%
+    transform scale(0)
+    transform-origin left top
+  100%
+    transform scale(1)
+    transform-origin left top

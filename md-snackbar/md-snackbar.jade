@@ -1,0 +1,26 @@
+//- @file Defines the templates for the MD Snackbar.
+    @author Derek Gransaull <derek@dgtlife.com>
+    @copyright DGTLife, LLC 2015
+
+    Created on 11/14/2015
+
+//- The overall snackbar assembly.
+template(name="mdSnackbar")
+  .md-snackbar(data-snackbar="")
+    .md-snackbar__container
+      if current_snackbar
+        +each current_snackbar
+          +_snackbar
+
+//- An individual snackbar.
+template(name="_snackbar")
+  .md-snackbar--current(data-current-snackbar="" id="snackbar-!{_id}")
+    .md-snackbar__message(data-snackbar-message="")=message
+    if button__label
+      +mdButton(
+        id=button__id
+        name=button__name
+        classes="md-snackbar__button"
+        _snackbar_button=""
+        label=button__label
+      )
