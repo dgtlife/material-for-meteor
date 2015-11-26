@@ -24,18 +24,18 @@ Material = function () {
     // field.
     hideHelperTextOnError: true,
 
-    // The asset file configuration for icons defined with <symbol> tags.
-    iconsBySymbols: null,
+    // The asset file configuration for icons defined using <svg> tags.
+    iconsDefinedBySvg: [],
 
-    // The asset file configuration for icons defined with <svg> tags.
-    iconsBySvgs: null,
+    // The asset file configuration for icons defined using <g> tags.
+    iconsDefinedByG: [],
 
     // The elements to move with the snackbar as it is raised and lowered.
     elementsToMove: []
   };
 
-  // The client-side SVG metadata.
-  self._svgMetadata = [];
+  // The client-side icon metadata.
+  self._iconMetadata = [];
 
   // The client-side snackbar queue.
   self._snackbars = [];

@@ -10,59 +10,108 @@
 _.extend Material.prototype,
 
   ###*
-  # Gets the SVG definitions (from the user's files outside the package) for
-  # the icons to be used by the package.
+  # Select icons from the (Polymer-derived) included sets to be used in the app.
   #
-  # @param {object} assetConfig - an object that provides the icon assets from
-  #                               outside of the package as a text stream.
+  # @param {[Object]} iconConfigs - an array of objects, each of which defines
+  #                                 an iconset, and the icons from the set that
+  #                                 are to be used in the app
   ###
-  getIconAssets: (assetConfig) ->
+  selectIcons: (iconConfigs) ->
+    "use strict"
+
+    if Meteor.isServer
+      check iconConfigs, [Object]
+
+      # Process the configs.
+      _.each iconConfigs, (config) ->
+        # Compute the file spec.
+        if config.set is 'base'
+          fileSpec = Assets.getText 'md-icon/md-icon-base.svg'
+        else if config.set is 'av'
+          fileSpec = Assets.getText 'md-icon/md-icon-av.svg'
+        else if config.set is 'communication'
+          fileSpec = Assets.getText 'md-icon/md-icon-communication.svg'
+        else if config.set is 'device'
+          fileSpec = Assets.getText 'md-icon/md-icon-device.svg'
+        else if config.set is 'editor'
+          fileSpec = Assets.getText 'md-icon/md-icon-editor.svg'
+        else if config.set is 'hardware'
+          fileSpec = Assets.getText 'md-icon/md-icon-hardware.svg'
+        else if config.set is 'image'
+          fileSpec = Assets.getText 'md-icon/md-icon-image.svg'
+        else if config.set is 'maps'
+          fileSpec = Assets.getText 'md-icon/md-icon-maps.svg'
+        else if config.set is 'notification'
+          fileSpec = Assets.getText 'md-icon/md-icon-notification.svg'
+        else if config.set is 'social'
+          fileSpec = Assets.getText 'md-icon/md-icon-social.svg'
+        else
+          throw new Meteor.Error 'The iconset specified is not included in this package.'
+        # Compose the asset config
+        assetConfig =
+          iconsDefinedByG: [
+            file: fileSpec
+            include: config.include
+            hyphensOnly: true
+          ]
+        # Add the asset config to the set.
+        MD.defineIconAssets assetConfig
+
+  ###*
+  # Adds the configuration for an icon asset file to the overall set of configs.
+  #
+  # @param {object} assetConfig - an object that defines an asset file and the
+  #                               icons to be extracted from it.
+  ###
+  defineIconAssets: (assetConfig) ->
     "use strict"
 
     check assetConfig,
-      iconsBySymbols: [Object]
-      iconsBySvgs: [Object]
+      iconsDefinedBySvg: Match.Optional [Object]
+      iconsDefinedByG: Match.Optional [Object]
 
     if Meteor.isServer
-      @config.iconsBySymbols = assetConfig.iconsBySymbols
-      @config.iconsBySvgs = assetConfig.iconsBySvgs
+      if assetConfig.iconsDefinedBySvg and (assetConfig.iconsDefinedBySvg.length > 0)
+        # A config was specified for icons from <svg> elements. Process it.
+        _.each assetConfig.iconsDefinedBySvg, (config) ->
+          MD.config.iconsDefinedBySvg.push config
+
+      if assetConfig.iconsDefinedByG and (assetConfig.iconsDefinedByG.length > 0)
+        # A config was specified for icons from <g> elements. Process it.
+        _.each assetConfig.iconsDefinedByG, (config) ->
+          MD.config.iconsDefinedByG.push config
 
   ###*
-  # Loads the SVG metadata for all icons from the server (where it is parsed)
+  # Loads the metadata for all required icons from the server (where it is parsed)
   # to the client.
-  #
-  # @private
   ###
   loadSvgMetadata: ->
     "use strict"
 
     if Meteor.isClient
-      # Initialize the svgMetadataReady reactive variable.
-      @reactive.set 'svgMetadataReady', false
+      # Initialize the iconMetadataReady reactive variable.
+      @reactive.set 'iconMetadataReady', false
 
-      # Get the array of SVG symbol metadata extracted from the SVG asset file.
+      # Get the array of metadata objects extracted from the icon asset file.
       Meteor.call '_parseSvgMetadata', (error, metadata) ->
         if error
-          throw new Meteor.Error 500, 'An error occurred; SVG metadata were not retrieved.'
+          throw new Meteor.Error 500, 'An error occurred; icon metadata were not retrieved.'
         else
-          # We now have SVG symbol metadata for all icons on the client.
-          MD._svgMetadata = metadata
-
-          # Set a reactive variable to indicate that metadata is ready.
-          MD.reactive.set 'svgMetadataReady', true
+          # We now have metadata for all icons on the client.
+          MD._iconMetadata = metadata
+          # Set the reactive variable to indicate that metadata is ready.
+          MD.reactive.set 'iconMetadataReady', true
 
   ###*
-  # A helper to enable convenient icon insertion. The function takes an
+  # A helper to enable convenient icon insertion. The helper passes an
   # arbitrary number of arguments. The first argument is expected to be the
-  # icon id, and the others are interpreted as additional CSS classes.
-  #
-  # @private
+  # icon id, and the others are ignored.
   ###
   registerIconHelper: ->
     "use strict"
 
-    # This helper enables direct insertion of an SVG icon using the <svg> element.
-    Template.registerHelper 'mdIconSvg', ->
+    # This helper enables direct insertion of an MD icon using an <svg> element.
+    Template.registerHelper 'md_icon__svg', ->
       "use strict"
 
       # Check whether we have a null input, i.e no icon is supposed to appear,
@@ -72,20 +121,21 @@ _.extend Material.prototype,
 
       # Otherwise, the icon id is the first argument; ignore all others.
       iconId = arguments[0]
-      if MD.reactive.get 'svgMetadataReady'
-        # Once SVG metadata is ready, find the metadata object corresponding to
-        # this id,
-        svgIconMetadata = _.findWhere MD._svgMetadata, { id: iconId }
-        if _.isUndefined svgIconMetadata
-          throw new Meteor.Error 400, 'The SVG metadata for "' + iconId +
-                                      '" was not found.'
+      # Once icon metadata is ready,
+      if MD.reactive.get 'iconMetadataReady'
+        # find the metadata object corresponding to this id,
+        iconMetadata = _.findWhere MD._iconMetadata, { id: iconId }
+        if _.isUndefined iconMetadata
+          throw new Meteor.Error 'The icon metadata for "' + iconId +
+                                 '" was not found.'
 
-        # then build the HTML for this SVG icon using the <svg> element.
-        svgIconHTML = '<svg class="md-icon__svg" ' +
-          'viewBox="' + svgIconMetadata.viewBox + '" ' +
-          'preserveAspectRatio="xMidYMid meet">' +
-          '<path d="' + svgIconMetadata.pathSpec + '"></path>' +
-          '</svg>'
+        # then build the HTML for this MD icon using an <svg> element wrapping a
+        # <g> element. This enables support for composite SVGs.
+        svgIconHTML = '<svg id="' + iconId + '" ' +
+                      'class="md-icon__svg" viewBox="0 0 24 24" ' +
+                      'preserveAspectRatio="xMidYMid meet">' +
+                      '<g>' + iconMetadata.content + '</g>' +
+                      '</svg>'
 
         Spacebars.SafeString svgIconHTML
 
@@ -210,16 +260,15 @@ _.extend Material.prototype,
 
 #//////  ON THE SERVER  //////
 if Meteor.isServer
-
   #///  Define Meteor Methods  ///
   Meteor.methods(
 
     ###*
-    # Reads and parses the SVG asset files, extracts the SVG metadata from the
-    # SVG source and pushes it into an array.
+    # Reads and parses the icon asset files, extracts the icon metadata for the
+    # specified icons from the SVG source and pushes a metadata object per icon
+    # it into an array.
     #
-    # @returns {Array} - an array of objects each containing SVG metadata for
-    #                    an icon
+    # @returns {Array} - an array of icon metadata objects
     # @private
     ###
     _parseSvgMetadata: ->
@@ -227,98 +276,84 @@ if Meteor.isServer
 
       @unblock();
 
-      # Load the xml2js library.
-      xml2js = Npm.require 'xml2js'
-
-      # Asset files containing the SVG icon source are the targets for the
-      # parser.
-      iconsBySymbols = MD.config.iconsBySymbols
-      iconsBySvgs = MD.config.iconsBySvgs
-
-      # Initialize the single array that will hold all the extracted SVG metadata.
+      # Get the asset files containing the icon SVG source.
+      iconsDefinedBySvg = MD.config.iconsDefinedBySvg
+      iconsDefinedByG = MD.config.iconsDefinedByG
+      # Initialize the array that will hold all the extracted icon metadata.
       svgMetadata = []
 
-      # Create a parser.
-      parser = new xml2js.Parser()
-
-      # Parse the icon assets, extract the metadata, and push a metadata object
-      # for each icon into the svgMetadata array.
-
-      # First the icons defined by <symbol> tags.
-      _.each iconsBySymbols, (error, i) ->
-
+      # Process the icons defined by <g> tags in each specified file.
+      _.each iconsDefinedByG, (config) ->
         # Check the input before proceeding.
-        check iconsBySymbols[i].file, String
-        check iconsBySymbols[i].include, Match.Optional(Match.OneOf(String, [String]))
-        check iconsBySymbols[i].stripPrefix, Match.Optional(String)
-        check iconsBySymbols[i].stripSuffix, Match.Optional(String)
-        check iconsBySymbols[i].addPrefix, Match.Optional(String)
-        check iconsBySymbols[i].addSuffix, Match.Optional(String)
-        check iconsBySymbols[i].hyphensOnly, Match.Optional(Boolean)
+        check config.file, String
+        check config.include, Match.Optional(Match.OneOf(String, [String]))
+        check config.stripPrefix, Match.Optional(String)
+        check config.stripSuffix, Match.Optional(String)
+        check config.addPrefix, Match.Optional(String)
+        check config.addSuffix, Match.Optional(String)
+        check config.hyphensOnly, Match.Optional(Boolean)
 
-        # Let's parse ... each file
-        parser.parseString iconsBySymbols[i].file, (error, svgObject) ->
-          # ... each <symbol> element in the file
-          _.each svgObject.svg.symbol, (symbol) ->
-            # Get the id.
-            _symbolId = symbol['$'].id
-            if iconsBySymbols[i].include is 'all'
-              # Use every <symbol> element. Just customize the id if configured.
-              _symbolId = MD._customizeId _symbolId, iconsBySymbols[i]
-              # Push (customized) metadata into the array.
+        # Read the lines of the file into an array.
+        lines = config.file.split '\n'
+        # Extract only the id and raw content of each <g> element (one per line).
+        _.each lines, (line) ->
+          if line and line.match(/<\/g>/)
+            # It's a line with an icon definition on it. Parse it.
+            _id = line.match(/<g [^>]*id="(.+?)"[^<]*>(.+?)<\/g>/)[1]
+            content = line.match(/<g [^>]*id="(.+?)"[^<]*>(.+?)<\/g>/)[2]
+            # Customize the id, if configured.
+            id = MD._customizeId _id, config
+            # Apply icon selection.
+            if config.include is 'all'
+              # Use every <g> element.
+              # Push a metadata object into the array.
               svgMetadata.push
-                id: _symbolId
-                viewBox: symbol['$'].viewBox
-                pathSpec: symbol.path[0]['$'].d
+                id: id
+                content: content
             else
-              # Use only the <symbol> elements for which the id is in the
-              # include list.
-              if _.contains iconsBySymbols[i].include, _symbolId
-                # Customize the id if required.
-                _symbolId = MD._customizeId _symbolId, iconsBySymbols[i]
-                # Push (customized) metadata into the array.
-                svgMetadata.push
-                  id: _symbolId
-                  viewBox: symbol['$'].viewBox
-                  pathSpec: symbol.path[0]['$'].d
-
-      # Next the icons defined by <svg> tags
-      _.each iconsBySvgs, (error, j) ->
-
-        # Check the input before proceeding.
-        check iconsBySvgs[j].file, String
-        check iconsBySvgs[j].include, Match.Optional(Match.OneOf(String, [String]))
-        check iconsBySvgs[j].stripPrefix, Match.Optional(String)
-        check iconsBySvgs[j].stripSuffix, Match.Optional(String)
-        check iconsBySvgs[j].addPrefix, Match.Optional(String)
-        check iconsBySvgs[j].addSuffix, Match.Optional(String)
-        check iconsBySvgs[j].hyphensOnly, Match.Optional(Boolean)
-
-        # Let's parse ... each file
-        parser.parseString iconsBySvgs[j].file, (error, svgObject) ->
-          # ... each <svg> element in the file
-          _.each svgObject.svg.svg, (svg) ->
-            # Get the id.
-            _svgId = svg['$'].id
-            if iconsBySvgs[j].include is 'all'
-              # Use every <svg> element. Just customize the id if configured.
-              _svgId = MD._customizeId _svgId, iconsBySvgs[j]
-              # Push (customized) metadata into the array.
-              svgMetadata.push
-                id: _svgId
-                viewBox: svg['$'].viewBox
-                pathSpec: svg.path[0]['$'].d
-            else
-              # Use only the <svg> elements for which the id is in the include
+              # Use only the <g> elements for which the _id is in the 'include'
               # list.
-              if _.contains iconsBySvgs[j].include, _svgId
-                # Customize the id if required.
-                _svgId = MD._customizeId(_svgId, iconsBySvgs[j]);
-                # Push (customized) metadata into the array.
+              if _.contains config.include, _id
+                # Push a metadata object into the array.
                 svgMetadata.push
-                  id: _svgId
-                  viewBox: svg['$'].viewBox
-                  pathSpec: svg.path[0]['$'].d
+                  id: id
+                  content: content
+
+      # Process the icons defined by <svg> tags in each specified file.
+      _.each iconsDefinedBySvg, (config) ->
+        # Check the input before proceeding.
+        check config.file, String
+        check config.include, Match.Optional(Match.OneOf(String, [String]))
+        check config.stripPrefix, Match.Optional(String)
+        check config.stripSuffix, Match.Optional(String)
+        check config.addPrefix, Match.Optional(String)
+        check config.addSuffix, Match.Optional(String)
+        check config.hyphensOnly, Match.Optional(Boolean)
+
+        # Read the lines of the file into an array.
+        lines = config.file.split '\n'
+        # Extract only the id and content of each <svg> element (one per line).
+        _.each lines, (line) ->
+          if line and line.match(/<\/svg>/)
+            # It's a line with an icon definition on it. Parse it.
+            _id = line.match(/<svg [^>]*id="(.+?)"[^<]*>(.+?)<\/svg>/)[1]
+            content = line.match(/<svg [^>]*id="(.+?)"[^<]*>(.+?)<\/svg>/)[2]
+            # Customize the id, if configured.
+            id = MD._customizeId _id, config
+            # Apply icon selection.
+            if config.include is 'all'
+              # Use every <svg> element. Push a metadata object into the array.
+              svgMetadata.push
+                id: id
+                content: content
+            else
+              # Use only the <svg> elements for which the _id is in the 'include'
+              # list.
+              if _.contains config.include, _id
+                # Push a metadata object into the array.
+                svgMetadata.push
+                  id: id
+                  content: content
 
       svgMetadata
   )

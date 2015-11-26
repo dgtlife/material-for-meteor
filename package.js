@@ -11,7 +11,7 @@
 
 Package.describe({
   summary: 'Material is a "native" implementation of Material Design components for Meteor',
-  version: '0.6.0',
+  version: '0.6.1',
   name: 'dgtlife:material',
   git: ''
 });
@@ -20,9 +20,6 @@ Package.describe({
 Package.onUse(function (api) {
   "use strict";
 
-  Npm.depends({
-    xml2js: "0.4.12"
-  });
   //api.versionsFrom('METEOR@1.2');
 
   api.use('templating', 'client');
@@ -56,6 +53,16 @@ Package.onUse(function (api) {
   api.addFiles('md-icon/md-icon.styl', 'client');
   api.addFiles('md-icon/md-icon.jade', 'client');
   api.addFiles('md-icon/md-icon.coffee', ['client', 'server']);
+  api.addAssets('md-icon/md-icon-av.svg', 'server');
+  api.addAssets('md-icon/md-icon-base.svg', 'server');
+  api.addAssets('md-icon/md-icon-communication.svg', 'server');
+  api.addAssets('md-icon/md-icon-device.svg', 'server');
+  api.addAssets('md-icon/md-icon-editor.svg', 'server');
+  api.addAssets('md-icon/md-icon-hardware.svg', 'server');
+  api.addAssets('md-icon/md-icon-image.svg', 'server');
+  api.addAssets('md-icon/md-icon-maps.svg', 'server');
+  api.addAssets('md-icon/md-icon-notification.svg', 'server');
+  api.addAssets('md-icon/md-icon-social.svg', 'server');
 
   api.addFiles('md-image/md-image.styl', 'client');
   api.addFiles('md-image/md-image.jade', 'client');
