@@ -43,6 +43,8 @@ $md-button--snackbar__padding = 1.5rem
 /////  MD FLAT BUTTON (default)  /////
 .md-button
   -webkit-tap-highlight-color transparent
+  -ms-flex-align center
+  -webkit-align-items center
   align-items center
   -webkit-appearance none
   appearance none
@@ -51,8 +53,14 @@ $md-button--snackbar__padding = 1.5rem
   border-radius $md-button__border-radius
   color $md-button__color
   cursor pointer
-  display inline-block
+  display -ms-flexbox
+  display -webkit-flex
+  display inline-flex
+  -ms-flex-direction row
+  -webkit-flex-direction row
+  flex-direction row
   height $md-button__height
+  justify-content center
   margin 0 $md-button__margin
   min-width $md-button__min-width
   padding 0 $md-button__padding
