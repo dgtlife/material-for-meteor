@@ -113,4 +113,16 @@ Template.mdButton.onRendered(function () {
       };
     }
   }
+
+  // Firefox does not respond to the flex-related CSS for an MD Button with an
+  // icon (as does Chrome and Safari). Since there is no platform selectivity in
+  // CSS, this 'hack' allows us to support Firefox (for whatever that's worth).
+  if (MD.platform.isFirefoxOnDesktop) {
+    if (button.hasAttribute('data-with-icon')) {
+      // It's a button with an icon, so add the 'on-firefox' class to apply the
+      // appropriate styles.
+      MD.eqS(button, '[data-icon]').classList.add('on-firefox');
+      MD.eqS(button, '[data-label]').classList.add('on-firefox');
+    }
+  }
 });

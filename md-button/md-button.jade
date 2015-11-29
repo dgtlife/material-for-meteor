@@ -37,6 +37,7 @@ template(name="mdButton")
     disabled=disabled
     data-raised=raised
     data-fab=fab
+    data-with-icon=with_icon
     data-icon-button=icon_button
     data-snackbar-button=_snackbar_button
     data-toggle=toggle
@@ -49,7 +50,7 @@ template(name="mdButton")
     if icon
       +mdIcon(icon=icon classes="md-button__icon")
     if label
-      span.md-button__label=label
+      .md-button__label(data-label="")=label
     unless no_ripple
       +mdRipple(offset=offset_ripple)
   if has_tooltip

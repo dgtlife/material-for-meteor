@@ -28,6 +28,38 @@ $md-transition--default()
   transition-duration 0.25s
   transition-timing-function $md-timing-function--fast-out-slow-in
 
+/////  VENDOR PREFIXED PROPERTIES /////
+$align-items-center()
+  -ms-flex-align center
+  -webkit-align-items center
+  align-items center
+$appearance-none()
+  -ms-appearance none
+  -moz-appearance none
+  -webkit-appearance none
+  appearance none
+$display-flex()
+  display -ms-flexbox
+  display -webkit-flex
+  display flex
+$display-inline-flex()
+  display -ms-inline-flexbox
+  display -webkit-inline-flex
+  display inline-flex
+$flex-direction(direction)
+  -ms-flex-direction direction
+  -webkit-flex-direction direction
+  flex-direction direction
+$justify-content-center()
+  -ms-flex-pack center
+  -webkit-justify-content center
+  justify-content center
+$user-select-none()
+  -moz-user-select none
+  -ms-user-select none
+  -webkit-user-select none
+  user-select none
+
 //////////////////////////////  COMMON STYLES  /////////////////////////////////
 ///// Font
 .md-button__label,

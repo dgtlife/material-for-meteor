@@ -159,3 +159,15 @@ _.extend Material.prototype,
     @_setLabelAndUnderlineUnfocused field
     # Clear the value of the embedded menu.
     @clearValueOfMenu embeddedMenu
+
+#//////////////////  ON-RENDER CALLBACK FOR MD DROPDOWN MENU  //////////////////
+Template.mdDropdownMenu.onRendered ->
+  "use strict"
+
+  dropdownMenu = @firstNode
+  # In Firefox, the dropdown arrow is not aligned with the right edge of the
+  # dropdown menu element, as it is in Chrome and Safari. Since there is no
+  # platform selectivity in CSS, this 'hack' allows us to support Firefox (for
+  # whatever that's worth).
+  if MD.platform.isFirefoxOnDesktop
+    MD.eqS(dropdownMenu, '[data-icon]').classList.add 'on-firefox'

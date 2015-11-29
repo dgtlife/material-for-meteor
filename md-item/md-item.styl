@@ -13,20 +13,14 @@ $md-item--disabled__color = rgba(0,0,0,0.26)
 
 //////////////////////////    STYLES FOR MD ITEM    ////////////////////////////
 .md-item
+  $align-items-center()
   cursor pointer
+  $display-flex()
+  $flex-direction(row)
   min-height 3rem
   overflow hidden
   padding 0 1rem
   position relative
-  -ms-flex-align center
-  -webkit-align-items center
-  align-items center
-  display -ms-flexbox
-  display -webkit-flex
-  display flex
-  -ms-flex-direction row
-  -webkit-flex-direction row
-  flex-direction row
 .md-item[data-disabled]
   background-color transparent
   color $md-item--disabled__color

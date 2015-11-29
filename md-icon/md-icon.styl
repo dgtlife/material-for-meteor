@@ -4,6 +4,8 @@
 //
 // Created on 11/12/2015
 
+@require '../md-common'
+
 /////////////////////////    VARIABLES FOR MD ICON    //////////////////////////
 $md-icon__badge-font-size = 0.75rem
 $md-icon__badge-color = #FFFFFF
@@ -11,16 +13,17 @@ $md-icon__badge-bg = #C62828
 
 //////////////////////////    STYLES FOR MD ICON    ////////////////////////////
 .md-icon
+  $align-items-center()
+  $display-inline-flex()
   fill currentcolor
   height 1.5rem
+  $justify-content-center()
   position relative
   width: 1.5rem
-  display -ms-inline-flexbox
-  display -webkit-inline-flex
-  display inline-flex
 .md-icon__svg
   display block
   height 100%
+  pointer-events none
   width 100%
 // A badged-icon
 .md-icon[data-badge-count]::after
