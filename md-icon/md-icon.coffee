@@ -196,7 +196,7 @@ _.extend Material.prototype,
   ###*
   # A helper to enable convenient icon insertion. The helper passes an
   # arbitrary number of arguments. The first argument is expected to be the
-  # icon id, and the others are ignored.
+  # id of the icon, and the others are ignored.
   ###
   registerIconHelper: ->
     "use strict"
@@ -211,21 +211,21 @@ _.extend Material.prototype,
         return null
 
       # Otherwise, the icon id is the first argument; ignore all others.
-      iconId = arguments[0]
+      id = arguments[0]
       # Once icon metadata is ready on the client,
       if MD.reactive.get 'iconMetadataReady'
-        # find the metadata object corresponding to this id,
-        iconMetadata = _.findWhere MD._iconMetadata, { id: iconId }
-        if _.isUndefined iconMetadata
-          throw new Meteor.Error 'The icon metadata for "' + iconId +
+        # find the icon metadata object corresponding to this id,
+        icon = _.findWhere MD._iconMetadata, { id: id }
+        if _.isUndefined icon
+          throw new Meteor.Error 'The icon metadata for "' + id +
                                  '" was not found.'
 
         # then build the HTML for this MD icon using an <svg> element wrapping a
         # <g> element. This enables support for composite SVGs.
-        svgIconHTML = '<svg id="' + iconId + '" ' +
+        svgIconHTML = '<svg id="' + id + '" ' +
                       'class="md-icon__svg" viewBox="0 0 24 24" ' +
                       'preserveAspectRatio="xMidYMid meet">' +
-                      '<g>' + iconMetadata.content + '</g>' +
+                      '<g>' + icon.content + '</g>' +
                       '</svg>'
 
         Spacebars.SafeString svgIconHTML
