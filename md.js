@@ -34,7 +34,11 @@ Material = function () {
     elementsToMove: []
   };
 
-  // The client-side icon metadata.
+  // The server-side icon metadata. This is generated once at server startup and
+  // served to each client upon request.
+  self.__iconMetadata = [];
+
+  // The client-side icon metadata retrieved from the server on client startup.
   self._iconMetadata = [];
 
   // The client-side snackbar queue.
@@ -72,6 +76,14 @@ _.extend(Material.prototype, {
 ///////////////////////////////  INSTANTIATE  //////////////////////////////////
 MD = new Material();
 
+if (Meteor.isServer) {
+  Meteor.startup(function () {
+    "use strict";
+
+    MD.parseIconAssets();
+  });
+}
+
 if (Meteor.isClient) {
   Meteor.startup(function () {
     "use strict";
@@ -80,7 +92,7 @@ if (Meteor.isClient) {
       MD.configure(MD.options);
 
     // Load the SVG metadata from the asset files.
-    MD.loadSvgMetadata();
+    MD.loadIconMetadata();
 
     // Register the icon helper.
     MD.registerIconHelper();
