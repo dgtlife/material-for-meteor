@@ -167,4 +167,4 @@ Template.mdPopupMenu.onRendered ->
   "use strict"
 
   # Import any menu items for this menu.
-  MD.importMenuItems @data.menu__id
+  MD.importMenuItems @data.menuId

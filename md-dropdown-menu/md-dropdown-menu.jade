@@ -29,14 +29,14 @@ template(name="mdDropdownMenu")
   )
     .md-field__container
       +mdLabel(
-        classes=label__classes
+        classes=labelClasses
         label=label
-        no_label_float=no_label_float
+        noLabelFloat=noLabelFloat
       )
       input.md-field__input.md-field__input--dropdown-menu(
         data-dropdown-input=""
-        id=input__id
-        name=input__name
+        id=inputId
+        name=inputName
         type="text"
         value=value
         disabled=disabled
@@ -46,22 +46,22 @@ template(name="mdDropdownMenu")
         required=required
       )
       +mdUnderline
-    if helper_text
-      .md-helper-text.md-text-field__helper-text(id=helper_text__id)=helper_text
-    .md-error-text.md-text-field__error-text(id=error_text__id)
+    if helperText
+      .md-helper-text.md-text-field__helper-text(id=helperTextId)=helperText
+    .md-error-text.md-text-field__error-text(id=errorTextId)
     +mdPopupMenu(
       position=position
-      opening_animation=opening_animation
-      _dropdown_popup=""
-      _in_dropdown=true
+      openingAnimation=openingAnimation
+      _dropdownPopup=""
+      _inDropdown=true
       icon="arrow-drop-down"
-      icon_button=""
-      no_trigger_ripple=true
-      menu__id=menu__id
-      menu__name=menu__name
-      menu__name=menu__classes
+      iconButton=""
+      noTriggerRipple=true
+      menuId=menuId
+      menuName=menuName
+      menuClasses=menuClasses
       items=items
     )
       //- If an items helper is not used to provide the menu items, then the
           menu items placed in a div with an attribute of
-          'data-items-for=menu__id' will be automatically inserted here.
+          'data-items-for=menuId' will be automatically inserted here.

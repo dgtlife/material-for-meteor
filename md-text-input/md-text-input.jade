@@ -17,17 +17,17 @@ template(name="mdTextField")
   .md-field.md-text-field(id=id name=name class=classes data-text-field="")
     .md-field__container
       +mdLabel(
-        classes=label__classes
+        classes=labelClasses
         label=label
-        no_label_float=no_label_float
+        noLabelFloat=noLabelFloat
       )
       .md-field__input-container
         if prefix
           .md-field__prefix(data-text-field-prefix="")=prefix
         input.md-field__input(
-          id=input__id
-          name=input__name
-          class=input__classes
+          id=inputId
+          name=inputName
+          class=inputClasses
           type=type
           value=value
           disabled=disabled
@@ -50,9 +50,9 @@ template(name="mdTextField")
         if suffix
           .md-field__suffix(data-text-field-suffix="")=suffix
       +mdUnderline
-    if helper_text
-      .md-helper-text.md-text-field__helper-text(id=helper_text__id data-text-input-helper-text="")=helper_text
-    .md-error-text.md-text-field__error-text(id=error_text__id data-text-input-error-text="")
+    if helperText
+      .md-helper-text.md-text-field__helper-text(id=helperTextId data-text-input-helper-text="")=helperText
+    .md-error-text.md-text-field__error-text(id=errorTextId data-text-input-error-text="")
 
 //-//////////////////////////    MD TEXT AREA    ///////////////////////////////
 //- An MD text area is an input field for multiple lines of text input
@@ -67,13 +67,13 @@ template(name="mdTextArea")
   .md-field.md-text-area(id=id name=name class=classes data-text-area="")
     .md-field__container
       +mdLabel(
-        classes=label__classes
+        classes=labelClasses
         label=label
-        no_label_float=no_label_float
+        noLabelFloat=noLabelFloat
       )
       textarea.md-field__input(
-        id=textarea__id
-        name=textarea__name
+        id=textareaId
+        name=textareaName
         rows="1"
         cols=cols
         disabled=disabled
@@ -90,6 +90,6 @@ template(name="mdTextArea")
       )=value
       .md-text-area__size-detector(data-size-detector="")=value
       +mdUnderline
-    if helper_text
-      .md-helper-text.md-text-area__helper-text(id=helper_text__id data-text-input-helper-text="")=helper_text
-    .md-error-text.md-text-area__error-text(id=error_text__id data-text-input-error-text="")
+    if helperText
+      .md-helper-text.md-text-area__helper-text(id=helperTextId data-text-input-helper-text="")=helperText
+    .md-error-text.md-text-area__error-text(id=errorTextId data-text-input-error-text="")

@@ -20,44 +20,44 @@ template(name="mdPopupMenu")
     class=classes
     data-popup-menu=""
     data-position=position
-    data-opening-animation=opening_animation
-    data-dropdown-popup=_dropdown_popup
+    data-opening-animation=openingAnimation
+    data-dropdown-popup=_dropdownPopup
     data-disabled=disabled
   )
-    if _in_dropdown
+    if _inDropdown
       +mdButton(
-        id=button__id
-        classes=button__classes
+        id=triggerId
+        classes=triggerClasses
         icon=icon
-        icon_button=""
-        no_ripple=no_trigger_ripple
-        _dropdown_trigger=""
-        _trigger_target=menu__id
+        iconButton=""
+        noRipple=noTriggerRipple
+        _dropdownTrigger=""
+        _triggerTarget=menuId
       )
       +mdMenu(
-        id=menu__id
-        name=menu__name
-        classes=menu__classes
-        _dropdown_menu=""
+        id=menuId
+        name=menuName
+        classes=menuClasses
+        _dropdownMenu=""
         items=items
       )
     else
       +mdButton(
-        id=button__id
-        classes=button__classes
+        id=triggerId
+        classes=triggerClasses
         icon=icon
-        icon_button=""
-        no_ripple=no_trigger_ripple
-        _popup_trigger=""
-        _trigger_target=menu__id
+        iconButton=""
+        noRipple=noTriggerRipple
+        _popupTrigger=""
+        _triggerTarget=menuId
       )
       +mdMenu(
-        id=menu__id
-        name=menu__name
-        classes=menu__classes
-        _popup_menu=""
+        id=menuId
+        name=menuName
+        classes=menuClasses
+        _popupMenu=""
         items=items
       )
       //- If an items helper is not used to provide the menu items, then the
           menu items placed in a div with an attribute of
-          'data-items-for=menu__id' will be automatically inserted here.
+          'data-items-for=menuId' will be automatically inserted here.

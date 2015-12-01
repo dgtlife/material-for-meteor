@@ -11,7 +11,7 @@
         @param {string} [classes] - an optional space-separate list of classes
                                     for the icon
         @param {string} [title] - the optional title attribute of the icon element
-        @param {string} [badge_count] - an optional badge count value that
+        @param {string} [badgeCount] - an optional badge count value that
                                         automatically configures a badged icon
         @param {string} icon - the icon identifier that controls the SVG image
 
@@ -22,5 +22,5 @@ template(name="mdIcon")
     name=name
     class=classes
     title=title
-    data-badge-count=badge_count
-  ) #{md_icon__svg icon}
+    data-badge-count=badgeCount
+  ) #{mdIconSvg icon}

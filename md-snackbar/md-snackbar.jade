@@ -8,19 +8,19 @@
 template(name="mdSnackbar")
   .md-snackbar(data-snackbar="")
     .md-snackbar__container
-      if current_snackbar
-        +each current_snackbar
+      if currentSnackbar
+        +each currentSnackbar
           +_snackbar
 
 //- An individual snackbar.
 template(name="_snackbar")
   .md-snackbar--current(data-current-snackbar="" id="snackbar-!{_id}")
     .md-snackbar__message(data-snackbar-message="")=message
-    if button__label
+    if buttonLabel
       +mdButton(
-        id=button__id
-        name=button__name
+        id=buttonId
+        name=buttonName
         classes="md-snackbar__button"
-        _snackbar_button=""
-        label=button__label
+        _snackbarButton=""
+        label=buttonLabel
       )

@@ -15,8 +15,8 @@
     @param {string} [classes] - a space-separate list of classes of the menu
     @param {Array} [items] - an array of objects to populate the mdItem template
                              and create the menu items
-    @param {string} [_popup_menu] - indicates that it is in a popup menu
-    @param {string} [_popup_menu] - indicates that it is in a dropdown menu
+    @param {string} [_popupMenu] - indicates that it is in a popup menu
+    @param {string} [_dropdownMenu] - indicates that it is in a dropdown menu
     ToDo: Finish this.
 template(name="mdMenu")
   .md-menu(
@@ -24,27 +24,27 @@ template(name="mdMenu")
     id=id
     name=name
     class=classes
-    data-popup-menu=_popup_menu
-    data-dropdown-menu=_dropdown_menu
+    data-popup-menu=_popupMenu
+    data-dropdown-menu=_dropdownMenu
   )
     if items
       +each items
         +mdItem(
-          menu_item=""
+          menuItem=""
           menu=menu
           id=id
           name=name
           classes=classes
           text=text
-          text__classes=text__classes
+          textClasses=textClasses
           icon=icon
-          icon__classes=icon__classes
+          iconClasses=iconClasses
           ripple=ripple
-          offset_ripple=offset_ripple
-          has_tooltip=has_tooltip
-          tooltip__position=tooltip__position
-          tooltip__text=tooltip__text
+          offsetRipple=offsetRipple
+          hasTooltip=hasTooltip
+          tooltipPosition=tooltipPosition
+          tooltipText=tooltipText
         )
     //- If an items helper is not used to provide the menu items, then the menu
-        items placed in a div with an attribute of 'data-items-for=menu__id'
+        items placed in a div with an attribute of 'data-items-for=menuId'
         will be automatically inserted here.

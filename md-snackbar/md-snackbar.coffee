@@ -188,7 +188,7 @@ _.extend Material.prototype,
 
 #//////////////////////    HELPERS FOR MD SNACKBAR    //////////////////////////
 Template.mdSnackbar.helpers
-  current_snackbar: ->
+  currentSnackbar: ->
     "use strict"
 
     MD.getCurrentSnackbarElement()
