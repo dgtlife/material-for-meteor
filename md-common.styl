@@ -50,10 +50,26 @@ $flex-direction(direction)
   -ms-flex-direction direction
   -webkit-flex-direction direction
   flex-direction direction
+$justify-content-start()
+  -ms-flex-pack start
+  -webkit-justify-content flex-start
+  justify-content flex-start
 $justify-content-center()
   -ms-flex-pack center
   -webkit-justify-content center
   justify-content center
+$justify-content-end()
+  -ms-flex-pack end
+  -webkit-justify-content flex-end
+  justify-content flex-end
+$justify-content-around()
+  -ms-flex-pack around
+  -webkit-justify-content space-around
+  justify-content space-around
+$justify-content-between()
+  -ms-flex-pack justify
+  -webkit-justify-content space-between
+  justify-content space-between
 $user-select-none()
   -moz-user-select none
   -ms-user-select none
@@ -120,3 +136,6 @@ $user-select-none()
   height 1px
   margin 0.5rem 0
   width 100%
+
+.flex
+  flex 1

@@ -106,6 +106,10 @@ Package.onUse(function (api) {
   api.addFiles('md-text-input/md-text-input.jade', 'client');
   api.addFiles('md-text-input/md-text-input.coffee', 'client');
 
+  api.addFiles('md-toolbar/md-toolbar.styl', 'client');
+  api.addFiles('md-toolbar/md-toolbar.jade', 'client');
+  api.addFiles('md-toolbar/md-toolbar.coffee', 'client');
+
   api.addFiles('md-tooltip/md-tooltip.styl', 'client');
   api.addFiles('md-tooltip/md-tooltip.jade', 'client');
   api.addFiles('md-tooltip/md-tooltip.js', 'client');

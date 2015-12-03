@@ -1,0 +1,28 @@
+//- @file Defines the template for MD Toolbar.
+    @author Derek Gransaull <derek@dgtlife.com>
+    @copyright DGTLife, LLC 2015
+
+    Created on 12/1/2015
+
+//-////////////////////////////  MD TOOLBAR  ///////////////////////////////////
+//- An MD Toolbar is a horizontal bar containing elements that can be used for
+    label, navigation, search and action (cf. paper-toolbar). This toolbar uses
+    the 'mdToolbar' template which supports the following parameters:
+
+    @param {string} id - the id of the toolbar element
+    @param {string} [classes] - a space-separate list of classes of the toolbar
+
+template(name="mdToolbar")
+  .md-toolbar(
+    data-toolbar=""
+    id=id
+    class=classes
+    data-top-justify=topJustify
+    data-middle-justify=middleJustify
+    data-bottom-justify=bottomJustify
+  )
+    .md-toolbar__bar.top(data-top-bar="")
+    .md-toolbar__bar.middle(data-middle-bar="")
+    .md-toolbar__bar.bottom(data-bottom-bar="")
+    if withShadow
+      .md-toolbar__shadow

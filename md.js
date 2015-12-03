@@ -80,6 +80,7 @@ if (Meteor.isServer) {
   Meteor.startup(function () {
     "use strict";
 
+    // Parse the icon asset files and fill the server-side metadata array.
     MD.parseIconAssets();
   });
 }
@@ -91,7 +92,7 @@ if (Meteor.isClient) {
     if (MD.options)
       MD.configure(MD.options);
 
-    // Load the SVG metadata from the asset files.
+    // Load a copy of the MD Icon metadata from the server.
     MD.loadIconMetadata();
 
     // Register the icon helper.
