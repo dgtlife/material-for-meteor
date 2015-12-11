@@ -74,9 +74,13 @@ $user-select-none()
   -moz-user-select none
   -ms-user-select none
   -webkit-user-select none
-  user-select none
 
 //////////////////////////////  COMMON STYLES  /////////////////////////////////
+///// All components and elements they contain, except the inputs
+[class^=md-]:not(input)
+  -webkit-tap-highlight-color transparent
+  -webkit-touch-callout none
+
 ///// Font
 .md-button__label,
 .md-card,

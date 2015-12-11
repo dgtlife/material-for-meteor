@@ -17,6 +17,7 @@ template(name="mdToolbar")
     data-toolbar=""
     id=id
     class=classes
+    data-header=dataHeader
     data-top-justify=topJustify
     data-middle-justify=middleJustify
     data-bottom-justify=bottomJustify
@@ -24,5 +25,5 @@ template(name="mdToolbar")
     .md-toolbar__bar.top(data-top-bar="")
     .md-toolbar__bar.middle(data-middle-bar="")
     .md-toolbar__bar.bottom(data-bottom-bar="")
-    if withShadow
-      .md-toolbar__shadow
+    if includeShadow
+      .md-toolbar__shadow(data-header-shadow="")

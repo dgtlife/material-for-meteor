@@ -142,17 +142,20 @@ _.extend Material.prototype,
       openMenu.removeAttribute 'data-menu-open'
 
 #///////////////////    EVENT HANDLERS FOR MD POPUP MENU    ////////////////////
-Template.mdPopupMenu.events
+# Note that when an mdPopupMenu template is imported, e.g. into an mdToolbar
+# template, events do not fire in the mdPopupMenu template. Hence we must use
+# the body to allow arbitrary importing of templates.
+Template.body.events
   # Click a button that triggers a popup/dropdown menu.
   'click [data-popup-trigger], click [data-dropdown-trigger]': (event) ->
     "use strict"
 
     hasRipple = MD.eqS event.currentTarget, '[data-ripple]'
     if hasRipple
-      # Wait 75ms so that the ripple animation is partially visible.
+      # Wait 50ms so that the ripple animation is partially visible.
       Meteor.setTimeout ->
         MD.handleClickOnMenuTrigger event.currentTarget
-      , 75
+      , 50
     else
       MD.handleClickOnMenuTrigger event.currentTarget
 

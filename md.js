@@ -20,6 +20,9 @@ Material = function () {
 
   // Initialize the _config object.
   self.config = {
+    // Indicates whether the user is using the header panel feature.
+    usingHeaderPanel: false,
+
     // Setting to hide/show the helper text when an error is set on a text input
     // field.
     hideHelperTextOnError: true,

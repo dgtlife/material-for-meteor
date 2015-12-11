@@ -52,10 +52,10 @@ $md-backdrop__bg-color = #000000
   left 0
   right 0
   position absolute
-.md-dialog__content-to-scroll:not(.scrolled-down)::before
+.md-dialog__content-to-scroll:not([data-scroll-status="scrolled-down"])::before
   content ''
   top 0
-.md-dialog__content-to-scroll:not(.scrolled-up)::after
+.md-dialog__content-to-scroll:not([data-scroll-status="scrolled-up"])::after
   content ''
   bottom 0
 .md-dialog__actions

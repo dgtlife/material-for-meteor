@@ -19,6 +19,7 @@ $md-button--radio__disabled-color = rgba(33,33,33,0.5)
   display inline-block
   padding 0.75rem
   position relative
+  $user-select-none()
   white-space nowrap
   &:focus
     outline 0
@@ -38,6 +39,7 @@ input.md-radio-button__input
   margin 0
   padding 0
   opacity 0
+  $user-select-none()
 .md-radio-button__outer
   border-color $md-button--radio__unchecked-color
   border-radius: 50%

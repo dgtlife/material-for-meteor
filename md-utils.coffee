@@ -67,12 +67,19 @@ _.extend Material.prototype,
 
   ###*
   # Monitor a scrollable content div (scroller) to determine when it is at the
-  # top and bottom of the scroll range.
+  # top and bottom of the scroll range, or somewhere in between.
   #
   # @param {Object} scroller - the scrollable content div
   # @param {string} state - the state (on|off) of the scroller monitor
+  # @param {Function} [downCallback] - the function to call when the scroller is
+  #                                    fully scrolled down
+  # @param {Function} [upCallback] - the function to call when the scroller is
+  #                                  fully scrolled up
+  # @param {Function} [scrolledCallback] - the function to call when the
+  #                                        scroller is scrolled somewhere in
+  #                                        in between
   ###
-  scrollMonitor: (scroller, state) ->
+  scrollMonitor: (scroller, state, downCallback, upCallback, scrolledCallback) ->
     "use strict"
 
     scrollHandler = (event) ->
@@ -81,14 +88,53 @@ _.extend Material.prototype,
 
       # Scrolled fully down.
       if scroller.scrollTop is 0
-        scroller.classList.add 'scrolled-down'
-      else
-        scroller.classList.remove 'scrolled-down'
+        # Reflect the status on the scroller.
+        scroller.setAttribute 'data-scroll-status', 'scrolled-down'
+        # Call the related callback, if one was supplied.
+        if downCallback
+          downCallback()
       # Scrolled fully up.
-      if scroller.scrollHeight - scroller.scrollTop is scroller.clientHeight
-        scroller.classList.add 'scrolled-up'
+      else if scroller.scrollHeight - scroller.scrollTop is scroller.clientHeight
+        # Reflect the status on the scroller.
+        scroller.setAttribute 'data-scroll-status', 'scrolled-up'
+        # Call the related callback, if one was supplied.
+        if upCallback
+          upCallback()
       else
-        scroller.classList.remove 'scrolled-up'
+        # Detect scroll direction.
+        @currentY = scroller.scrollTop
+        if @previousY
+          @currentDistance = @currentY - @previousY
+          if @previousDistance
+            if @distanceValues
+              if @distanceValues.length <= 2
+                @distanceValues.push @currentDistance
+              else
+                if @distanceValues[@distanceValues.length - 1] > @distanceValues[0]
+                  scrollDirection = 'up'
+                  #scroller.classList.add 'scrolling-up'
+                  scroller.setAttribute 'data-scroll-status', 'scrolling-up'
+                else if @distanceValues[@distanceValues.length - 1] < @distanceValues[0]
+                  scrollDirection = 'down'
+                  scroller.setAttribute 'data-scroll-status', 'scrolling-down'
+                else
+                  scrollDirection = 'unknown'
+                  scroller.setAttribute 'data-scroll-status', 'unknown'
+                # Re-initialize the distanceValues array.
+                @distanceValues = []
+            else
+              # Initialize the record of Y distances.
+              @distanceValues = []
+          else
+            # Set the initial Y distance.
+            @previousDistance = @currentDistance
+        else
+          # Set the initial Y coordinate.
+          @previousY = @currentY
+
+        # Call the related callback, if one was supplied.
+        if scrolledCallback
+          scrolledCallback scrollDirection
 
     # Turn the handler ON or OFF.
     if state is 'on'

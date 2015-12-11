@@ -1,0 +1,85 @@
+// @file Defines the styles for the MD Header.
+// @author Derek Gransaull <derek@dgtlife.com>
+// @copyright DGTLife, LLC 2015
+//
+// Created on 12/2/2015
+
+@require '../md-common'
+@require '../md-shadow/md-shadow'
+
+////////////////////    VARIABLES FOR MD HEADER STYLES    /////////////////////
+// None
+
+/////////////////////////    STYLES FOR MD HEADER    ///////////////////////////
+// Some styles are adapted from Polymer paper-toolbar.
+[data-header-panel]
+  $display-flex()
+  $flex-direction(column)
+  position relative
+  height 100%
+[data-content-panel]
+  $display-flex()
+  $flex-direction(column)
+  -ms-flex 1 1 0.000000001px
+  -webkit-flex 1
+  flex 1
+  -webkit-flex-basis 0.000000001px
+  flex-basis 0.000000001px
+  min-height 0
+  position relative
+[data-content]
+  -ms-flex 1 1 0.000000001px
+  -webkit-flex 1
+  flex 1
+  -webkit-flex-basis 0.000000001px
+  flex-basis 0.000000001px
+  overflow-y auto
+  overflow-x hidden
+  -webkit-overflow-scrolling touch
+  position relative
+[data-content][data-mode=scroll]
+  overflow visible
+[data-content-panel][data-mode=cover]
+  position static
+[data-content][data-mode=cover]
+  bottom 0
+  left 0
+  position absolute
+  right 0
+  top 0
+[data-covering-content][data-mode=cover]
+  background-color #FFFFFF
+  margin 4rem
+  $md-shadow--2dp()
+  position relative
+  z-index 2
+
+[data-header-shadow]
+  bottom -6px
+  box-shadow inset 0 5px 6px -3px rgba(0, 0, 0, 0.4)
+  height 6px
+  left 0
+  opacity 0
+  position absolute
+  right 0
+  -webkit-transition opacity 0.5s
+  transition opacity 0.5s
+
+[data-header-shadow].show-shadow
+  opacity 1
+
+// Wide screens
+@media only screen and (min-width: 600px)
+  [data-header].tall.collapsed,
+  [data-header].medium-tall.collapsed
+    height 4rem
+  [data-covering-content][data-mode=cover]
+    padding 0.5rem 1.5rem
+
+// Narrow screens
+@media only screen and (max-width: 600px)
+  [data-header].tall.collapsed,
+  [data-header].medium-tall.collapsed
+    height 3.5rem
+  [data-covering-content][data-mode=cover]
+    padding 0.5rem 1rem

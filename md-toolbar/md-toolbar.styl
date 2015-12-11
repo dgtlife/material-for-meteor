@@ -19,24 +19,18 @@ $md-toolbar__color = #FFFFFF
   background-color $md-toolbar__bg-color
   color $md-toolbar__color
   display block
-  //position relative
-  position fixed
+  position relative
   width 100%
-  z-index 12
-.md-toolbar__shadow
-  bottom -6px
-  box-shadow inset 0px 5px 6px -3px rgba(0, 0, 0, 0.4)
-  height 6px
-  position absolute
-  width 100%
+  z-index 1
 .md-toolbar.animate
   transition height 0.18s ease-in
+[data-header]
+  transition height 0.2s
 .md-toolbar__bar
   $align-items-center()
   $display-flex()
   $flex-direction-row()
   padding 0 1rem
-  //pointer-events none
   position relative
 .md-toolbar__bar.top
   position relative
@@ -57,6 +51,9 @@ $md-toolbar__color = #FFFFFF
 .md-toolbar.medium-tall .md-toolbar__bar.middle
   -webkit-transform translateY(100%)
   transform translateY(100%)
+[data-middle-bar].collapsed,
+[data-bottom-bar].collapsed
+  display none
 .md-toolbar__bar [data-icon-button][data-toolbar-menu-button]
   margin-right 1.25rem
 .md-toolbar__bar .title
@@ -64,7 +61,7 @@ $md-toolbar__color = #FFFFFF
   font-weight 400
   line-height normal
   overflow hidden
-  pointer-events none
+  //pointer-events none
   text-overflow ellipsis
   white-space nowrap
 .md-toolbar__bar.start-justified

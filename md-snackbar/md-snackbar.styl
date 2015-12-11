@@ -16,6 +16,7 @@
   transition transform 0.3s
   transform-origin bottom
   width 100%
+  z-index 2
 .md-snackbar--current
   align-items center
   background-color #323232
@@ -47,6 +48,7 @@
     $md-shadow--8dp()
   .md-snackbar__message
     display inline-block
+    overflow-x hidden
 
 ////// Narrow/phone screens, i.e below 600px
 @media only screen and (max-width: 599px)

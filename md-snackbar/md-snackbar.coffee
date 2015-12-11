@@ -96,9 +96,6 @@ _.extend Material.prototype,
             # snackbar, and does not need to be directly translated down itself.
             element.style.transform = 'translateY(0)'
             # For some reason, removal of the style is not necessary.
-            # Meteor.setTimeout ->
-            #   element.removeAttribute 'style'
-            # , 300
         , 3300
 
   ###*
