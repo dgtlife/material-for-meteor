@@ -1,5 +1,5 @@
 ###
-  @file Defines the on-render callback for MD Toolbar
+  @file Defines the API and the on-render callback for MD Toolbar
   @author Derek Gransaull <derek@dgtlife.com>
   @copyright DGTLife, LLC 2015
 
