@@ -25,6 +25,7 @@ Package.onUse(function (api) {
   api.use('templating', 'client');
   api.use('dalgard:jade', 'client');
   api.use('stylus', 'client');
+  api.use('hammer:hammer@=2.0.4_1', 'client');
   api.use('coffeescript', ['client', 'server']);
   api.use('reactive-dict', ['client', 'server']);
   api.use('underscore', ['client', 'server']);
@@ -45,6 +46,10 @@ Package.onUse(function (api) {
   api.addFiles('md-dialog/md-dialog.styl', 'client');
   api.addFiles('md-dialog/md-dialog.jade', 'client');
   api.addFiles('md-dialog/md-dialog.coffee', 'client');
+
+  api.addFiles('md-drawer/md-drawer.styl', 'client');
+  api.addFiles('md-drawer/md-drawer.jade', 'client');
+  api.addFiles('md-drawer/md-drawer.coffee', 'client');
 
   api.addFiles('md-dropdown-menu/md-dropdown-menu.styl', 'client');
   api.addFiles('md-dropdown-menu/md-dropdown-menu.jade', 'client');

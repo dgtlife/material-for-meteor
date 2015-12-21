@@ -18,12 +18,19 @@ template(name="mdToolbar")
     id=id
     class=classes
     data-header=dataHeader
+    data-drawer-toolbar=drawerToolbar
     data-top-justify=topJustify
     data-middle-justify=middleJustify
     data-bottom-justify=bottomJustify
   )
     .md-toolbar__bar.top(data-top-bar="")
+      if fillByTemplate
+        +Template.dynamic(template=topContent)
     .md-toolbar__bar.middle(data-middle-bar="")
+      if fillByTemplate
+        +Template.dynamic(template=middleContent)
     .md-toolbar__bar.bottom(data-bottom-bar="")
+      if fillByTemplate
+        +Template.dynamic(template=bottomContent)
     if includeShadow
       .md-toolbar__shadow(data-header-shadow="")

@@ -1,0 +1,46 @@
+//- @file Defines the template for MD Drawer
+    @author Derek Gransaull <derek@dgtlife.com>
+    @copyright DGTLife, LLC 2015
+
+    Created on 12/11/2015
+
+//-////////////////////////////  MD DRAWER /////////////////////////////////////
+template(name="mdDrawer")
+  .md-drawer(
+    data-drawer=position
+    id=id
+    name=name
+    class=classes
+    data-width=width
+    data-responsive-width=responsiveWidth
+  )
+    if hasHeader
+      .md-drawer__header(
+        data-drawer-header=""
+        id=headerId
+        name=headerName
+        class=headerClasses
+      )
+        +Template.dynamic(template=headerContent)
+    if hasToolbar
+      +mdToolbar(
+        drawerToolbar=""
+        id=toolbarId
+        classes=toolbarClasses
+        fillByTemplate=true
+        topContent=toolbarTopContent
+        middleContent=toolbarMiddleContent
+        bottomContent=toolbarBottomContent
+      )
+
+    if hasMenu
+      .md-drawer__menu(
+        data-drawer-menu=""
+        id=menuId
+        name=menuName
+        class=menuClasses
+      )
+        +Template.dynamic(template=menuContent)
+    else
+      +Template.dynamic(template=drawerContent)
+

@@ -139,7 +139,7 @@ _.extend Material.prototype,
     # Insert the backdrop.
     backdropType = 'default'
     if dialog.hasAttribute 'data-modal'
-      backdropType = 'modal'
+      backdropType = 'modal dialog'
     backdropOpacity = 0
     if dialog.hasAttribute 'data-backdrop-opacity'
       backdropOpacity = dialog.getAttribute 'data-backdrop-opacity'
@@ -196,6 +196,7 @@ _.extend Material.prototype,
       event.preventDefault()
 
       MD.closeDialog dialog
+
     # Unless it's a modal, attach the 'click' listener.
     if not dialog.hasAttribute 'data-modal'
       backdrop = @dqS '[data-backdrop]'
@@ -295,49 +296,6 @@ _.extend Material.prototype,
 
     dialog = @_getDialog dialogSpec
     not dialog.hasAttribute 'data-dialog-open'
-
-  ###*
-  # Insert the backdrop for a dialog.
-  #
-  # @param {string} type - (default|modal) the type of dialog the backdrop is for
-  # @param {number} opacity - the opacity of the backdrop
-  ###
-  _insertBackdrop: (type, opacity) ->
-    "use strict"
-
-    # Create the backdrop element.
-    backdrop = document.createElement 'div'
-    backdrop.setAttribute 'data-backdrop', 'true'
-    backdrop.classList.add 'md-backdrop'
-    if type is 'modal'
-      # It's for a modal dialog. Add the 'md-backdrop--modal' class.
-      backdrop.classList.add 'md-backdrop--modal'
-      # If an opacity was provided along with 'modal' type, then this opacity
-      # should override the default modal opacity of 0.75.
-      backdropStyle = 'opacity: 0.75;'
-      if opacity
-        backdropStyle = 'opacity: ' + opacity + ';'
-    else
-      # If an opacity was provided, then this opacity should override the
-      # default of 0.
-      backdropStyle = 'opacity: 0;'
-      if opacity
-        backdropStyle = 'opacity: ' + opacity + ';'
-    # Set the backdrop opacity.
-    backdrop.setAttribute 'style', backdropStyle
-    # Insert the backdrop into the DOM.
-    document.body.appendChild backdrop
-    # Display the backdrop.
-    backdrop.setAttribute 'data-backdrop-open', 'true'
-
-  ###*
-  # Remove the backdrop.
-  ###
-  _removeBackdrop: ->
-    "use strict"
-
-    backdrop = @dqS '[data-backdrop]'
-    backdrop.parentElement.removeChild(backdrop) unless not backdrop
 
   ###*
   # Maintain the relative size and positioning of the dialog as the screen size

@@ -83,7 +83,6 @@ _.extend Material.prototype,
     "use strict"
 
     scrollHandler = (event) ->
-      "use strict"
       event.preventDefault()
 
       # Scrolled fully down.
@@ -143,6 +142,70 @@ _.extend Material.prototype,
       scroller.onscroll = null
 
   ###*
+  # Insert the backdrop.
+  #
+  # @param {string} type - (default|drawer|modal dialog) the type of the backdrop
+  # @param {number} [opacity] - the optional opacity of the backdrop
+  ###
+  _insertBackdrop: (type, opacity) ->
+    "use strict"
+
+    if not @dqS '[data-backdrop]'
+      # The backdrop does not already exist, so create the backdrop element.
+      backdrop = document.createElement 'div'
+      backdrop.setAttribute 'data-backdrop', 'true'
+      backdrop.classList.add 'md-backdrop'
+      # Insert the backdrop into the DOM.
+      document.body.appendChild backdrop
+      if type is 'drawer'
+        # It's for a drawer. Add the 'md-backdrop--drawer' class.
+        backdrop.classList.add 'md-backdrop--drawer'
+        opacity = opacity or 0.3
+      else if type is 'modal dialog'
+        # It's for a modal dialog. Add the 'md-backdrop--modal' class.
+        backdrop.classList.add 'md-backdrop--modal'
+        # If an opacity was provided along with 'modal dialog' type, then this
+        # opacity should override the default modal opacity of 0.75.
+        opacity = opacity or 0.75
+      else
+        # It's for a regular dialog. Add the 'md-backdrop--dialog' class.
+        backdrop.classList.add 'md-backdrop--dialog'
+        # If an opacity was provided, then this opacity should override the
+        # default of 0.
+        opacity = opacity or 0
+      # Set final opacity.
+      backdrop.style.opacity = opacity
+      # Display the backdrop.
+      backdrop.setAttribute 'data-backdrop-open', 'true'
+
+  ###*
+  # Remove the backdrop.
+  ###
+  _removeBackdrop: ->
+    "use strict"
+
+    backdrop = @dqS '[data-backdrop]'
+    if backdrop
+      # Define a callback to remove the backdrop.
+      __removeBackdrop = ->
+        if backdrop and backdrop.parentElement
+          # It was not removed by a preceding event, so remove it.
+          backdrop.parentElement.removeChild(backdrop)
+
+      if backdrop.style.opacity is '0'
+        # There will be no transition and therefore no transitionend event, so
+        # we can just remove it immediately.
+        __removeBackdrop()
+      else
+        # Trigger opacity transition.
+        backdrop.style.opacity = '0'
+        # Wait for transition to be completed to effect a smooth removal.
+        # Set up an event listener for the end of the transition.
+        eventNames = ['transitionend', 'webkitTransitionEnd', 'mozTransitionEnd']
+        _.each eventNames, (eventName) ->
+          backdrop.addEventListener eventName, __removeBackdrop
+
+  ###*
   # Convert a NodeList to an Array.
   #
   # @param {NodeList} nodeList - the result of a document.querySelectorAll() call
@@ -164,8 +227,6 @@ _.extend Material.prototype,
     userAgentString = (window.navigator and window.navigator.userAgent) or ''
     # Define a parsing function that detects the desired cases.
     parseAgentString = (uaString) ->
-      "use strict"
-
       contains = (string) ->
         (string).test uaString
 

@@ -20,6 +20,7 @@ Material = function () {
 
   // Initialize the _config object.
   self.config = {
+
     // Indicates whether the user is using the header panel feature.
     usingHeaderPanel: false,
 
@@ -27,6 +28,7 @@ Material = function () {
     // field.
     hideHelperTextOnError: true,
 
+    // ToDo: Move asset file definitions out of config.
     // The asset file configuration for icons defined using <svg> tags.
     iconsDefinedBySvg: [],
 
@@ -68,7 +70,9 @@ _.extend(Material.prototype, {
     var self = this;
 
     // Check the configuration options supplied by the package user.
+    check(_config.usingHeaderPanel, Match.Optional(Boolean));
     check(_config.hideHelperTextOnError, Match.Optional(Boolean));
+    check(_config.elementsToMove, Match.Optional([String]));
 
     // Update the configuration values.
     self.config = _.extend(self.config, _config);

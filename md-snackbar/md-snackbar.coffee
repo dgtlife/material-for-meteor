@@ -91,11 +91,11 @@ _.extend Material.prototype,
         element.style.transform = 'translateY(' + upSpec + 'px)'
         # Let the element remain in this position for 3 sec.
         Meteor.setTimeout ->
-            # Animate the element down with the snackbar. For some reason, the
-            # element appears to be included in the downward translation of the
-            # snackbar, and does not need to be directly translated down itself.
-            element.style.transform = 'translateY(0)'
-            # For some reason, removal of the style is not necessary.
+          # Animate the element down with the snackbar. For some reason, the
+          # element appears to be included in the downward translation of the
+          # snackbar, and does not need to be directly translated down itself.
+          element.style.transform = 'translateY(0)'
+          # For some reason, removal of the style is not necessary.
         , 3300
 
   ###*

@@ -1,0 +1,83 @@
+// @file Defines the styles for the MD Drawer.
+// @author Derek Gransaull <derek@dgtlife.com>
+// @copyright DGTLife, LLC 2015
+//
+// Created on 12/11/2015
+
+@require '../md-common'
+@require '../md-shadow/md-shadow'
+
+////////////////////    VARIABLES FOR MD DRAWER STYLES    //////////////////////
+$md-drawer__bg-color = #FFFFFF
+//$md-toolbar__color =
+
+/////////////////////////    STYLES FOR MD DRAWER    //////////////////////////
+// Some styles are adapted from Polymer paper-drawer-panel. Some styles conform
+// to the metrics and keylines specs for Material Design at
+// https://www.google.com/design/spec/layout/metrics-keylines.html#metrics-keylines-keylines-spacing
+
+[data-drawer]
+  background-color $md-drawer__bg-color
+  -moz-box-sizing border-box
+  box-sizing border-box
+  display block
+  height 100%
+  position absolute
+  transition -webkit-transform ease-in-out 0.3s, width ease-in-out 0.3s
+  transition transform ease-in-out 0.3s, width ease-in-out 0.3s
+  top 0
+  z-index 10
+[data-drawer].with-shadow
+  $md-shadow--16dp()
+[data-drawer=left]
+  left 0
+  right auto
+[data-drawer=left]:not([data-opened])
+  -webkit-transform translateX(-100%)
+  transform translateX(-100%)
+[data-drawer=right]
+  left auto
+  right 0
+[data-drawer=right]:not([data-opened])
+  -webkit-transform translateX(100%)
+  transform translateX(100%)
+[data-header-panel][data-with-drawer]
+  transition padding ease-in-out 0.3s
+[data-header-panel][data-docked-left] [data-drawer-toggle=left],
+[data-header-panel][data-docked-right] [data-drawer-toggle=right]
+  display none
+[data-drawer-header]
+  $display-flex()
+  $flex-direction(column)
+[data-drawer-header] .title
+  $md-title()
+  line-height normal
+  overflow hidden
+  text-overflow ellipsis
+  white-space nowrap
+[data-drawer-toolbar] .md-toolbar__bar .title
+  margin-left 0
+
+// Wide screens
+@media only screen and (min-width: 600px)
+  .md-drawer__header,
+  [data-drawer-toolbar]
+    height 4rem
+  [data-drawer-toolbar].medium-tall,
+  .md-drawer__header.medium-tall
+    height 8rem
+  [data-drawer-toolbar].tall,
+  .md-drawer__header.tall
+    height 12rem
+
+// Narrow screens
+@media only screen and (max-width: 600px)
+  .md-drawer__header,
+  [data-drawer-toolbar]
+    height 3.5rem
+  [data-drawer-toolbar].medium-tall,
+  .md-drawer__header.medium-tall
+    height 7rem
+  [data-drawer-toolbar].tall,
+  .md-drawer__header.tall
+    height 10.5rem
