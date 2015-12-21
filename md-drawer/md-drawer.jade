@@ -32,7 +32,6 @@ template(name="mdDrawer")
         middleContent=toolbarMiddleContent
         bottomContent=toolbarBottomContent
       )
-
     if hasMenu
       .md-drawer__menu(
         data-drawer-menu=""
@@ -43,4 +42,3 @@ template(name="mdDrawer")
         +Template.dynamic(template=menuContent)
     else
       +Template.dynamic(template=drawerContent)
-
