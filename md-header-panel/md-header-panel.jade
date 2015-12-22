@@ -5,29 +5,39 @@
     Created on 12/2/2015
 
 //-/////////////////////////////  MD HEADER  ///////////////////////////////////
-//- An MD Header Panel is a containment structure for a header element, a
-    content element, and supporting elements to enable the header to exhibit
-    certain behaviors based on the scrolling status of the content. The header
-    element is usually an MD Toolbar, but it can be any element with the
-    'data-header' attribute
-
-    The containment structure is as follows:
-
-//- If 'cover' mode is not needed.
-.md-header-panel(data-header-panel="")
-  .md-header(data-header="" class="medium-tall")
-    //- The header content goes here.
-    .md-header__shadow(data-header-shadow="")
-  .md-content-panel(data-content-panel="")
-    .md-content(data-content="")
-      //- The content goes here.
-
-//- If 'cover' mode is needed.
-.md-header-panel(data-header-panel="")
-  .md-header(data-header="" class="medium-tall")
-    //- The header content goes here.
-    .md-header__shadow(data-header-shadow="")
-  .md-content-panel(data-content-panel="")
-    .md-content(data-content="")
-      .md-covering-content(data-covering-content="")
-        //- The content goes here.
+//- An MD Header Panel is a component that provides a containment structure for
+    a header element, a content element, and supporting elements to enable the
+    header to exhibit certain behaviors based on the scrolling status of the
+    content. The header element is usually an MD Toolbar, but it can be any
+    element with the 'data-header' attribute.
+template(name="mdHeaderPanel")
+  .md-header-panel(
+    data-header-panel=""
+    id=id
+    name=name
+    class=classes
+    data-mode=mode
+  )
+    if hasHeader
+      .md-header(data-header="" id=headerId class=headerClasses)
+        +Template.dynamic(template=headerContent)
+        .md-header__shadow(data-header-shadow="")
+    if hasToolbar
+      +mdToolbar(
+        dataHeader=""
+        id=toolbarId
+        name=toolbarName
+        classes=toolbarClasses
+        useBarTemplates=useBarTemplates
+        topContent=toolbarTopContent
+        middleContent=toolbarMiddleContent
+        bottomContent=toolbarBottomContent
+        withShadow=true
+      )
+    .md-content-panel(data-content-panel="" id=contentPanelId class=contentPanelClasses)
+      .md-content(data-content="" id=contentId class=contentClasses)
+        if usingCoverMode
+          .md-covering-content(data-covering-content="" id=coveringContentId class=coveringContentClasses)
+            +Template.dynamic(template=mainContent)
+        else
+          +Template.dynamic(template=mainContent)

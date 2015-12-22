@@ -56,6 +56,6 @@ _.extend Material.prototype,
 Template.mdToolbar.onRendered ->
   "use strict"
 
-  if not @data.fillByTemplate
+  if not @data.useBarTemplates
     # Import the content for this toolbar
     MD.importToolbarContent @data.id

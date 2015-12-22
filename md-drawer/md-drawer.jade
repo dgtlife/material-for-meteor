@@ -5,6 +5,9 @@
     Created on 12/11/2015
 
 //-////////////////////////////  MD DRAWER /////////////////////////////////////
+//- An MD Drawer is a component that provides a drawer panel that is initially
+    hidden off-screen, but can slide horizontally on to the screen to reveal
+    its content.
 template(name="mdDrawer")
   .md-drawer(
     data-drawer=position
@@ -26,8 +29,9 @@ template(name="mdDrawer")
       +mdToolbar(
         drawerToolbar=""
         id=toolbarId
+        name=toolbarName
         classes=toolbarClasses
-        fillByTemplate=true
+        useBarTemplates=useBarTemplates
         topContent=toolbarTopContent
         middleContent=toolbarMiddleContent
         bottomContent=toolbarBottomContent

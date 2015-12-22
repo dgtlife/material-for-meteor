@@ -21,8 +21,6 @@ _.extend Material.prototype,
       coveringContent = @eqS content, '[data-covering-content]'
 
     # Clear any settings from a previous mode.
-#    if headerPanel.hasAttribute 'data-expand-on-scroll'
-#      headerPanel.removeAttribute 'data-expand-on-scroll'
     if contentPanel.hasAttribute 'data-mode'
       contentPanel.removeAttribute 'data-mode'
     if content.hasAttribute 'data-mode'

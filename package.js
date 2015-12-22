@@ -11,7 +11,7 @@
 
 Package.describe({
   summary: 'Material is a "native" implementation of Material Design components for Meteor',
-  version: '0.6.3',
+  version: '0.6.4',
   name: 'dgtlife:material',
   git: ''
 });
@@ -56,6 +56,7 @@ Package.onUse(function (api) {
   api.addFiles('md-dropdown-menu/md-dropdown-menu.coffee', 'client');
 
   api.addFiles('md-header-panel/md-header-panel.styl', 'client');
+  api.addFiles('md-header-panel/md-header-panel.jade', 'client');
   api.addFiles('md-header-panel/md-header-panel.coffee', 'client');
 
   api.addFiles('md-icon/md-icon.styl', 'client');

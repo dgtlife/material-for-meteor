@@ -17,6 +17,8 @@
   $flex-direction(column)
   position relative
   height 100%
+[data-header]
+  position relative
 [data-content-panel]
   $display-flex()
   $flex-direction(column)
@@ -53,7 +55,6 @@
   $md-shadow--2dp()
   position relative
   z-index 2
-
 [data-header-shadow]
   bottom -6px
   box-shadow inset 0 5px 6px -3px rgba(0, 0, 0, 0.4)
@@ -64,9 +65,9 @@
   right 0
   -webkit-transition opacity 0.5s
   transition opacity 0.5s
-
 [data-header-shadow].show-shadow
   opacity 1
+  z-index 1
 
 // Wide screens
 @media only screen and (min-width: 600px)
