@@ -79,7 +79,6 @@ _.extend Material.prototype,
     #
     # Define an event handler for the click event listener
     __closeThisMenu = (event) ->
-      "use strict"
       event.preventDefault()
 
       # Close this menu.

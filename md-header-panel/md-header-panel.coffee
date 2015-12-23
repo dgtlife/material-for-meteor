@@ -57,21 +57,17 @@ _.extend Material.prototype,
       @_hideDropShadow headerShadow
 
       # A callback to hide the shadow when the content is fully scrolled down
-      onScrolledDown = ->
-        "use script"
-
+      __onScrolledDown = ->
         # Ensure that the shadow is hidden.
         MD._hideDropShadow headerShadow
 
       # A callback to show the shadow when the content is scrolling (up or down)
-      onScrolling = ->
-        "use script"
-
+      __onScrolling = ->
         # Show the drop shadow.
         MD._showDropShadow headerShadow
 
       # Turn ON a scroll monitor for the content.
-      @scrollMonitor content, 'on', onScrolledDown, null, onScrolling
+      @scrollMonitor content, 'on', __onScrolledDown, null, __onScrolling
     # Waterfall-collapse
     else if mode is 'waterfall-collapse'
       # Ensure that the shadow is initially hidden.
@@ -79,9 +75,7 @@ _.extend Material.prototype,
 
       # A callback to expand the header (if configured) and to hide the shadow
       # when the content is fully scrolled down
-      onScrolledDown = ->
-        "use script"
-
+      __onScrolledDown = ->
         if not headerPanel.hasAttribute 'data-expand-on-scroll'
           # Expand the header.
           MD._expandHeader header
@@ -92,9 +86,7 @@ _.extend Material.prototype,
         MD._hideDropShadow headerShadow
 
       # A callback to show the shadow when the content is scrolling
-      onScrolling = (direction) ->
-        "use script"
-
+      __onScrolling = (direction) ->
         # Show the drop shadow.
         MD._showDropShadow headerShadow
 
@@ -118,7 +110,7 @@ _.extend Material.prototype,
             MD._showMiddleAndBottomBars header
 
       # Turn ON a scroll monitor for the content.
-      @scrollMonitor content, 'on', onScrolledDown, null, onScrolling
+      @scrollMonitor content, 'on', __onScrolledDown, null, __onScrolling
     # Cover
     else if mode is 'cover'
       # Ensure that the 'cover' mode is set on the relevant elements:

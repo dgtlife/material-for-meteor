@@ -152,7 +152,6 @@ _.extend Material.prototype,
       # animation has ended.
       eventNames = ['animationend', 'webkitAnimationEnd', 'mozAnimationEnd']
       __onAnimationEnd = (event) ->
-        "use strict"
         event.preventDefault()
 
         # Turn OFF the opening animation.
@@ -192,7 +191,6 @@ _.extend Material.prototype,
 
     # Define an event handler to close the dialog in the non-modal cases.
     __closeThisDialog = (event) ->
-      "use strict"
       event.preventDefault()
 
       MD.closeDialog dialog
@@ -233,14 +231,12 @@ _.extend Material.prototype,
     __closeDialog = ->
       # Remove the backdrop.
       MD._removeBackdrop()
-
       # Remove the 'open' attribute.
       dialog.removeAttribute 'data-dialog-open'
       # Remove the size and position styles.
       dialog.removeAttribute 'style'
       # Turn OFF the size and position monitor. [currently ignore by ]
       MD._sizeAndPositionMonitor dialog, 'off'
-
       # If it's a scrollable dialog turn OFF the scroll monitor.
       scrollableElement = MD.eqS dialog, '.md-dialog__content-to-scroll'
       MD.scrollMonitor(scrollableElement, 'off') unless not scrollableElement
@@ -253,13 +249,10 @@ _.extend Material.prototype,
       # animation has ended.
       eventNames = ['animationend', 'webkitAnimationEnd', 'mozAnimationEnd']
       __onAnimationEnd = ->
-        "use strict"
-
         # Turn OFF the closing animation.
         dialog.removeAttribute 'data-closing'
         # Execute the closing tasks.
         __closeDialog()
-
         # Remove the event listener.
         _.each eventNames, (eventName) ->
           dialog.removeEventListener eventName, __onAnimationEnd
@@ -308,7 +301,6 @@ _.extend Material.prototype,
     "use strict"
 
     resizeHandler = (event) ->
-      "use strict"
       event.preventDefault()
 
       dialogIsClosed = not dialog.hasAttribute 'data-dialog-open'

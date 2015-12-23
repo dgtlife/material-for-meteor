@@ -203,8 +203,6 @@ _.extend Material.prototype,
 
     # This helper enables direct insertion of an MD icon using an <svg> element.
     Template.registerHelper 'mdIconSvg', ->
-      "use strict"
-
       # Check whether we have a null input, i.e no icon is supposed to appear,
       # and return early.
       if (arguments[0] is null) or (arguments[0] is '')

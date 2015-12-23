@@ -90,7 +90,6 @@ _.extend Material.prototype,
     #
     # Define the event handler for the 'touchstart' event listener.
     __closeThisMenu = (event) ->
-      "use strict"
       event.preventDefault();
 
       # Close this menu.

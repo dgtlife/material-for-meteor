@@ -75,7 +75,7 @@ _.extend Material.prototype,
         # snackbar down.
         snackbar.style.transform = 'translateY(' + downSpec + 'px)'
         Meteor.setTimeout ->
-          # Clear the current snackbar.it
+          # Clear the current snackbar.
           MD._clearDisplayedSnackbar _id
         , 300
     , 3300
@@ -135,7 +135,6 @@ _.extend Material.prototype,
     startX = startTouch.pageX
     # Define an event handler for the 'touchend' event.
     __handleSwipe = (eventEnd) ->
-      "use strict"
       eventEnd.stopImmediatePropagation()
 
       endTouch = eventEnd.changedTouches[0]
