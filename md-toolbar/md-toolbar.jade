@@ -11,7 +11,7 @@
 
     @param {string} id - the id of the toolbar element
     @param {string} [classes] - a space-separate list of classes of the toolbar
-
+    ToDo: Finish this
 template(name="mdToolbar")
   .md-toolbar(
     data-toolbar=""
@@ -24,14 +24,25 @@ template(name="mdToolbar")
     data-middle-justify=middleJustify
     data-bottom-justify=bottomJustify
   )
-    .md-toolbar__bar.top(data-top-bar="")
-      if useBarTemplates
-        +Template.dynamic(template=topContent)
-    .md-toolbar__bar.middle(data-middle-bar="")
-      if useBarTemplates
-        +Template.dynamic(template=middleContent)
-    .md-toolbar__bar.bottom(data-bottom-bar="")
-      if useBarTemplates
-        +Template.dynamic(template=bottomContent)
+    if content
+      +Template.dynamic(template=content)
+    unless content
+      .md-toolbar__bar.top(data-top-bar="")
+        if useBarTemplates
+          +Template.dynamic(template=topContent)
+      .md-toolbar__bar.middle(data-middle-bar="")
+        if useBarTemplates
+          +Template.dynamic(template=middleContent)
+      .md-toolbar__bar.bottom(data-bottom-bar="")
+        if useBarTemplates
+          +Template.dynamic(template=bottomContent)
     if withShadow
       .md-toolbar__shadow(data-header-shadow="")
+    //- If neither a complete toolbar content template nor individual bar
+        content templates is desired to provide the toolbar content, then each
+        toolbar bar can be automatically populated with the content of a div
+        with the following attributes.
+
+        For top bar:     data-content-for-toolbar=[toolbar id] data-bar="top"
+        For middle bar:  data-content-for-toolbar=[toolbar id] data-bar="top"
+        For bottom bar:  data-content-for-toolbar=[toolbar id] data-bar="top"

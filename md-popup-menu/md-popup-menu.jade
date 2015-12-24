@@ -57,7 +57,8 @@ template(name="mdPopupMenu")
         classes=menuClasses
         _popupMenu=""
         items=items
+        content=menuContent
       )
-      //- If an items helper is not used to provide the menu items, then the
-          menu items placed in a div with an attribute of
-          'data-items-for=menuId' will be automatically inserted here.
+      //- If neither an items helper nor a content template is desired to
+          provide the menu items, then the menu items placed in a div with an
+          attribute of 'data-items-for=menuId' can be automatically inserted here.

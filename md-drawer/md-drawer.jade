@@ -31,18 +31,20 @@ template(name="mdDrawer")
         id=toolbarId
         name=toolbarName
         classes=toolbarClasses
+        content=toolbarContent
         useBarTemplates=useBarTemplates
         topContent=toolbarTopContent
         middleContent=toolbarMiddleContent
         bottomContent=toolbarBottomContent
       )
     if hasMenu
-      .md-drawer__menu(
-        data-drawer-menu=""
+      +mdMenu(
         id=menuId
         name=menuName
-        class=menuClasses
+        classes="md-drawer__menu"
+        _drawerMenu=""
+        items=items
+        content=menuContent
       )
-        +Template.dynamic(template=menuContent)
     else
       +Template.dynamic(template=drawerContent)

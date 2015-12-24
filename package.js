@@ -42,6 +42,7 @@ Package.onUse(function (api) {
   api.addFiles('md-button/md-button.js', 'client');
 
   api.addFiles('md-card/md-card.styl', 'client');
+  api.addFiles('md-card/md-card.jade', 'client');
 
   api.addFiles('md-dialog/md-dialog.styl', 'client');
   api.addFiles('md-dialog/md-dialog.jade', 'client');

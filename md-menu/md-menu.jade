@@ -26,6 +26,7 @@ template(name="mdMenu")
     class=classes
     data-popup-menu=_popupMenu
     data-dropdown-menu=_dropdownMenu
+    data-drawer-menu=_drawerMenu
   )
     if items
       +each items
@@ -45,6 +46,8 @@ template(name="mdMenu")
           tooltipPosition=tooltipPosition
           tooltipText=tooltipText
         )
-    //- If an items helper is not used to provide the menu items, then the menu
-        items placed in a div with an attribute of 'data-items-for=menuId'
-        will be automatically inserted here.
+    if content
+      +Template.dynamic(template=content)
+    //- If neither an items helper nor a content template is desired to provide
+        the menu items, then the menu items placed in a div with an attribute of
+        'data-items-for=menuId' can be automatically inserted here.

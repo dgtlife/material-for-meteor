@@ -21,6 +21,8 @@ template(name="mdDialog")
     data-closing-animation=closingAnimation
   )
     .md-dialog__container(data-dialog-container="")
+      if content
+        +Template.dynamic(template=content)
       //- If a dialog content helper is not used to provide the content, then the
           content placed in a div with an attribute of 'data-content-for=id' will
           be automatically inserted here.
