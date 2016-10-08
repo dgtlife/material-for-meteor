@@ -9,10 +9,6 @@
 /*jshint -W117 */     // app- and package-scoped variables not detectable by JSHint
 /*jshint -W106 */     // we are not using camelCase for every identifier
 
-////////////////////////////////////////////////////////////////////////////////
-//////                            MATERIAL                                //////
-////////////////////////////////////////////////////////////////////////////////
-
 ///////////////////////////////  CONSTRUCTOR  //////////////////////////////////
 Material = function () {
   "use strict";
@@ -51,6 +47,9 @@ Material = function () {
 
   // The platform detection utility.
   self.platform = {};
+
+  // The temp storage location for selectable elements.
+  self.selected = {};
 };
 
 ////////////////////////////////  PROTOTYPE  ///////////////////////////////////
@@ -58,7 +57,7 @@ _.extend(Material.prototype, {
   constructor: Material,
 
   // Manage some reactive variables.
-  reactive: new ReactiveDict,
+  reactive: Meteor.isClient && new ReactiveDict,
 
   /**
    * Configure options for the Material instance.
@@ -86,6 +85,8 @@ MD = new Material();
 if (Meteor.isServer) {
   Meteor.startup(function () {
     "use strict";
+
+    //ToDo: Declare the icons needed by MD itself.
 
     // Parse the icon asset files and fill the server-side metadata array.
     MD.parseIconAssets();

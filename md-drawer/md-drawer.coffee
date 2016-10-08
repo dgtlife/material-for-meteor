@@ -223,9 +223,9 @@ _.extend Material.prototype,
       __handlePan = (event) ->
         position = event.target.getAttribute 'data-drawer'
         if (event.type is 'panleft') and (position is 'left')
-          MD.closeDrawer('left')
+          MD.closeDrawer('left', true)
         else if (event.type is 'panright') and (position is 'right')
-          MD.closeDrawer('right')
+          MD.closeDrawer('right', true)
         else
           return false
 
@@ -237,8 +237,11 @@ _.extend Material.prototype,
   # Close a drawer.
   #
   # @param {string|Object} drawerSpec - the drawer position or the drawer element
+  # @param {boolean} [keepBackdrop] - TRUE, if the backdrop should be retained,
+  #                                   e.g. for a dialog being launched from a
+  #                                   menu item on the drawer
   ###
-  closeDrawer: (drawerSpec) ->
+  closeDrawer: (drawerSpec, keepBackdrop) ->
     "use strict"
 
     drawer = @_computeDrawer drawerSpec
@@ -247,7 +250,8 @@ _.extend Material.prototype,
       return false
     drawer.removeAttribute 'data-opened'
     drawer.classList.remove 'with-shadow'
-    @_removeBackdrop()
+    @_removeBackdrop() unless keepBackdrop
+
 
   ###*
   # Compute the drawer element from a drawerSpec.
@@ -289,7 +293,7 @@ _.extend Material.prototype,
 
 
 #//////////////////    ON-RENDER CALLBACK FOR MD DRAWER    /////////////////////
-Template.mdDrawer.onRendered ->
+Template.md_drawer.onRendered ->
   "use strict"
 
   # Ensure there is a header panel present.

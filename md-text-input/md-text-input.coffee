@@ -65,18 +65,18 @@ _.extend Material.prototype,
   ###*
   # Get the value of an MD text field.
   #
-  # @param {string} selector - a selector for the text field field element
+  # @param {string} selector - a selector for the text field element
   ###
   getValueOfTextField: (selector) ->
     "use strict"
 
-    # Return the value of the text field input.
-    return @eqS(@dqS(selector), '[data-text-field-input]').value
+    # Return the value of the text field element.
+    return @dqS(selector).getAttribute 'data-value'
 
   ###*
   # Set the value of an MD text field.
   #
-  # @param {string} selector - a selector for the text field field element
+  # @param {string} selector - a selector for the text field element
   # @param {string} value - the value to be assigned to the text field
   ###
   setValueOfTextField: (selector, value) ->
@@ -86,8 +86,10 @@ _.extend Material.prototype,
       throw new Meteor.Error 'A value must be supplied; use ' +
           '\'clearValueOfTextField()\' to clear a text field, if desired.'
 
-    # Set the value of the text field input.
     field = @dqS selector
+    # Set the value on the field element.
+    field.setAttribute 'data-value', value
+    # Set the value on the input element.
     @eqS(field, '[data-text-field-input]').value = value
     # Reset the label position.
     @_setStyleOfLabelUnfocused field
@@ -95,18 +97,58 @@ _.extend Material.prototype,
   ###*
   # Clear the value of an MD text field.
   #
-  # @param {string} selector - a selector for the text field field element
+  # @param {string} selector - a selector for the text field element
   ###
   clearValueOfTextField: (selector) ->
     "use strict"
 
-    # Clear the text field input.
     field = @dqS selector
-    @eqS(field, '[data-text-field-input').value = null
+    # Clear the value on the field element.
+    field.removeAttribute 'data-value'
+    # Clear the value on the input element.
+    @eqS(field, '[data-text-field-input]').value = null
     # Reset the label position.
     label = @eqS field, '[data-label]'
     if label.classList.contains 'floating'
       label.classList.remove 'floating'
+    # Reset the label and underline style.
+    @_setLabelAndUnderlineValid field
+
+  ###*
+  # Disable an MD text field.
+  #
+  # @param {string} selector - a selector for the text field element
+  ###
+  disableTextField: (selector) ->
+    "use strict"
+
+    field = @dqS selector
+    # Disable the input element.
+    input = @eqS field, '[data-text-field-input]'
+    if not input.hasAttribute 'disabled'
+      input.setAttribute 'disabled', 'true'
+    # Add the 'disabled' class to the underline.
+    underline = @eqS field, '.md-field__underline'
+    if not underline.classList.contains 'disabled'
+      underline.classList.add 'disabled'
+
+  ###*
+  # Enable an MD text field.
+  #
+  # @param {string} selector - a selector for the text field element
+  ###
+  enableTextField: (selector) ->
+    "use strict"
+
+    field = @dqS selector
+    # Enable the input element.
+    input = @eqS field, '[data-text-field-input]'
+    if input.hasAttribute 'disabled'
+      input.removeAttribute 'disabled'
+    # Remove the 'disabled' class from the underline.
+    underline = @eqS field, '.md-field__underline'
+    if underline.classList.contains 'disabled'
+      underline.classList.remove 'disabled'
 
   ###*
   # Get the value of an MD text area.
@@ -161,6 +203,28 @@ _.extend Material.prototype,
     @setHeightOfTextarea field
 
   ###*
+  # Activate an observer in order to detect when the value of a field changes
+  # (programmatically) and set the appropriate label style.
+  #
+  ###
+  setLabelStyleOnValueChange: (field) ->
+    "use strict"
+
+    # A callback that detects (programmatic) changes in the input value and sets
+    # the style for the label accordingly.
+    __detect__value_change = (mutations) ->
+      _.each mutations, (mutation) ->
+        if mutation.attributeName is 'data-value'
+          # The value has changed. set the label style.
+          MD._setStyleOfLabelUnfocused field
+
+    # Activate an observer that listens for attribute changes in the field
+    # element.
+    _on_attribute_change = new MutationObserver __detect__value_change
+    _on_attribute_change.observe field,
+      attributes: true
+
+  ###*
   # Set the height of the text area based on its input.
   #
   # @param {Object} field - the text area field element
@@ -199,7 +263,7 @@ _.extend Material.prototype,
   #
   # @param {string} selector - a selector for the text field field element
   # @param {string} errorText - the error text to be displayed
-  # @param {boolean} [showHelperText] - if true, helper text will not be hidden
+  # @param {boolean} [showHelperText] - if TRUE, helper text will not be hidden
   #                                     on error
   ###
   setErrorOnTextInputField: (selector, errorText, showHelperText) ->
@@ -222,10 +286,10 @@ _.extend Material.prototype,
   # helper text message, e.g. Valid.
   #
   # @param {string} selector - a selector for the text field field element
-  # @param {string} [helperText] - the helper text to be displayed in place of
-  #                                the original helper text
+  # @param {string} [validMessage] - a validation message to be displayed in
+  #                                  place of the original helper text
   ###
-  clearErrorOnTextInputField: (selector, helperText) ->
+  clearErrorOnTextInputField: (selector, validMessage) ->
     "use strict"
 
     field = @dqS selector
@@ -238,37 +302,55 @@ _.extend Material.prototype,
     # Unhide the helper text, if there is any.
     helperTextElement = @eqS(field, '[data-text-input-helper-text]')
     if helperTextElement
-      if helperText
+      if validMessage
         # Optionally override the helper text, with a validation message.
-        helperTextElement.innerHTML = helperText
+        helperTextElement.innerHTML = validMessage
       # Show the helper text.
       helperTextElement.removeAttribute 'style'
 
+  ###*
+  # Reset MD text fields, i.e. clear the input value, clear any error, and
+  # restore any helper text for each field. This is a convenience function for
+  # use in resetting forms.
+  #
+  # @param {Array} fields - an array of selectors for the text fields
+  ###
+  resetTextFields: (fields) ->
+    "use strict"
+
+    _.each fields, (field) ->
+      # Clear the field.
+      MD.clearValueOfTextField field
+      # Clear any residual error.
+      MD.clearErrorOnTextInputField field
+
 #/////////////////////////////    MD TEXT FIELD    /////////////////////////////
-#///////////////////////////////////////////////////////////////////////////////
 
 #/////////////////////  EVENT HANDLERS FOR MD TEXT FIELD  //////////////////////
-Template.mdTextField.events
+Template.md_text_field.events
   'focus [data-text-field-input]': (event) ->
     "use strict"
 
-    field = event.currentTarget.parentElement.parentElement
+    field = event.currentTarget.parentElement.parentElement.parentElement
     MD._setLabelAndUnderlineFocused field
 
   'blur [data-text-field-input]': (event) ->
     "use strict"
 
-    field = event.currentTarget.parentElement.parentElement
+    field = event.currentTarget.parentElement.parentElement.parentElement
     MD._setLabelAndUnderlineUnfocused field
 
   'input [data-text-field-input]': (event) ->
     "use strict"
 
-    field = event.currentTarget.parentElement.parentElement
+    input = event.currentTarget
+    field = event.currentTarget.parentElement.parentElement.parentElement
     MD._setStyleOfNonFloatableLabelOnInput field
+    # Mirror the input value to the field value.
+    field.setAttribute('data-value', input.value)
 
 #////////////////    ON-RENDER CALLBACK FOR MD TEXT FIELD    ///////////////////
-Template.mdTextField.onRendered ->
+Template.md_text_field.onRendered ->
   "use strict"
 
   field = @firstNode
@@ -277,13 +359,17 @@ Template.mdTextField.onRendered ->
     MD.eqS(field, '[data-underline]').classList.add 'disabled'
 
   # Set the label position, after the embedded input is loaded.
-  MD.eqS(field, '[data-text-field-input]').onload = MD._setStyleOfLabelUnfocused field
+  input = MD.eqS field, '[data-text-field-input]'
+  input.onload = MD._setStyleOfLabelUnfocused field
+
+  # Activate an observer in order to detect value changes and set the label
+  # style.
+  MD.setLabelStyleOnValueChange field
 
 #/////////////////////////////    MD TEXT AREA    //////////////////////////////
-#///////////////////////////////////////////////////////////////////////////////
 
 #/////////////////////  EVENT HANDLERS FOR MD TEXT AREA  ///////////////////////
-Template.mdTextArea.events
+Template.md_text_area.events
   'focus [data-text-area-input]': (event) ->
     "use strict"
 
@@ -307,11 +393,11 @@ Template.mdTextArea.events
     MD._setStyleOfNonFloatableLabelOnInput field
     # Mirror the input into the size detector.
     MD.eqS(input.parentElement, '[data-size-detector]').innerHTML = input.value
-    # Autogrow the textarea as input wraps.
+    # Auto-grow the textarea as input wraps.
     MD.setHeightOfTextarea field
 
 #/////////////////    ON-RENDER CALLBACK FOR MD TEXT AREA    ///////////////////
-Template.mdTextArea.onRendered ->
+Template.md_text_area.onRendered ->
   "use strict"
 
   field = @firstNode

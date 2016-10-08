@@ -5,7 +5,7 @@
     Created on 11/14/2015
 
 //- The overall snackbar assembly.
-template(name="mdSnackbar")
+template(name="md_snackbar")
   .md-snackbar(data-snackbar="")
     .md-snackbar__container
       if currentSnackbar
@@ -16,11 +16,11 @@ template(name="mdSnackbar")
 template(name="_snackbar")
   .md-snackbar--current(data-current-snackbar="" id="snackbar-!{_id}")
     .md-snackbar__message(data-snackbar-message="")=message
-    if buttonLabel
-      +mdButton(
-        id=buttonId
-        name=buttonName
+    if button__label
+      +md_button(
+        id=button__id
+        name=button__name
         classes="md-snackbar__button"
-        _snackbarButton=""
-        label=buttonLabel
+        _snackbar_button=""
+        label=button__label
       )

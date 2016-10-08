@@ -7,7 +7,7 @@
 ###
 
 #//////////////////    ON-RENDER CALLBACK FOR MD SPINNER    ////////////////////
-Template.mdSpinner.onRendered ->
+Template.md_spinner.onRendered ->
   "use strict"
 
   spinner = @firstNode

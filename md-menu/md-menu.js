@@ -15,22 +15,21 @@ _.extend(Material.prototype, {
    * Import the menu items for the identified menu.
    *
    * @param {string} id - the id of the menu
-   * @private
    */
   importMenuItems: function (id) {
     "use strict";
-    var self = this;
 
-    var menu, tempMenuItemContainer, itemNodes;
+    const menu = this.dgEBI(id);
 
-    menu = self.dgEBI(id);
     // Look for any node containing menu items for this menu.
-    tempMenuItemContainer = self.dqS('[data-items-for="' + id + '"]');
+    const tempMenuItemContainer = this.dqS('[data-items-for="' + id + '"]');
     if (tempMenuItemContainer) {
-      itemNodes = self.nodeListToArray(tempMenuItemContainer.childNodes);
+      const itemNodes = this.nodeListToArray(tempMenuItemContainer.childNodes);
       _.each(itemNodes, function (itemNode) {
-        // Move each menu item node from its temporary container parent, into the
-        // new menu parent.
+        /*
+         * Move each menu item node from its temporary container parent, into
+         * the new menu parent.
+         */
         menu.appendChild(itemNode);
       });
 
@@ -45,7 +44,6 @@ _.extend(Material.prototype, {
    * an item
    *
    * @param {Object} item - the menu item that was clicked or touched
-   * @private
    */
   handleClickOnMenuItem: function (item) {
     "use strict";
@@ -62,51 +60,51 @@ _.extend(Material.prototype, {
 
   // ToDo: [keyboard navigation] ... if necessary, probably with aria?
   //
-  // _handleKeyboardNavigationOfMenu: function (event, menuItem) {
+  // _handleKeyboardNavigationOfMenu: function (event, menu_item) {
   //   "use strict";
   //   var self = this;
   //   // ToDo: clean up this method.
-  //   var menu, menuItems, index, next, previous, nextValue, previousValue;
+  //   var menu, menu_items, index, next, previous, nextValue, previousValue;
   //
-  //   menu = self.dgEBI(menuItem.menu);
-  //   menuItems = self.nodeListToArray(self.eqSA(menu, '[data-menu-item]'));
-  //   index = menuItems.indexOf(event.currentTarget);
+  //   menu = self.dgEBI(menu_item.menu);
+  //   menu_items = self.nodeListToArray(self.eqSA(menu, '[data-menu-item]'));
+  //   index = menu_items.indexOf(event.currentTarget);
   //   if (event.which === 40) {
   //     // DOWN key was pressed.
-  //     if (index === (menuItems.length - 1)) {
+  //     if (index === (menu_items.length - 1)) {
   //       next = 0;
   //     } else {
   //       next = index + 1;
   //     }
-  //     nextValue = menuItems[next].getAttribute('data-value');
+  //     nextValue = menu_items[next].getAttribute('data-value');
   //     // Clear the previously selected item.
-  //     _.each(menuItems, function (item) {
+  //     _.each(menu_items, function (item) {
   //       item.classList.remove('selected');
   //     });
   //     // Attach the '.selected' class to the selected item.
-  //     menuItems[next].classList.add('selected');
+  //     menu_items[next].classList.add('selected');
   //     // Set the "data-selected" value in the corresponding menu element.
   //     menu.setAttribute('data-selected', nextValue);
   //     // Give focus to the selected element.
-  //     menuItems[next].focus();
+  //     menu_items[next].focus();
   //   } else if (event.which === 38) {
   //     // UP key was pressed.
   //     if (index === 0) {
-  //       previous = menuItems.length - 1;
+  //       previous = menu_items.length - 1;
   //     } else {
   //       previous = index - 1;
   //     }
-  //     previousValue = menuItems[previous].getAttribute('data-value');
+  //     previousValue = menu_items[previous].getAttribute('data-value');
   //     // Clear the previously selected item.
-  //     _.each(menuItems, function (item) {
+  //     _.each(menu_items, function (item) {
   //       item.classList.remove('selected');
   //     });
   //     // Attach the '.selected' class to the selected item.
-  //     menuItems[previous].classList.add('selected');
+  //     menu_items[previous].classList.add('selected');
   //     // Set the "data-selected" value in the corresponding menu element.
   //     menu.setAttribute('data-selected', previousValue);
   //     // Give focus to the selected element.
-  //     menuItems[previous].focus();
+  //     menu_items[previous].focus();
   //   } else if (event.which === 27) {
   //     // ESC key was pressed.
   //     event.currentTarget.classList.remove('selected');
@@ -135,13 +133,13 @@ _.extend(Material.prototype, {
   },
 
   /**
-   * Compute the value of the menu element from a menuSpec value.
+   * Get the menu element from a menuSpec value.
    *
    * @param {string|Object} menuSpec - a selector for the menu element or the
    *                                   menu element itself
    * @private
    */
-  _computeMenu: function (menuSpec) {
+  _getMenu: function (menuSpec) {
     "use strict";
     var self = this;
 
@@ -177,11 +175,11 @@ _.extend(Material.prototype, {
       );
 
     // Get the menu.
-    menu = self._computeMenu(menuSpec);
+    menu = self._getMenu(menuSpec);
 
     // Add the 'selected' class to the selected item and remove the 'selected'
     // class from all other items.
-    menuItems = self.nodeListToArray(self.eqSA(menu, '[data-menu-item]'));
+    menuItems = self.eqSA(menu, '[data-menu-item]');
     _.each(menuItems, function (menuItem) {
       if (menuItem.getAttribute('data-value') === value) {
         if (! menuItem.classList.contains('selected'))
@@ -233,11 +231,12 @@ _.extend(Material.prototype, {
     var menu, menuItems;
 
     // Get the menu.
-    menu = self._computeMenu(menuSpec);
+    menu = self._getMenu(menuSpec);
     // Remove the 'selected' class from all items in this menu.
-    menuItems = self.nodeListToArray(self.eqSA(menu, '[data-menu-item]'));
+    menuItems = self.eqSA(menu, '[data-menu-item]');
     _.each(menuItems, function (item) {
-      item.classList.remove('selected');
+      if (item.classList.contains('selected'))
+        item.classList.remove('selected');
     });
     // Remove the "data-selected" attribute from the menu element.
     menu.removeAttribute('data-selected');
@@ -245,13 +244,12 @@ _.extend(Material.prototype, {
 });
 
 ///////////////////////    EVENT HANDLERS FOR MD MENU    ///////////////////////
-Template.mdMenu.events({
+Template.md_menu.events({
   // Selection of a menu item with a click.
   'click [data-menu-item]': function (event) {
     "use strict";
-    //event.preventDefault();
 
-    var hasRipple = MD.eqS(event.currentTarget, '[data-ripple]');
+    const hasRipple = MD.eqS(event.currentTarget, '[data-ripple]');
     if (hasRipple) {
       // Wait 75ms so that ripple animation is partially visible.
       Meteor.setTimeout(function () {
@@ -259,6 +257,36 @@ Template.mdMenu.events({
       }, 75);
     } else {
       MD.handleClickOnMenuItem(event.currentTarget);
+    }
+  },
+
+  // Click an list item in List-selector mode.
+  'click [data-list-item]'(event) {
+    "use strict";
+    const listItem = event.currentTarget;
+    const indicator = MD.eqS(listItem, '[data-selection-indicator]');
+    const menu = listItem.parentElement.parentElement;
+    if (listItem.classList.contains('selected')) {
+      // Un-select this item.
+      listItem.classList.remove('selected');
+      indicator.classList.add('unselected');
+      menu.removeAttribute('data-selected');
+    } else {
+      // Clear all items.
+      const listItems =
+              MD.eqSA(listItem.parentElement, '[data-list-item]');
+      _.each(listItems, function (_listItem) {
+        const _indicator = MD.eqS(_listItem, '[data-selection-indicator]');
+        if (_listItem.classList.contains('selected')) {
+          _listItem.classList.remove('selected');
+          _indicator.classList.add('unselected');
+        }
+      });
+
+      // Select the clicked item.
+      listItem.classList.add('selected');
+      indicator.classList.remove('unselected');
+      menu.setAttribute('data-selected', listItem.getAttribute('data-index'));
     }
   }
 
@@ -274,10 +302,29 @@ Template.mdMenu.events({
 });
 
 //////////////////////  ON-RENDER CALLBACK FOR MD MENU  ////////////////////////
-Template.mdMenu.onRendered(function () {
+Template.md_menu.onRendered(function () {
   "use strict";
-  var self = this;
 
-  // Import the menu items for this menu (if necessary)
-  MD.importMenuItems(self.data.id);
+  // Import any menu items for this menu.
+  MD.importMenuItems(this.data.id);
+
+  // Initialize any scrollable container.
+  const scrollableContainer = MD.eqS(this.firstNode, '[data-scrollable]');
+  if (scrollableContainer) {
+    MD.runScroller(scrollableContainer);
+  }
+
+  // Initialize any pre-selected list item.
+  if (this.firstNode.hasAttribute('data-list-selector')) {
+    const selectedIndex = this.firstNode.getAttribute('data-selected');
+    if (selectedIndex) {
+      // Set the item as selected. ToDo: Add a method for this to the API.
+      const selectedItem = MD.eqS(this.firstNode,
+        '[data-index="' + selectedIndex + '"]');
+      const indicator = MD.eqS(selectedItem, '[data-selection-indicator]');
+      selectedItem.classList.add('selected');
+      indicator.classList.remove('unselected');
+    }
+  }
 });
+

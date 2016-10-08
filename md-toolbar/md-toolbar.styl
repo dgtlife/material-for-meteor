@@ -47,6 +47,8 @@ $md-toolbar__color = #FFFFFF
   position absolute
   right 0
   z-index 0
+.md-toolbar__bar.bottom.has-tabs
+  height 3rem
 .md-toolbar.tall .md-toolbar__bar.middle,
 .md-toolbar.medium-tall .md-toolbar__bar.middle
   -webkit-transform translateY(100%)
@@ -99,6 +101,8 @@ $md-toolbar__color = #FFFFFF
     margin-left 1.5rem
   .md-toolbar__bar [data-icon-button]:last-of-type
     padding-right 0.5rem
+  [data-header-panel][data-docked-left] .md-toolbar__bar .title
+    margin-left 1.5rem
 
 // Narrow screens
 @media only screen and (max-width: 600px)

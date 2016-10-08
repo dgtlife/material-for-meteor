@@ -14,32 +14,39 @@ $md-icon__badge-bg = #C62828
 //////////////////////////    STYLES FOR MD ICON    ////////////////////////////
 .md-icon
   $align-items-center()
-  $display-inline-flex()
+  $display-flex()
   fill currentcolor
   height 1.5rem
   $justify-content-center()
   position relative
   width: 1.5rem
+  svg#super-g
+    fill transparent
 .md-icon__svg
   display block
   height 100%
   pointer-events none
   width 100%
+.md-icon__image
+  display block
+  height 1.25rem
+  padding 0.125rem
+  pointer-events none
+  width 1.25rem
 // A badged-icon
 .md-icon[data-badge-count]::after
   content attr(data-badge-count)
-  align-content center
-  align-items center
+  $align-items-center()
   background-color $md-icon__badge-bg
   border-radius 50%
   color $md-icon__badge-color
-  display flex
-  flex-direction row
-  flex-wrap wrap
+  $display-flex()
+  $flex-direction(row)
+  $flex-wrap(nowrap)
   font-size $md-icon__badge-font-size
   font-weight 500
   height 1.25rem
-  justify-content center
+  $justify-content-center()
   position absolute
   right -0.5rem
   top -0.5rem

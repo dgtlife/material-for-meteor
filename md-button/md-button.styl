@@ -11,9 +11,9 @@
 /////  MD BUTTON  /////
 $md-button__border-radius = 0.125rem
 $md-button__height = 2.25rem
-$md-button__margin = 0.25rem
-$md-button__min-width = 5.5rem          // conflicts with 4rem
-$md-button__padding = 0.5rem
+$md-button__margin = 0                  // 0.25rem
+$md-button__min-width = 4rem
+$md-button__padding = 0                 // 0.5rem
 $md-button__font-size = 0.875rem        // 14sp
 $md-button__font-weight = 500
 $md-button__color = #009688
@@ -44,11 +44,14 @@ button.md-button
   $appearance-none()
 /////  MD FLAT BUTTON (default)  /////
 .md-button
+  $align-items-center()
   background-color transparent
   border none
   border-radius $md-button__border-radius
   color $md-button__color
   cursor pointer
+  $display-flex()
+  $flex-direction(row)
   height $md-button__height
   margin 0 $md-button__margin
   min-width $md-button__min-width
@@ -102,29 +105,31 @@ button.md-button
 .md-button > .md-button__label
   font-size 0.875rem
   font-weight 500
+  line-height 0.875
   margin auto
+  padding 0 0.5rem
   pointer-events none
   text-transform uppercase
   letter-spacing 0
+.md-button[data-raised] > .md-button__label
+  padding 0 1rem
 
 // BUTTON ICON
 .md-button > .md-icon.md-button__icon
   color inherit
+  margin auto
   pointer-events none
 
 // BUTTON WITH AN ICON
 .md-button[data-with-icon]
-  $display-inline-flex()
   > .md-icon.md-button__icon
-    padding 0 0.5rem 0 0
+    padding 0 0 0 0.5rem
   > .md-icon.md-button__icon.on-firefox
     float left
-    padding 0.375rem 0.5rem 0.375rem 0
+    padding 0.375rem 0.5rem 0.375rem
   > .md-button__label.on-firefox
     float right
     padding 0.625rem 0 0.5625rem
-
-
 
 /////  MD ICON BUTTON  /////
 // (i.e. an icon as a button)
@@ -139,6 +144,8 @@ button.md-button
   &:hover,
   &:active
     background-color transparent
+.md-button[data-icon-button][disabled]
+  color $md-button--disabled__color
 .md-button[data-icon-button][data-active]
   background-color transparent
 .md-button[data-icon-button] > .md-button__icon
@@ -176,6 +183,21 @@ button.md-button
   box-shadow none
   color $md-button--disabled__color
   pointer-events none
+
+// A FAB that animates on render
+.md-button[data-fab][data-animate-on-render]
+  display none
+.md-button[data-fab][data-animate-on-render][data-animate]
+  display inline-block
+  -moz-animation render-fab 0.35s cubic-bezier(0, 0, 0.2, 1)
+  -webkit-animation render-fab 0.35s cubic-bezier(0, 0, 0.2, 1)
+  animation render-fab 0.35s cubic-bezier(0, 0, 0.2, 1)
+
+@keyframes render-fab
+  0%
+    transform: scale(0) rotate(-45deg)
+  100%
+    transform scale(1)  rotate(0deg)
 
 // SNACKBAR BUTTON
 .md-button[data-snackbar-button]

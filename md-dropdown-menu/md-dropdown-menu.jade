@@ -8,7 +8,7 @@
 //- An MD Dropdown Menu is a menu that opens from a text input and presents the
     possible values of the input as menu items. (cf. paper-dropdown-menu).
     This menu
-      * depends on the mdLabel, mdUnderline, and mdPopupMenu components
+      * depends on the md_label, md_underline, and md_popup_menu components
       * opens when the input field or the dropdown arrow is clicked
       * closes when an item is selected with a click
       * closes when the body is clicked
@@ -18,7 +18,7 @@
       * is best composed with items that do not contain ripple
       * can be assigned a preset value using the template attribute 'selected'
       ToDo: complete this
-template(name="mdDropdownMenu")
+template(name="md_dropdown_menu")
   .md-dropdown-menu(
     data-dropdown-menu=""
     id=id
@@ -28,15 +28,15 @@ template(name="mdDropdownMenu")
     data-disabled=disabled
   )
     .md-field__container
-      +mdLabel(
-        classes=labelClasses
+      +md_label(
+        classes=label__classes
         label=label
-        noLabelFloat=noLabelFloat
+        no_label_float=no_label_float
       )
       input.md-field__input.md-field__input--dropdown-menu(
         data-dropdown-input=""
-        id=inputId
-        name=inputName
+        id=input__id
+        name=input__name
         type="text"
         value=value
         disabled=disabled
@@ -45,23 +45,23 @@ template(name="mdDropdownMenu")
         readonly=readonly
         required=required
       )
-      +mdUnderline
-    if helperText
-      .md-helper-text.md-text-field__helper-text(id=helperTextId)=helperText
-    .md-error-text.md-text-field__error-text(id=errorTextId)
-    +mdPopupMenu(
+      +md_underline
+    if helper_text
+      .md-helper-text.md-text-field__helper-text(id=helper_text__id)=helper_text
+    .md-error-text.md-text-field__error-text(id=error_text__id)
+    +md_popup_menu(
       position=position
-      openingAnimation=openingAnimation
-      _dropdownPopup=""
-      _inDropdown=true
+      opening_animation=opening_animation
+      _dropdown_popup=""
+      _in_dropdown=true
       icon="arrow-drop-down"
-      iconButton=""
-      noTriggerRipple=true
-      menuId=menuId
-      menuName=menuName
-      menuClasses=menuClasses
-      items=items
+      icon_button=""
+      no_trigger_ripple=true
+      menu__id=menu__id
+      menu__name=menu__name
+      menu__classes=menu__classes
+      menu__items=menu__items
     )
       //- If an items helper is not used to provide the menu items, then the
           menu items placed in a div with an attribute of
-          'data-items-for=menuId' will be automatically inserted here.
+          'data-items-for=menu__id' will be automatically inserted here.

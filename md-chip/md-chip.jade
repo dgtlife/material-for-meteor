@@ -1,0 +1,21 @@
+//- @file Defines the template for MD Chip.
+    @author Derek Gransaull <derek@dgtlife.com>
+    @copyright DGTLife, LLC 2016
+
+    Created on 7/20/16
+
+//-/////////////////////////////  MD CHIP  /////////////////////////////////////
+template(name="md_chip")
+  .md-chip(
+    data-chip=""
+    id=id
+    class=classes
+  )
+    if icon
+      +md_icon(icon=icon classes="md-chip__icon")
+    if image
+      +md_icon(image=image classes="md-chip__image")
+    .md-chip__label(class=label__classes)=label
+    if deletable
+      +md_icon(icon="close-circle" classes="md-chip__delete")
+

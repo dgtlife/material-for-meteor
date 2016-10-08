@@ -74,23 +74,34 @@ _.extend Material.prototype,
   # Set the image as a background image for the .md-image, and apply the sizing.
   #
   # @param {Object} image - the MD Image element
-  # @param {string} data - data from the mdImage template
+  # @param {string} [data] - data from the md_image template
   # @private
   ###
-  _setImageSizing: (image, data) ->
+  _setImageAsBackground: (image, data) ->
     "use strict"
 
+    if not data
+      # The image is being re-rendered after a change in data-bg-url. Compose
+      # the data object from the values in the changed element.
+      data = {}
+      data.height = image.getAttribute 'data-height'
+      data.width = image.getAttribute 'data-width'
+      data.bg_url = image.getAttribute 'data-bg-url'
+      data.sizing = image.getAttribute 'data-sizing'
+    # Compose a style string.
     imageStyle = 'height: ' + data.height + 'px; ' +
                  'width: ' + data.width + 'px; ' +
-                 'background-image: url(' + data.src + '); ' +
+                 'background-image: url(' + data.bg_url + '); ' +
                  'background-position: 50% 50%; ' +
                  'background-repeat: no-repeat; ' +
                  'background-size: ' + data.sizing + ';'
+    # Set the style attribute.
     image.setAttribute 'style', imageStyle
 
 #/////////////////////  ON-RENDER CALLBACK FOR MD IMAGE  ///////////////////////
-Template.mdImage.onRendered ->
+Template.md_image.onRendered ->
   "use strict"
+  instance = @
 
   image = @firstNode
   placeholder = MD.eqS image, '[data-image-placeholder]'
@@ -99,11 +110,35 @@ Template.mdImage.onRendered ->
   MD._setPlaceholderImage image, placeholder
   if @data.sizing
     # The image will be a background to the .md-image div.
-    MD._setImageSizing(image, @data)
-    if image.hasAttribute 'data-fade'
-      placeholder.classList.add 'faded-out'
-    else
-      placeholder.setAttribute 'style', 'opacity: 0;'
+    #
+    # A function to render the image as specified in the 'data-bg-url' attribute
+    # into the background with appropriate sizing.
+    __renderImage = (mdImage, templateData) ->
+      MD._setImageAsBackground(mdImage, templateData)
+      mdImagePlaceholder = MD.eqS mdImage, '[data-image-placeholder]'
+      if mdImage.hasAttribute 'data-fade'
+        mdImagePlaceholder.classList.add 'faded-out'
+      else
+        mdImagePlaceholder.setAttribute 'style', 'opacity: 0;'
+    # The initial render.
+    __renderImage image, instance.data
+
+    # Make the image reactive to a change in the values of template data. First,
+    # define a function that detects the relevant changes and calls
+    # __renderImage.
+    __detectRelevantAttributeChanges = (mutations) ->
+      _.each mutations, (mutation) ->
+        if (mutation.attributeName is 'data-bg-url') or
+          (mutation.attributeName is 'data-height') or
+          (mutation.attributeName is 'data-width') or
+          (mutation.attributeName is 'data-sizing')
+            __renderImage(mutation.target)
+    # Define a mutation observer for attribute changes on the image that calls
+    # the detector function.
+    if not onAttributeChange
+      onAttributeChange = new MutationObserver __detectRelevantAttributeChanges
+      onAttributeChange.observe image,
+        attributes: true
   else
     # The image will be rendered normally.
     MD.eqS(image, '[data-image-img]').onload = ->

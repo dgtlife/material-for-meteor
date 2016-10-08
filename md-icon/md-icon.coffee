@@ -45,6 +45,8 @@ _.extend Material.prototype,
           fileSpec = Assets.getText 'md-icon/md-icon-notification.svg'
         else if config.set is 'social'
           fileSpec = Assets.getText 'md-icon/md-icon-social.svg'
+        else if config.set is 'extras'
+          fileSpec = Assets.getText 'md-icon/md-icon-extras.svg'
         else
           throw new Meteor.Error 'The iconset specified is not included in this package.'
         # Compose the asset config
@@ -169,9 +171,8 @@ _.extend Material.prototype,
                   content: content
       # Assign the metadata to server-side storage.
       @__iconMetadata = iconMetadata
-      # Set a server-side reactive variable to indicate that icon metadata is
-      # ready.
-      @reactive.set '__iconMetadataReady', true
+      console.log 'MD Icon: metadata for ' + iconMetadata.length +
+          ' icons is ready.'
 
   ###*
   # Loads a copy of icon metadata from the server to the client.
@@ -202,7 +203,7 @@ _.extend Material.prototype,
     "use strict"
 
     # This helper enables direct insertion of an MD icon using an <svg> element.
-    Template.registerHelper 'mdIconSvg', ->
+    Template.registerHelper 'md_icon__svg', ->
       # Check whether we have a null input, i.e no icon is supposed to appear,
       # and return early.
       if (arguments[0] is null) or (arguments[0] is '')
@@ -220,11 +221,18 @@ _.extend Material.prototype,
 
         # then build the HTML for this MD icon using an <svg> element wrapping a
         # <g> element. This enables support for composite SVGs.
-        svgIconHTML = '<svg id="' + id + '" ' +
-                      'class="md-icon__svg" viewBox="0 0 24 24" ' +
-                      'preserveAspectRatio="xMidYMid meet">' +
-                      '<g>' + icon.content + '</g>' +
-                      '</svg>'
+        if id is 'super-g'
+          svgIconHTML = '<svg id="' + id + '" ' +
+            'class="md-icon__svg" viewBox="-3 -3 24 24" ' +
+            'preserveAspectRatio="xMidYMid meet">' +
+            '<g>' + icon.content + '</g>' +
+            '</svg>'
+        else
+          svgIconHTML = '<svg id="' + id + '" ' +
+                        'class="md-icon__svg" viewBox="0 0 24 24" ' +
+                        'preserveAspectRatio="xMidYMid meet">' +
+                        '<g>' + icon.content + '</g>' +
+                        '</svg>'
 
         Spacebars.SafeString svgIconHTML
 
@@ -309,7 +317,7 @@ _.extend Material.prototype,
 
     check string, String
 
-    string.replace '_', '-'
+    string.replace /_/g, '-'
 
   ###*
   # Customize the target symbol id based on properties in the config. The
@@ -363,6 +371,6 @@ if Meteor.isServer
       @unblock();
 
       # Once icon metadata is ready on the server, send it to the client.
-      if MD.reactive.get '__iconMetadataReady'
+      if MD.__iconMetadata
         MD.__iconMetadata
   )

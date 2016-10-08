@@ -10,7 +10,7 @@
     header to exhibit certain behaviors based on the scrolling status of the
     content. The header element is usually an MD Toolbar, but it can be any
     element with the 'data-header' attribute.
-template(name="mdHeaderPanel")
+template(name="md_header_panel")
   .md-header-panel(
     data-header-panel=""
     id=id
@@ -18,27 +18,26 @@ template(name="mdHeaderPanel")
     class=classes
     data-mode=mode
   )
-    if hasHeader
-      .md-header(data-header="" id=headerId class=headerClasses)
-        +Template.dynamic(template=headerContent)
+    if has_header
+      .md-header(data-header="" id=header__id class=header__classes)
+        +Template.dynamic(template=header__content)
         .md-header__shadow(data-header-shadow="")
-    if hasToolbar
-      +mdToolbar(
-        dataHeader=""
-        id=toolbarId
-        name=toolbarName
-        classes=toolbarClasses
-        content=toolbarContent
-        useBarTemplates=useBarTemplates
-        topContent=toolbarTopContent
-        middleContent=toolbarMiddleContent
-        bottomContent=toolbarBottomContent
-        withShadow=true
+    if has_toolbar
+      +md_toolbar(
+        data_header=""
+        id=toolbar__id
+        name=toolbar__name
+        classes=toolbar__classes
+        content=toolbar__content
+        use_bar_templates=use_bar_templates
+        top_content=toolbar__top_content
+        middle_content=toolbar__middle_content
+        bottom_content=toolbar__bottom_content
+        with_shadow=true
       )
-    .md-content-panel(data-content-panel="" id=contentPanelId class=contentPanelClasses)
-      .md-content(data-content="" id=contentId class=contentClasses)
-        if usingCoverMode
-          .md-covering-content(data-covering-content="" id=coveringContentId class=coveringContentClasses)
-            +Template.dynamic(template=mainContent)
-        else
-          +Template.dynamic(template=mainContent)
+    .md-content(data-content="" id=content__id class=content__classes)
+      if using_cover_mode
+        .md-covering-content(data-covering-content="" id=covering_content__id class=covering_content__classes)
+          +Template.dynamic(template=content)
+      else
+        +Template.dynamic(template=content)

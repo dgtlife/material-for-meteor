@@ -60,6 +60,7 @@ _.extend Material.prototype,
     else
       dialogStyle = 'opacity: 0; ' +
                     'display: block; ' +
+                    'height: auto;' +
                     'width: ' + dialogWidth + 'px;'
       dialog.setAttribute 'style', dialogStyle
       dialogHeight = dialog.getBoundingClientRect().height
@@ -71,30 +72,14 @@ _.extend Material.prototype,
     top = (window.innerHeight - dialogHeight) / 2
 
     # Set the final position of the dialog.
-    dialogStyle = 'height: ' + dialogHeight + 'px; ' +
+    dialogStyle = 'height: auto; ' +
                   'width: ' + dialogWidth + 'px; ' +
                   'top: ' + top + 'px; ' +
                   'left: ' + left + 'px;'
     dialog.setAttribute 'style', dialogStyle
 
   ###*
-  # If it is a scrollable dialog, scroll content to the top of its range and
-  # turn ON the scroll monitor.
-  #
-  # @param {Object} scrollableElement - the scrollable content element in the
-  #                                     dialog
-  ###
-  _initializeScroller: (scrollableElement) ->
-    "use strict"
-
-    # Scroll fully down.
-    scrollableElement.scrollTop = 0
-    scrollableElement.classList.add 'scrolled-down'
-    # Turn ON the scroll monitor.
-    @scrollMonitor scrollableElement, 'on'
-
-  ###*
-  # Compute the value of the dialog element from a dialogSpec value.
+  # Get the dialog element from a dialogSpec value.
   #
   # @param {(string|Object)} dialogSpec - a selector for the dialog element or
   #                                       the dialog element itself
@@ -170,10 +155,10 @@ _.extend Material.prototype,
     # master switch that makes everything happen).
     dialog.setAttribute 'data-dialog-open', 'true'
 
-    # If it's a scrollable dialog, scroll to the top, and turn ON the scroll
-    # monitor.
+    # If it's a scrollable dialog, initialize the scroller, then turn ON the
+    # scroll monitor.
     scrollableElement = @eqS dialog, '.md-dialog__content-to-scroll'
-    @_initializeScroller(scrollableElement) unless not scrollableElement
+    @runScroller(scrollableElement) unless not scrollableElement
 
     # Turn ON the size and position monitor.
     @_sizeAndPositionMonitor dialog, 'on'
@@ -295,7 +280,7 @@ _.extend Material.prototype,
   # changes.
   #
   # @param {Object} dialog - the dialog element
-  # @param {string} state - the state (on|off) of the scroller monitor
+  # @param {string} state - the state (on|off) of the resize monitor
   ###
   _sizeAndPositionMonitor: (dialog, state) ->
     "use strict"
@@ -309,13 +294,58 @@ _.extend Material.prototype,
     if state is 'on'
       window.addEventListener 'resize', resizeHandler
     else
-      # [Currently, this does not remove the listener]
+      # [Currently, this technique does not remove the listener]
       # ToDo: try some other method of listener removal.
       window.removeEventListener 'resize', resizeHandler
 
+  ###*
+  # Reposition/refit a dialog (on demand) after its width and or height have
+  # been altered.
+  #
+  # @param {(string|Object)} dialogSpec - a selector for the dialog element or
+  #                                       the dialog element itself
+  ###
+  refit__dialog: (dialogSpec) ->
+    "use strict"
+
+    dialog = @_getDialog dialogSpec
+    @_setDialogSizeAndPosition dialog
+
+  ###*
+  # Open the full-screen dialog (mobile only).
+  ###
+  openDialogFs: ->
+    "use strict"
+
+    @dqS('[data-dialog-fs]').setAttribute 'data-dialog-open', true
+
+  ###*
+  # Open the full-screen dialog (mobile only).
+  ###
+  isDialogFsOpen: ->
+    "use strict"
+
+    dialogFs = @dqS('[data-dialog-fs]')
+    dialogFs.hasAttribute 'data-dialog-open'
+
+  ###*
+  # Close the full-screen dialog (mobile only).
+  ###
+  closeDialogFs: ->
+    "use strict"
+
+    @dqS('[data-dialog-fs]').removeAttribute 'data-dialog-open'
+
 #////////////////////  ON-RENDER CALLBACK FOR MD DIALOG  ///////////////////////
-Template.mdDialog.onRendered ->
+Template.md_dialog.onRendered ->
   "use strict"
 
   # Import the content for this dialog (if necessary)
   MD.importDialogContent @data.id
+
+#///////////////////    EVENT HANDLERS FOR MD DIALOG FS    /////////////////////
+Template.md_dialog_fs.events
+  'click [data-dialog-close-button]': ->
+    "use strict"
+
+    MD.closeDialogFs()

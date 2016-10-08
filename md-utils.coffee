@@ -28,7 +28,7 @@ _.extend Material.prototype,
   dqS: (selector) ->
     "use strict"
 
-    document.querySelector selector
+    document.querySelector(selector)
 
   ###*
   # An alias for the lengthy document.querySelectorAll().
@@ -39,7 +39,7 @@ _.extend Material.prototype,
   dqSA: (selector) ->
     "use strict"
 
-    document.querySelectorAll selector
+    document.querySelectorAll(selector)
 
   ###*
   # An alias for the lengthy element.querySelector().
@@ -51,7 +51,7 @@ _.extend Material.prototype,
   eqS: (element, selector) ->
     "use strict"
 
-    element.querySelector selector
+    element.querySelector(selector)
 
   ###*
   # An alias for the lengthy element.querySelectorAll().
@@ -63,7 +63,7 @@ _.extend Material.prototype,
   eqSA: (element, selector) ->
     "use strict"
 
-    element.querySelectorAll selector
+    element.querySelectorAll(selector)
 
   ###*
   # Monitor a scrollable content div (scroller) to determine when it is at the
@@ -77,7 +77,7 @@ _.extend Material.prototype,
   #                                  fully scrolled up
   # @param {Function} [scrolledCallback] - the function to call when the
   #                                        scroller is scrolled somewhere in
-  #                                        in between
+  #                                        between
   ###
   scrollMonitor: (scroller, state, downCallback, upCallback, scrolledCallback) ->
     "use strict"
@@ -85,16 +85,14 @@ _.extend Material.prototype,
     scrollHandler = (event) ->
       event.preventDefault()
 
-      # Scrolled fully down.
       if scroller.scrollTop is 0
-        # Reflect the status on the scroller.
+        # Scrolled fully down. Reflect the status on the scroller.
         scroller.setAttribute 'data-scroll-status', 'scrolled-down'
         # Call the related callback, if one was supplied.
         if downCallback
           downCallback()
-      # Scrolled fully up.
       else if scroller.scrollHeight - scroller.scrollTop is scroller.clientHeight
-        # Reflect the status on the scroller.
+        # Scrolled fully up. Reflect the status on the scroller.
         scroller.setAttribute 'data-scroll-status', 'scrolled-up'
         # Call the related callback, if one was supplied.
         if upCallback
@@ -111,7 +109,6 @@ _.extend Material.prototype,
               else
                 if @distanceValues[@distanceValues.length - 1] > @distanceValues[0]
                   scrollDirection = 'up'
-                  #scroller.classList.add 'scrolling-up'
                   scroller.setAttribute 'data-scroll-status', 'scrolling-up'
                 else if @distanceValues[@distanceValues.length - 1] < @distanceValues[0]
                   scrollDirection = 'down'
@@ -150,32 +147,45 @@ _.extend Material.prototype,
   _insertBackdrop: (type, opacity) ->
     "use strict"
 
-    if not @dqS '[data-backdrop]'
-      # The backdrop does not already exist, so create the backdrop element.
+    if @dqS '[data-backdrop]'
+      # The backdrop element already exists.
+      backdrop = @dqS '[data-backdrop]'
+    else
+      # The backdrop does not already exist, so create it.
       backdrop = document.createElement 'div'
       backdrop.setAttribute 'data-backdrop', 'true'
       backdrop.classList.add 'md-backdrop'
       # Insert the backdrop into the DOM.
       document.body.appendChild backdrop
-      if type is 'drawer'
-        # It's for a drawer. Add the 'md-backdrop--drawer' class.
-        backdrop.classList.add 'md-backdrop--drawer'
-        opacity = opacity or 0.3
-      else if type is 'modal dialog'
-        # It's for a modal dialog. Add the 'md-backdrop--modal' class.
-        backdrop.classList.add 'md-backdrop--modal'
-        # If an opacity was provided along with 'modal dialog' type, then this
-        # opacity should override the default modal opacity of 0.75.
-        opacity = opacity or 0.75
-      else
-        # It's for a regular dialog. Add the 'md-backdrop--dialog' class.
-        backdrop.classList.add 'md-backdrop--dialog'
-        # If an opacity was provided, then this opacity should override the
-        # default of 0.
-        opacity = opacity or 0
-      # Set final opacity.
-      backdrop.style.opacity = opacity
-      # Display the backdrop.
+
+    if type is 'drawer'
+      # It's for a drawer. Ensure the 'md-backdrop--drawer' class is present.
+      if not backdrop.classList.contains 'md-backdrop--drawer'
+        backdrop.className = ''
+        backdrop.classList.add 'md-backdrop', 'md-backdrop--drawer'
+      opacity = opacity or 0.3
+    else if type is 'modal dialog'
+      # It's for a modal dialog. Ensure the 'md-backdrop--modal' class is
+      # present.
+      if not backdrop.classList.contains 'md-backdrop--modal'
+        backdrop.className = ''
+        backdrop.classList.add 'md-backdrop', 'md-backdrop--modal'
+      # If an opacity was provided along with 'modal dialog' type, then this
+      # opacity should override the default modal opacity of 0.75.
+      opacity = opacity or 0.75
+    else
+      # It's for a regular dialog. Ensure the 'md-backdrop--dialog' class, is
+      # present.
+      if not backdrop.classList.contains 'md-backdrop--dialog'
+        backdrop.className = ''
+        backdrop.classList.add 'md-backdrop', 'md-backdrop--dialog'
+      # If an opacity was provided, then this opacity should override the
+      # default of 0.
+      opacity = opacity or 0
+    # Set final opacity.
+    backdrop.style.opacity = opacity
+    # Display the backdrop, if necessary.
+    if not backdrop.hasAttribute 'data-backdrop-open'
       backdrop.setAttribute 'data-backdrop-open', 'true'
 
   ###*

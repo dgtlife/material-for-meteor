@@ -1,0 +1,45 @@
+// @file Defines the styles for the MD chip.
+// @author Derek Gransaull <derek@dgtlife.com>
+// @copyright DGTLife, LLC 2015
+//
+// Created on 7/20/2016
+
+@require '../md-common'
+
+/////////////////    VARIABLES FOR MD RADIO BUTTON STYLES    ///////////////////
+$md-chip__background-color = #EEEEEE
+$md-chip__icon-color = rgba(0,0,0,0.54)
+$md-chip__label-color = rgba(0,0,0,0.54)
+$md-chip__delete-button-color = rgba(0,0,0,0.28)
+
+///////////////////////////    STYLES FOR MD CHIP    ///////////////////////////
+.md-chip
+  $align-items-center()
+  background-color $md-chip__background-color
+  border-radius 1rem
+  $display-flex()
+  $flex-direction(row)
+  height 2rem
+.md-icon.md-chip__icon,
+.md-icon.md-chip__image
+  border-radius 50%
+  height 2rem
+  width 2rem
+.md-icon.md-chip__icon
+  color $md-chip__icon-color
+.md-chip__label
+  color $md-chip__label-color
+  font-size 0.8125rem
+  line-height 0.8125
+  padding 0 0.75rem
+.md-chip__delete
+  color $md-chip__delete-button-color
+  height 1.5rem
+  margin 0 0.25rem 0 0
+  width 1.5rem
+.md-chip__label.with-icon
+  padding 0 0.75rem 0 0.5rem
+.md-chip__label.with-delete
+  padding 0 0.25rem 0 0.75rem
+.md-chip__label.with-icon.with-delete
+  padding 0 0.25rem 0 0.5rem

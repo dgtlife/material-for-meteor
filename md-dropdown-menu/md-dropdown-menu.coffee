@@ -67,8 +67,8 @@ _.extend Material.prototype,
 
     # Set an animation attribute, if necessary.
     if menu.parentElement.hasAttribute 'data-opening-animation'
-      openingAnimation = menu.parentElement.getAttribute 'data-opening-animation'
-      menu.setAttribute 'data-opening-animation', openingAnimation
+      opening_animation = menu.parentElement.getAttribute 'data-opening-animation'
+      menu.setAttribute 'data-opening-animation', opening_animation
 
     # Set the 'data-menu-open' attribute to indicate that the menu is open.
     menu.setAttribute 'data-menu-open', 'true'
@@ -80,6 +80,13 @@ _.extend Material.prototype,
     # Define an event handler for the click event listener
     __closeThisMenu = (event) ->
       event.preventDefault()
+
+      # Ensure that the trigger was not clicked.
+      target = event.target
+      if target.hasAttribute('data-trigger-target') and
+        (target.getAttribute('data-trigger-target') is menu.id)
+          # We have clicked the dropdown trigger of an open menu. Do not close.
+          return false
 
       # Close this menu.
       MD.closePopupMenu menu
@@ -160,7 +167,7 @@ _.extend Material.prototype,
     @clearValueOfMenu embeddedMenu
 
 #//////////////////  ON-RENDER CALLBACK FOR MD DROPDOWN MENU  //////////////////
-Template.mdDropdownMenu.onRendered ->
+Template.md_dropdown_menu.onRendered ->
   "use strict"
 
   dropdownMenu = @firstNode

@@ -1,0 +1,78 @@
+// @file Defines the styles for the MD Tabs.
+// @author Derek Gransaull <derek@dgtlife.com>
+// @copyright DGTLife, LLC 2016
+//
+// Created on 6/26/2016
+
+@require '../md-common'
+
+/////////////////////    VARIABLES FOR MD TABS STYLES    ///////////////////////
+
+
+/////////////////////////    STYLES FOR MD TABS    /////////////////////////////
+.md-tabs
+  width 100%
+.md-tabs__tab-bar
+  $display-flex()
+  $flex-direction(row)
+  $justify-content-start()
+  position relative
+.md-tab
+  cursor pointer
+  height 3rem
+  max-width 16.5rem
+  overflow hidden
+  position relative
+.md-tab__label
+  color rgba(255,255,255,0.7)
+  font-size 0.875rem
+  padding 0.75rem 0.75rem 1.25rem
+  text-align center
+  text-transform uppercase
+.md-tab[data-selected] .md-tab__label
+  color rgba(255,255,255,1)
+.md-tabs__indicator
+  background-color #FFFF8D
+  bottom 0
+  height 0.125rem
+  left 0
+  position absolute
+  right 0
+.md-tabs[data-slide] .md-tabs__indicator,
+.md-tabs[data-slide=true] .md-tabs__indicator
+  transition margin 0.25s
+
+////// On Desktop/tablet
+.app.desktop
+  .md-tab
+    min-width 10rem
+
+////// Desktop: above 600px
+@media only screen and (min-width: 600px)
+  .app.desktop
+    .md-toolbar__bar.bottom .md-tabs
+      padding 0 0 0 3.5rem
+    .md-tab__label
+      padding 0.75rem 1.5rem 1.25rem
+
+//// Desktop: below 600px, i.e. NARROW DESKTOP
+@media only screen and (max-width: 599px)
+  .app.desktop
+    .md-toolbar__bar.bottom .md-tabs
+      padding 0
+
+////// On iPhone
+.app.iphone,
+.app.iphone--320
+  .md-toolbar__bar.bottom .md-tabs
+    padding 0 0 0 2.75rem
+  .md-tab
+    min-width 4.5rem
+
+////// On Android phone
+.app.android,
+.app.android--320
+  .md-toolbar__bar.bottom .md-tabs
+    padding 0 0 0 2.75rem
+  .md-tab
+    min-width 4.5rem

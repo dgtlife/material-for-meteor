@@ -7,11 +7,12 @@
 @require '../md-common'
 
 ////////////////////////    VARIABLES FOR MD LABEL    //////////////////////////
-$md-label__color = rgba(0, 0, 0, 0.54)
-$md-field__label__color = #757575
+$md-label__color = rgba(0,0,0,0.38)
+$md-field__label__color = rgba(0,0,0,0.38)
 $md-field__label--focused__color = #009688
 $md-field__label--errored__color = #DD2C00
 $md-field__label__font-size = 0.75rem
+$md-field__label__line-height = normal
 
 /////////////////////////    STYLES FOR MD LABEL    ////////////////////////////
 // Static general purpose label
@@ -21,8 +22,6 @@ $md-field__label__font-size = 0.75rem
 // Floatable field label
 .md-field__spacer--floating-label
   height 1.375rem
-//.md-field__spacer--floating-label[data-no-float]
-//  height 0.75rem
 .md-field__label
   color $md-field__label__color
   font-weight 400
@@ -40,6 +39,7 @@ $md-field__label__font-size = 0.75rem
   display block
   font-size $md-field__label__font-size
   left 0
+  line-height $md-field__label__line-height
   overflow hidden
   padding 0.5rem 0 0
   right 0
@@ -49,7 +49,5 @@ $md-field__label__font-size = 0.75rem
   color $md-field__label--focused__color
 .md-field__label.errored.floating
   color $md-field__label--errored__color
-//.md-field__label[data-no-float]
-//  top 1.25rem
 .md-field__label.hide-label
   display none

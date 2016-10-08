@@ -18,8 +18,27 @@ $md-menu__item--selected__bg-color = #EAEAEA
   color $md-menu__color
   display block
   padding 0.5rem 0
+  position relative
 .md-item
   &:focus
     outline 0
 .md-item[data-menu-item].selected
   background-color $md-menu__item--selected__bg-color
+.md-menu__list-item
+  cursor default
+  $display-flex()
+  $flex-direction(row)
+  padding 0 1rem
+  &:hover
+    background-color #F5F5F5
+.list-item--md-menu__selection-indicator
+  padding 1.5rem 2rem 1.5rem 0
+.list-item--md-menu__selection-indicator.unselected
+  visibility hidden
+.list-item--md-menu__content
+  $display-flex()
+  $flex-direction(column)
+  $justify-content-center()
+.md-menu__menu-container[data-scrollable],
+.md-menu__list-container[data-scrollable]
+  overflow-y scroll

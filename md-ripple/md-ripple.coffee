@@ -59,22 +59,32 @@ _.extend Material.prototype,
     target.height = ripple.parentElement.offsetHeight
     target.width = ripple.parentElement.offsetWidth
     # The style for this ripple is not yet set.
-    if ripple.parentElement.parentElement.hasAttribute('data-radio-button')
-      # It's an MD radio button. Set the pre-determined size and position of
-      # its ripple.
-      rippleStyle = 'width: 3rem; height: 3rem; top: -1rem; left: -1rem;'
-    else if ripple.parentElement.hasAttribute('data-fab')
-      if ripple.parentElement.getAttribute('data-fab') is 'mini'
-        # It's an MD mini FAB. Set a pre-determined size and position for its
+    if ripple and ripple.parentElement and
+      ripple.parentElement.parentElement and
+      ripple.parentElement.parentElement.hasAttribute('data-radio-button')
+        # It's an MD Radio button. Set the pre-determined size and position of
+        # its ripple.
+        rippleStyle = 'width: 3rem; height: 3rem; top: -1rem; left: -1rem;'
+    else if ripple and ripple.parentElement and
+      ripple.parentElement.parentElement and
+      ripple.parentElement.parentElement.hasAttribute('data-checkbox')
+        # It's an MD Checkbox. Set the pre-determined size and position of its
         # ripple.
-        rippleStyle = 'width: 2.5rem; height: 2.5rem; top: 0; left: 0;'
-      else
-        # It's an MD FAB. Set a pre-determined size and position for its ripple.
-        rippleStyle = 'width: 3.5rem; height: 3.5rem; top: 0; left: 0;'
-    else if ripple.parentElement.hasAttribute('data-icon-button')
-      # It's an Icon Button. Set a pre-determined size and position for its ripple.
-      rippleStyle = 'width: 3rem; height: 3rem; top: 0; left: 0;'
-    else if ripple.hasAttribute('data-offset')
+        rippleStyle = 'width: 3rem; height: 3rem; top: -0.75rem; left: -0.75rem;'
+    else if ripple and ripple.parentElement and
+      ripple.parentElement.hasAttribute('data-fab')
+        if ripple.parentElement.getAttribute('data-fab') is 'mini'
+          # It's an MD mini FAB. Set a pre-determined size and position for its
+          # ripple.
+          rippleStyle = 'width: 2.5rem; height: 2.5rem; top: 0; left: 0;'
+        else
+          # It's an MD FAB. Set a pre-determined size and position for its ripple.
+          rippleStyle = 'width: 3.5rem; height: 3.5rem; top: 0; left: 0;'
+    else if ripple and ripple.parentElement and
+      ripple.parentElement.hasAttribute('data-icon-button')
+        # It's an Icon Button. Set a pre-determined size and position for its ripple.
+        rippleStyle = 'width: 3rem; height: 3rem; top: 0; left: 0;'
+    else if ripple and ripple.hasAttribute('data-offset')
       # It's an element with an offset ripple. Compute the ripple style.
       rippleStyle = @_computeRippleStyle 'offset', target, eventX, eventY
     else
@@ -127,7 +137,7 @@ _.extend Material.prototype,
     return rippleStyle
 
 #////////////////////    EVENT HANDLERS FOR MD RIPPLE    ///////////////////////
-Template.mdRipple.events
+Template.md_ripple.events
   # Trigger the ripple with a mousedown in a mouse environment.
   'mousedown [data-ripple]': (event) ->
     "use strict"
@@ -164,9 +174,12 @@ Template.mdRipple.events
     return false
 
 #/////////////////////  ON-RENDER CALLBACK FOR MD RIPPLE  //////////////////////
-Template.mdRipple.onRendered ->
+Template.md_ripple.onRendered ->
   "use strict"
 
   ripple = @firstNode
   # Pre-position the ripple, unless it is an offset ripple.
-  MD.setRippleStyle(ripple) unless ripple.hasAttribute 'data-offset'
+  Meteor.setTimeout ->
+    if ripple
+      MD.setRippleStyle(ripple) unless ripple.hasAttribute 'data-offset'
+  , 0

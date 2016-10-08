@@ -5,22 +5,33 @@
     Created on 11/12/2015
 
 //- An MD Icon is an SVG icon component (cf. iron-icon). This component uses the
-    'mdIcon' template, which takes the following parameters:
+    'md_icon' template, which takes the following parameters:
         @param {string} [id] - the optional id of the icon element
         @param {string} [name] - the optional name of the icon element
         @param {string} [classes] - an optional space-separate list of classes
                                     for the icon
         @param {string} [title] - the optional title attribute of the icon element
-        @param {string} [badgeCount] - an optional badge count value that
+        @param {string} [badge_count] - an optional badge count value that
                                         automatically configures a badged icon
         @param {string} icon - the icon identifier that controls the SVG image
 
-template(name="mdIcon")
-  .md-icon(
-    data-icon=""
-    id=id
-    name=name
-    class=classes
-    title=title
-    data-badge-count=badgeCount
-  ) {{mdIconSvg icon}}
+template(name="md_icon")
+  if icon
+    .md-icon(
+      data-icon=""
+      id=id
+      name=name
+      class=classes
+      title=title
+      data-badge-count=badge_count
+    ) #{md_icon__svg icon}
+  if image
+    .md-icon(
+      data-icon=""
+      id=id
+      name=name
+      class=classes
+      title=title
+      data-badge-count=badge_count
+    )
+      img.md-icon__image(src=image)

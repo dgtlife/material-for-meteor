@@ -7,42 +7,42 @@
 //-////////////////////////////  MD TOOLBAR  ///////////////////////////////////
 //- An MD Toolbar is a horizontal bar containing elements that can be used for
     label, navigation, search and action (cf. paper-toolbar). This toolbar uses
-    the 'mdToolbar' template which supports the following parameters:
+    the 'md_toolbar' template which supports the following parameters:
 
     @param {string} id - the id of the toolbar element
     @param {string} [classes] - a space-separate list of classes of the toolbar
     ToDo: Finish this
-template(name="mdToolbar")
+template(name="md_toolbar")
   .md-toolbar(
     data-toolbar=""
     id=id
     name=name
     class=classes
-    data-header=dataHeader
-    data-drawer-toolbar=drawerToolbar
-    data-top-justify=topJustify
-    data-middle-justify=middleJustify
-    data-bottom-justify=bottomJustify
+    data-header=data_header
+    data-drawer-toolbar=drawer_toolbar
+    data-top-justify=top_justify
+    data-middle-justify=middle_justify
+    data-bottom-justify=bottom_justify
   )
     if content
       +Template.dynamic(template=content)
     unless content
       .md-toolbar__bar.top(data-top-bar="")
-        if useBarTemplates
-          +Template.dynamic(template=topContent)
+        if use_bar_templates
+          +Template.dynamic(template=top_content)
       .md-toolbar__bar.middle(data-middle-bar="")
-        if useBarTemplates
-          +Template.dynamic(template=middleContent)
+        if use_bar_templates
+          +Template.dynamic(template=middle_content)
       .md-toolbar__bar.bottom(data-bottom-bar="")
-        if useBarTemplates
-          +Template.dynamic(template=bottomContent)
-    if withShadow
+        if use_bar_templates
+          +Template.dynamic(template=bottom_content)
+    if with_shadow
       .md-toolbar__shadow(data-header-shadow="")
-    //- If neither a complete toolbar content template nor individual bar
+    //- If neither a complete toolbar content template, nor individual bar
         content templates is desired to provide the toolbar content, then each
-        toolbar bar can be automatically populated with the content of a div
+        toolbar bar can be automatically imported from the content of a DIV
         with the following attributes.
 
         For top bar:     data-content-for-toolbar=[toolbar id] data-bar="top"
-        For middle bar:  data-content-for-toolbar=[toolbar id] data-bar="top"
-        For bottom bar:  data-content-for-toolbar=[toolbar id] data-bar="top"
+        For middle bar:  data-content-for-toolbar=[toolbar id] data-bar="middle"
+        For bottom bar:  data-content-for-toolbar=[toolbar id] data-bar="bottom"

@@ -47,7 +47,7 @@ $md-dialog__bg-color = #FFFFFF
 .md-dialog__content-to-scroll::before,
 .md-dialog__content-to-scroll::after
   background-color #e0e0e0
-  height 1px
+  height 0.0625rem
   left 0
   right 0
   position absolute
@@ -57,11 +57,45 @@ $md-dialog__bg-color = #FFFFFF
 .md-dialog__content-to-scroll:not([data-scroll-status="scrolled-up"])::after
   content ''
   bottom 0
-.md-dialog__actions
+.md-dialog__container .md-dialog__actions
+  $align-items-center()
+  $display-flex()
+  $flex-direction(row)
+  $justify-content-end()
   padding 0.5rem 0.5rem 0.5rem 1.5rem
-  text-align right
-  > .md-button:last-of-type
+  > .md-button
+    margin 0 0 0 0.5rem
+  > .md-button:first-of-type
     margin-right 0
+///// Full screen dialog (mobile only)
+.md-dialog-fs
+  background-color $md-dialog__bg-color
+  $display-flex()
+  $flex-direction(column)
+  height 100%
+  left 0
+  position absolute
+  top 0
+  transition -webkit-transform ease-in-out 0.3s
+  transition transform ease-in-out 0.3s
+  width 100%
+  z-index 9
+  .md-toolbar__bar
+    .md-button.md-dialog-fs__close-button
+      padding 0 2rem 0 0
+  .md-button.md-dialog-fs__action
+    margin 0
+.md-dialog-fs:not([data-dialog-open])
+  -webkit-transform translateY(100%)
+  transform translateY(100%)
+.md-dialog-fs__title
+  font-size 1.25rem
+  font-weight 500
+.md-dialog-fs__container
+  $flex(1)
+  overflow-x hidden
+  overflow-y scroll
+  position relative
 
 /////  Animations
 // No animation

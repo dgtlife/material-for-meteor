@@ -7,47 +7,68 @@
 //-//////////////////////////////  MD MENU  ////////////////////////////////////
 //- An MD Menu is a generic menu (cf. paper-menu) that is always visible, e.g. a
     drawer menu. An MD menu
-      * uses MD items as its children
-      * uses the 'mdMenu' template which supports the following parameters.
+      * can use MD items as its children
+      * can use arbitrary templates as its children
+      * uses the 'md_menu' template which supports the following parameters.
 
     @param {string} id - the id of the menu
     @param {string} [name] - the name of the menu
     @param {string} [classes] - a space-separate list of classes of the menu
-    @param {Array} [items] - an array of objects to populate the mdItem template
+    @param {Array} [menu_items] - an array of objects to populate the md_item template
                              and create the menu items
-    @param {string} [_popupMenu] - indicates that it is in a popup menu
-    @param {string} [_dropdownMenu] - indicates that it is in a dropdown menu
+    @param {string} [_popup_menu] - indicates that it is in a popup menu
+    @param {string} [_dropdown_menu] - indicates that it is in a dropdown menu
     ToDo: Finish this.
-template(name="mdMenu")
+template(name="md_menu")
   .md-menu(
     data-menu=""
     id=id
-    name=name
     class=classes
-    data-popup-menu=_popupMenu
-    data-dropdown-menu=_dropdownMenu
-    data-drawer-menu=_drawerMenu
+    data-popup-menu=_popup_menu
+    data-dropdown-menu=_dropdown_menu
+    data-drawer-menu=_drawer_menu
+    data-list-selector=list_selector
+    data-selected=selected
   )
-    if items
-      +each items
-        +mdItem(
-          menuItem=""
-          menu=menu
-          id=id
-          name=name
-          classes=classes
-          text=text
-          textClasses=textClasses
-          icon=icon
-          iconClasses=iconClasses
-          ripple=ripple
-          offsetRipple=offsetRipple
-          hasTooltip=hasTooltip
-          tooltipPosition=tooltipPosition
-          tooltipText=tooltipText
-        )
+    if menu_items
+      .md-menu__menu-container(data-scrollable=scrollable)
+        +each menu_items
+          +md_item(
+            menu_item=""
+            menu=menu
+            id=id
+            name=name
+            classes=classes
+            text=text
+            text__classes=text__classes
+            icon=icon
+            icon__classes=icon__classes
+            ripple=ripple
+            offset_ripple=offset_ripple
+            has_tooltip=has_tooltip
+            tooltip__position=tooltip__position
+            tooltip__text=tooltip__text
+          )
+    if list_items
+      .md-menu__list-container(
+        class=list_container__classes
+        data-scrollable=scrollable
+      )
+        +each list_item in list_items
+          .md-menu__list-item(
+            class=list_item__classes
+            data-list-item=""
+            data-index="{{@index}}"
+          )
+            .list-item--md-menu__selection-indicator(
+              data-selection-indicator=""
+              class="unselected"
+            )
+              +md_icon(icon="check")
+            .list-item--md-menu__content
+              +Template.dynamic(template=list_item_content data=list_item)
     if content
       +Template.dynamic(template=content)
-    //- If neither an items helper nor a content template is desired to provide
+    //- If neither a menu_items helper nor a content template is desired to provide
         the menu items, then the menu items placed in a div with an attribute of
-        'data-items-for=menuId' can be automatically inserted here.
+        'data-items-for=menu__id' can be automatically inserted here.

@@ -11,6 +11,7 @@
 $md-font-family = "Roboto", "Noto", "Helvetica Neue", Helvetica, "Segoe", Arial, sans-serif !important
 $md-primary-text__color = rgba(0, 0, 0, 0.87)
 $md-secondary-text__color = rgba(0, 0, 0, 0.54)
+$md-disabled-text__color = rgba(0, 0, 0, 0.38)
 $md-field__input__color = $md-primary-text__color
 $md-field__input__font-size = 1rem
 $md-backdrop__bg-color = #000000
@@ -23,6 +24,14 @@ $md-divider__color = rgba(0, 0, 0, 0.12)
 $md-title()
   font-size 1.25rem
   font-weight 400
+
+/////  LAYOUT  /////
+$fit()
+  bottom 0
+  left 0
+  position absolute
+  right 0
+  top 0
 
 /////  ANIMATION  /////
 $md-timing-function--fast-out-slow-in = cubic-bezier(0.4, 0, 0.2, 1)
@@ -52,10 +61,20 @@ $display-inline-flex()
   display -ms-inline-flexbox
   display -webkit-inline-flex
   display inline-flex
+$flex(n)
+  -ms-flex n 1 0.000000001px
+  -webkit-flex n
+  flex n
+  -webkit-flex-basis 0.000000001px
+  flex-basis 0.000000001px
 $flex-direction(direction)
   -ms-flex-direction direction
   -webkit-flex-direction direction
   flex-direction direction
+$flex-wrap(value)
+  -ms-flex-wrap value
+  -webkit-flex-wrap value
+  flex-wrap value
 $justify-content-start()
   -ms-flex-pack start
   -webkit-justify-content flex-start
@@ -124,6 +143,21 @@ $user-select-none()
   text-rendering optimizeLegibility
   width 100%
 
+// Scrollable element
+[data-scrollable]::before,
+[data-scrollable]::after
+  background-color #E0E0E0
+  height 0.0625rem
+  left 0
+  right 0
+  position absolute
+[data-scrollable][data-overflow]:not([data-scroll-status="scrolled-down"])::before
+  content ''
+  top 0
+[data-scrollable][data-overflow]:not([data-scroll-status="scrolled-up"])::after
+  content ''
+  bottom 0
+
 // Backdrop
 [data-backdrop]
   background-color $md-backdrop__bg-color
@@ -159,6 +193,15 @@ $user-select-none()
   line-height normal
   margin 0.25rem 0
   text-align left
+
+// Subheader
+.md-subheader
+  $align-items-center()
+  color $md-secondary-text__color
+  $display-flex()
+  font-size 0.875rem
+  font-weight 500
+  height 3rem
 
 // Divider
 .md-divider

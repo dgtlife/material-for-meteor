@@ -77,8 +77,8 @@ _.extend Material.prototype,
 
     # Set an animation attribute, if necessary.
     if menu.parentElement.hasAttribute 'data-opening-animation'
-      openingAnimation = menu.parentElement.getAttribute 'data-opening-animation'
-      menu.setAttribute 'data-opening-animation', openingAnimation
+      opening_animation = menu.parentElement.getAttribute 'data-opening-animation'
+      menu.setAttribute 'data-opening-animation', opening_animation
 
     # Show the menu by setting the 'data-menu-open' attribute.
     menu.setAttribute 'data-menu-open', 'true'
@@ -98,7 +98,7 @@ _.extend Material.prototype,
       document.removeEventListener 'click', __closeThisMenu
 
     # Attach the event listener after the menu has opened.
-    # [ToDo: Consider replacing by Meteor.setTimeout by explicit detection.]
+    # ToDo: Consider replacing by Meteor.setTimeout by explicit detection.
     Meteor.setTimeout ->
       document.addEventListener 'click', __closeThisMenu
     , 0
@@ -141,8 +141,8 @@ _.extend Material.prototype,
       openMenu.removeAttribute 'data-menu-open'
 
 #///////////////////    EVENT HANDLERS FOR MD POPUP MENU    ////////////////////
-# Note that when an mdPopupMenu template is imported, e.g. into an mdToolbar
-# template, events do not fire in the mdPopupMenu template. Hence we must use
+# Note that when an md_popup_menu template is imported, e.g. into an md_toolbar
+# template, events do not fire in the md_popup_menu template. Hence we must use
 # the body to allow arbitrary importing of templates.
 Template.body.events
   # Click a button that triggers a popup/dropdown menu.
@@ -165,8 +165,8 @@ Template.body.events
     MD.closePopupMenu event.currentTarget
 
 #///////////////////  ON-RENDER CALLBACK FOR MD POPUP MENU  ////////////////////
-Template.mdPopupMenu.onRendered ->
+Template.md_popup_menu.onRendered ->
   "use strict"
 
   # Import any menu items for this menu.
-  MD.importMenuItems @data.menuId
+  MD.importMenuItems @data.menu_id

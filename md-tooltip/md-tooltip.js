@@ -92,6 +92,7 @@ _.extend(Material.prototype, {
           'margin-left: ' + tooltipMarginLeft + 'px;';
         break;
     }
+
     // Apply the style attribute to position the tooltip.
     tooltip.setAttribute('style', tooltipStyle);
   },
@@ -107,6 +108,8 @@ _.extend(Material.prototype, {
 
     // Get the tooltip.
     var tooltip = self.dqS('[data-target=' + id + ']');
+    // Position the tooltip.
+    self.positionTooltip(tooltip, id);
     // Reveal the tooltip.
     tooltip.classList.add('show-tooltip');
   },
@@ -122,8 +125,10 @@ _.extend(Material.prototype, {
 
     // Get the tooltip.
     var tooltip = self.dqS('[data-target=' + id + ']');
-    // Hide the tooltip;
+    // Hide the tooltip.
     tooltip.classList.remove('show-tooltip');
+    // Clear the style attribute.
+    tooltip.removeAttribute('style');
   }
 });
 
@@ -145,18 +150,10 @@ Template.body.events({
 });
 
 //////////////////    ON-RENDER CALLBACK FOR MD TOOLTIP    /////////////////////
-Template.mdTooltip.onRendered(function () {
+Template.md_tooltip.onRendered(function () {
   "use strict";
   var self = this;
 
   // Register with target element.
   MD.registerTooltip(self.data.target);
-  // Pre-position the tooltip.
-  MD.positionTooltip(self.firstNode, self.data.target);
-  // Add a listener to keep the tooltip positioned when the screen is resized.
-  window.onresize = function () {
-    "use strict";
-
-    MD.positionTooltip(self.firstNode, self.data.target);
-  };
 });

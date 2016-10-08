@@ -8,19 +8,16 @@
 
 ///////////////    STYLES FOR MD TEXT FIELD and MD TEXT AREA    ////////////////
 .md-field__input-container
-  -ms-flex-align center
-  -webkit-align-items center
-  align-items center
-  display -ms-flexbox
-  display -webkit-flex
-  display flex
-  -ms-flex-direction row
-  -webkit-flex-direction row
-  flex-direction row
+  $align-items-center()
+  $display-flex()
+  $flex-direction(row)
 .md-field__prefix,
 .md-field__suffix
   white-space nowrap
-.md-field__input[data-text-field-input]
+.md-field__input[disabled]
+  color $md-disabled-text__color
+.md-field__input[data-text-field-input],
+.md-field__input[data-dropdown-input]
   margin 0
 .md-field__input[data-text-area-input]
   margin 0 0 -0.25rem 0

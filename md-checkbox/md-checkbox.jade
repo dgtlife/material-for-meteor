@@ -1,0 +1,33 @@
+//- @file Defines the templates for the MD Checkbox.
+    @author Derek Gransaull <derek@dgtlife.com>
+    @copyright DGTLife, LLC 2016
+
+    Created on 6/26/2016
+
+//-///////////////////////////  MD CHECKBOX  ///////////////////////////////////
+//- An MD Checkbox is a ...
+
+template(name="md_checkbox")
+  .md-checkbox(
+    data-checkbox=""
+    id=id
+    name=name
+    class=classes
+    data-checked=checked
+    data-disabled=disabled
+  )
+    .md-checkbox__box
+      input.md-checkbox__input(
+        type="checkbox"
+        value=value
+        disabled=disabled
+      )
+      .md-checkbox__box--checked.hide
+        +md_icon(icon="check-box" classes="md-checkbox__icon")
+      .md-checkbox__box--unchecked
+        +md_icon(icon="check-box-outline-blank" classes="md-checkbox__icon")
+      if ripple
+        +md_ripple(offset=offset_ripple)
+    .md-checkbox__label(class=label__classes)=label
+    if has_tooltip
+      +md_tooltip(target=id position=tooltip__position text=tooltip__text)

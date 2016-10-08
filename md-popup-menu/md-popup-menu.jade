@@ -8,57 +8,58 @@
 //- An MD Popup Menu is a menu that pops open when a trigger button is clicked
     (cf. paper-menu-button).
     This menu
-      * depends on the mdButton and mdMenu components
+      * depends on the md_button and md_menu components
       * pops up when an associated icon button (trigger) is clicked
       * automatically closes when an item is selected with a click/touch
       * is best composed with items that do not contain ripple
       ToDo: complete this
-template(name="mdPopupMenu")
+template(name="md_popup_menu")
   .md-popup-menu(
+    data-popup-menu=""
     id=id
     name=name
     class=classes
-    data-popup-menu=""
     data-position=position
-    data-opening-animation=openingAnimation
-    data-dropdown-popup=_dropdownPopup
+    data-opening-animation=opening_animation
+    data-dropdown-popup=_dropdown_popup
     data-disabled=disabled
   )
-    if _inDropdown
-      +mdButton(
-        id=triggerId
-        classes=triggerClasses
+    if _in_dropdown
+      +md_button(
+        id=trigger__id
+        classes=trigger__classes
         icon=icon
-        iconButton=""
-        noRipple=noTriggerRipple
-        _dropdownTrigger=""
-        _triggerTarget=menuId
+        icon_button=""
+        no_ripple=no_trigger_ripple
+        _dropdown_trigger=""
+        _trigger_target=menu__id
       )
-      +mdMenu(
-        id=menuId
-        name=menuName
-        classes=menuClasses
-        _dropdownMenu=""
-        items=items
+      +md_menu(
+        id=menu__id
+        name=menu__name
+        classes=menu__classes
+        _dropdown_menu=""
+        menu_items=menu__items
+        content=menu__content
       )
     else
-      +mdButton(
-        id=triggerId
-        classes=triggerClasses
+      +md_button(
+        id=trigger__id
+        classes=trigger__classes
         icon=icon
-        iconButton=""
-        noRipple=noTriggerRipple
-        _popupTrigger=""
-        _triggerTarget=menuId
+        icon_button=""
+        no_ripple=no_trigger_ripple
+        _popup_trigger=""
+        _trigger_target=menu__id
       )
-      +mdMenu(
-        id=menuId
-        name=menuName
-        classes=menuClasses
-        _popupMenu=""
-        items=items
-        content=menuContent
+      +md_menu(
+        id=menu__id
+        name=menu__name
+        classes=menu__classes
+        _popup_menu=""
+        menu_items=menu__items
+        content=menu__content
       )
-      //- If neither an items helper nor a content template is desired to
+      //- If neither a menu_items helper nor a content template is desired to
           provide the menu items, then the menu items placed in a div with an
-          attribute of 'data-items-for=menuId' can be automatically inserted here.
+          attribute of 'data-items-for=menu__id' can be automatically inserted here.

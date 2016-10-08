@@ -6,7 +6,7 @@
 
 //-///////////////////////////  MD DIALOG //////////////////////////////////////
 //- An MD Dialog is a component that displays a dialog.
-template(name="mdDialog")
+template(name="md_dialog")
   .md-dialog(
     data-dialog=""
     id=id
@@ -14,16 +14,57 @@ template(name="mdDialog")
     class=classes
     data-height=height
     data-width=width
-    data-backdrop-opacity=backdropOpacity
+    data-backdrop-opacity=backdrop_opacity
     data-modal=modal
     data-scrollable=scrollable
-    data-opening-animation=openingAnimation
-    data-closing-animation=closingAnimation
+    data-opening-animation=opening_animation
+    data-closing-animation=closing_animation
   )
-    .md-dialog__container(data-dialog-container="")
+    .md-dialog__container(data-dialog-container="" id=container__id)
       if content
         +Template.dynamic(template=content)
       //- If a dialog content helper is not used to provide the content, then the
           content placed in a div with an attribute of 'data-content-for=id' will
           be automatically inserted here.
 
+template(name="md_dialog_fs")
+  .md-dialog-fs(
+    data-dialog-fs=""
+    id=id
+    name=name
+    class=classes
+    data-opening-animation=opening_animation
+    data-closing-animation=closing_animation
+  )
+    .md-toolbar.md-dialog-fs__toolbar(
+      data-toolbar=""
+      id=toolbar__id
+      name=toolbar__name
+      class=toolbar__classes
+      data-dialog-toolbar=""
+    )
+      .md-toolbar__bar.top(data-top-bar="")
+        +md_button(
+          dialog_close_button=""
+          name="md-dialog-fs__close"
+          classes="md-dialog-fs__close-button"
+          icon="close"
+          icon_button=""
+        )
+        .md-dialog-fs__title=title
+        span.flex
+        .md-dialog-fs__action
+          +md_button(
+            id=action_button__id
+            name=action_button__name
+            classes=action_button__classes
+            label=action_button__label
+            disabled=action_button__disabled
+          )
+      .md-toolbar__shadow.show-shadow(data-header-shadow="")
+    .md-dialog-fs__container(data-dialog-container="" id=container__id)
+      if content
+        +Template.dynamic(template=content)
+      //- If a dialog content helper is not used to provide the content, then the
+          content placed in a div with an attribute of 'data-content-for=id' will
+          be automatically inserted here.

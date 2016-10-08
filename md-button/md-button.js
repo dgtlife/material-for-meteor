@@ -14,34 +14,42 @@ _.extend(Material.prototype, {
   /**
    * Enable a button that is disabled.
    *
-   * @param {string} selector - the selector for the button
+   * @param {(string|Object)} buttonSpec - a selector for the button element or
+   *                                       the button element itself
    */
-  enableButton: function (selector) {
+  enableButton: function (buttonSpec) {
     "use strict";
     var self = this;
 
+    var button = self._getElement('button', buttonSpec);
+
     // Remove the 'disabled' attribute.
-    if (self.dqS(selector).hasAttribute('disabled'))
-      self.dqS(selector).removeAttribute('disabled');
+    if (button.hasAttribute('disabled'))
+      button.removeAttribute('disabled');
   },
 
   /**
    * Disable a button that is enabled.
    *
-   * @param {string} selector - the selector for the button
+   * @param {(string|Object)} buttonSpec - a selector for the button element or
+   *                                       the button element itself
    */
-  disableButton: function (selector) {
+  disableButton: function (buttonSpec) {
     "use strict";
     var self = this;
 
+    var button = self._getElement('button', buttonSpec);
+
     // Set the 'disabled' attribute.
-    if (! self.dqS(selector).hasAttribute('disabled'))
-      self.dqS(selector).setAttribute('disabled', 'true');
+    if (! button.hasAttribute('disabled'))
+      button.setAttribute('disabled', 'true');
   }
 });
 
+//debugger;
+
 ///////////////////////  EVENT HANDLERS FOR MD BUTTON  /////////////////////////
-Template.mdButton.events({
+Template.md_button.events({
   // Enable the toggle capability of an MD button.
   'mouseup [data-button][data-toggle]': function (event) {
     "use strict";
@@ -60,7 +68,7 @@ Template.mdButton.events({
 });
 
 //////////////////////  ON-RENDER CALLBACK FOR MD BUTTON  //////////////////////
-Template.mdButton.onRendered(function () {
+Template.md_button.onRendered(function () {
   "use strict";
   var self = this;
 
@@ -80,7 +88,7 @@ Template.mdButton.onRendered(function () {
         self.setAttribute('data-active', 'true');
       }
     };
-    // Remove the 'active'state on touchend.
+    // Remove the 'active' state on touchend.
     button.ontouchend = function () {
       "use strict";
       var self = this;
@@ -124,5 +132,12 @@ Template.mdButton.onRendered(function () {
       MD.eqS(button, '[data-icon]').classList.add('on-firefox');
       MD.eqS(button, '[data-label]').classList.add('on-firefox');
     }
+  }
+
+  // Animate a FAB on render, if configured.
+  if ((button.hasAttribute('data-fab')) && (button.hasAttribute('data-animate-on-render'))) {
+    Meteor.setTimeout(function () {
+      button.setAttribute('data-animate', 'true');
+    }, 100);
   }
 });

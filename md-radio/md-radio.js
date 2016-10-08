@@ -1,5 +1,5 @@
 /**
- * @file Defines the API, event handler(s), and on-render callback for
+ * @file Defines the API, event handler(s), and on-render callback for the
  *       MD Radio Button and MD Radio Group.
  * @author Derek Gransaull <derek@dgtlife.com>
  * @copyright DGTLife, LLC 2015
@@ -14,12 +14,10 @@ _.extend(Material.prototype, {
 
   /**
    * Import the radio buttons for the supplied radio group.
-   *
    * @param {Object} groupElement - the group element
    * @returns {boolean} - returns false if no temp button container is found
-   * @private
    */
-  _importRadioButtons: function (groupElement) {
+  importRadioButtons: function (groupElement) {
     "use strict";
     var self = this;
 
@@ -46,12 +44,10 @@ _.extend(Material.prototype, {
 
   /**
    * Handler for the click event on an MD radio button.
-   *
    * @param {Object} buttonElement - the button element
    * @returns {boolean} - returns false if the button is already selected
-   * @private
    */
-  _handleClickOnRadioButton: function (buttonElement) {
+  handleClickOnRadioButton: function (buttonElement) {
     "use strict";
     var self = this;
 
@@ -68,7 +64,6 @@ _.extend(Material.prototype, {
 
   /**
    * Set a radio button in a radio group as 'checked'.
-   *
    * @param {Object} groupElement - the radio group element
    * @param {string} value - the value to be assigned to the radio group
    * @private
@@ -78,8 +73,7 @@ _.extend(Material.prototype, {
     var self = this;
 
     // Get the radio buttons;
-    var buttonElements = self.nodeListToArray(
-      self.eqSA(groupElement, '[data-radio-button]'));
+    var buttonElements = self.eqSA(groupElement, '[data-radio-button]');
 
     // Set the button with the matching value as 'checked'; clear the others.
     _.each(buttonElements, function (buttonElement) {
@@ -96,7 +90,6 @@ _.extend(Material.prototype, {
   /**
    * Assign the 'data-value' of the supplied (clicked) radio button to its
    * radio group element.
-   *
    * @param {Object} buttonElement - the button element
    */
   _assignButtonValueToGroup: function (buttonElement) {
@@ -116,7 +109,6 @@ _.extend(Material.prototype, {
 
   /**
    * Compute the value of the radio group element from a groupSpec value.
-   *
    * @param {string|Object} groupSpec - the group name or the group element
    *                                    itself
    * @private
@@ -126,7 +118,7 @@ _.extend(Material.prototype, {
     var self = this;
 
     if (_.isString(groupSpec)) {
-      return self.dqS(groupSpec);
+      return self.dqS('[name=' + groupSpec + ']');
     } else if (_.isObject(groupSpec)) {
       return groupSpec;
     } else {
@@ -139,11 +131,9 @@ _.extend(Material.prototype, {
   /**
    * Initialize the value of a radio group that has its 'data-selected'
    * attribute preset.
-   *
    * @param {Object} groupElement - the group element
-   * @private
    */
-  _initializeValueOfRadioGroup: function (groupElement) {
+  initializeValueOfRadioGroup: function (groupElement) {
     "use strict";
     var self = this;
 
@@ -155,7 +145,6 @@ _.extend(Material.prototype, {
 
   /**
    * Enable a radio button that is disabled.
-   *
    * @param {string} selector - the selector for the radio button
    */
   enableRadioButton: function (selector) {
@@ -169,8 +158,7 @@ _.extend(Material.prototype, {
 
   /**
    * Disable a radio button that is enabled.
-   *
-   * @param {string} selector - the selector for the button
+   * @param {string} selector - a selector for the button
    */
   disableRadioButton: function (selector) {
     "use strict";
@@ -183,7 +171,6 @@ _.extend(Material.prototype, {
 
   /**
    * Set the value of a radio group.
-   *
    * @param {string} selector - a selector for the radio group
    * @param {string} value - the value to be assigned to the radio group
    */
@@ -208,7 +195,6 @@ _.extend(Material.prototype, {
   /**
    * Get the value of a radio group. This is for use 'from a distance', when one
    * is not operating directly on the radio group element.
-   *
    * @param {string} selector - a selector for the radio group element
    */
   getValueOfRadioGroup: function (selector) {
@@ -220,7 +206,6 @@ _.extend(Material.prototype, {
 
   /**
    * Clear the value of a radio group.
-   *
    * @param {string|Object} groupSpec - the radio group name or the radio group
    *                                    element
    */
@@ -233,7 +218,7 @@ _.extend(Material.prototype, {
     // Get the groupElement.
     groupElement = self._computeGroup(groupSpec);
     // Remove the "data-checked" attribute from all buttons in this group.
-    buttonElements = self.nodeListToArray(self.eqSA(groupElement, '[data-radio-button]'));
+    buttonElements = self.eqSA(groupElement, '[data-radio-button]');
     _.each(buttonElements, function (buttonElement) {
       buttonElement.removeAttribute('data-checked');
     });
@@ -243,23 +228,22 @@ _.extend(Material.prototype, {
 });
 
 ////////////////////  EVENT HANDLERS FOR MD RADIO GROUP  ///////////////////////
-Template.mdRadioGroup.events({
+Template.md_radio_group.events({
   // Click on a radio button.
-  'click [data-radio-button]': function (event) {
+  'click [data-radio-button]'(event) {
     "use strict";
 
-    MD._handleClickOnRadioButton(event.currentTarget);
+    MD.handleClickOnRadioButton(event.currentTarget);
   }
 });
 
 ////////////////    ON-RENDER CALLBACK FOR MD RADIO GROUP    ///////////////////
-Template.mdRadioGroup.onRendered(function () {
+Template.md_radio_group.onRendered(function () {
   "use strict";
-  var self = this;
 
   // Import the radio buttons for this radio group.
-  MD._importRadioButtons(self.lastNode);
+  MD.importRadioButtons(this.lastNode);
 
   // Set the initial value of the radio group.
-  MD._initializeValueOfRadioGroup(self.lastNode);
+  MD.initializeValueOfRadioGroup(this.lastNode);
 });

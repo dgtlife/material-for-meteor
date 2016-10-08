@@ -19,30 +19,14 @@
   height 100%
 [data-header]
   position relative
-[data-content-panel]
-  $display-flex()
-  $flex-direction(column)
-  -ms-flex 1 1 0.000000001px
-  -webkit-flex 1
-  flex 1
-  -webkit-flex-basis 0.000000001px
-  flex-basis 0.000000001px
-  min-height 0
-  position relative
 [data-content]
-  -ms-flex 1 1 0.000000001px
-  -webkit-flex 1
-  flex 1
-  -webkit-flex-basis 0.000000001px
-  flex-basis 0.000000001px
+  $flex(1)
   overflow-y auto
   overflow-x hidden
   -webkit-overflow-scrolling touch
   position relative
 [data-content][data-mode=scroll]
   overflow visible
-[data-content-panel][data-mode=cover]
-  position static
 [data-content][data-mode=cover]
   bottom 0
   left 0
@@ -71,16 +55,24 @@
 
 // Wide screens
 @media only screen and (min-width: 600px)
-  [data-header].tall.collapsed,
-  [data-header].medium-tall.collapsed
+  [data-mode=waterfall-collapse] [data-header].tall.collapsed,
+  [data-mode=waterfall-collapse] [data-header].medium-tall.collapsed
     height 4rem
+  [data-header].has-tabs,
+  [data-mode=waterfall-collapse] [data-header].tall.collapsed.has-tabs,
+  [data-mode=waterfall-collapse] [data-header].medium-tall.collapsed.has-tabs
+    height 7rem
   [data-covering-content][data-mode=cover]
     padding 0.5rem 1.5rem
 
 // Narrow screens
 @media only screen and (max-width: 600px)
-  [data-header].tall.collapsed,
-  [data-header].medium-tall.collapsed
+  [data-mode=waterfall-collapse] [data-header].tall.collapsed,
+  [data-mode=waterfall-collapse] [data-header].medium-tall.collapsed
     height 3.5rem
+  [data-header].has-tabs,
+  [data-mode=waterfall-collapse] [data-header].tall.collapsed.has-tabs,
+  [data-mode=waterfall-collapse] [data-header].medium-tall.collapsed.has-tabs
+    height 6.5rem
   [data-covering-content][data-mode=cover]
     padding 0.5rem 1rem

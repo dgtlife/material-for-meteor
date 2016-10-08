@@ -10,8 +10,8 @@
 /*jshint -W117 */     // app- and package-scoped variables not detectable by JSHint
 
 Package.describe({
-  summary: 'Material is a "native" implementation of Material Design components for Meteor',
-  version: '0.6.5',
+  summary: 'A Blaze implementation of Material Design components for Meteor',
+  version: '0.6.7',
   name: 'dgtlife:material',
   git: ''
 });
@@ -19,23 +19,22 @@ Package.describe({
 // Run environment
 Package.onUse(function (api) {
   "use strict";
-
-  //api.versionsFrom('METEOR@1.2');
-
   api.use('templating', 'client');
   api.use('dalgard:jade', 'client');
   api.use('stylus', 'client');
   api.use('hammer:hammer@=2.0.4_1', 'client');
+  api.use('reactive-dict', 'client');
+  api.use('tracker', 'client');
   api.use('coffeescript', ['client', 'server']);
-  api.use('reactive-dict', ['client', 'server']);
   api.use('underscore', ['client', 'server']);
   api.use('check', ['client', 'server']);
   api.use('random', ['client', 'server']);
-  api.use('tracker', ['client', 'server']);
+  api.use('ecmascript', ['client', 'server']);
 
   api.addFiles('md-common.styl', 'client');
   api.addFiles('md.js', ['client', 'server']);
   api.addFiles('md-utils.coffee', 'client');
+  api.addFiles('md-utils.js', 'client');
 
   api.addFiles('md-button/md-button.styl', 'client');
   api.addFiles('md-button/md-button.jade', 'client');
@@ -43,6 +42,19 @@ Package.onUse(function (api) {
 
   api.addFiles('md-card/md-card.styl', 'client');
   api.addFiles('md-card/md-card.jade', 'client');
+  api.addFiles('md-card/md-card.js', 'client');
+
+  api.addFiles('md-checkbox/md-checkbox.styl', 'client');
+  api.addFiles('md-checkbox/md-checkbox.jade', 'client');
+  api.addFiles('md-checkbox/md-checkbox.js', 'client');
+
+  api.addFiles('md-chip/md-chip.styl', 'client');
+  api.addFiles('md-chip/md-chip.jade', 'client');
+  api.addFiles('md-chip/md-chip.js', 'client');
+
+  api.addFiles('md-collapse/md-collapse.styl', 'client');
+  api.addFiles('md-collapse/md-collapse.jade', 'client');
+  api.addFiles('md-collapse/md-collapse.coffee', 'client');
 
   api.addFiles('md-dialog/md-dialog.styl', 'client');
   api.addFiles('md-dialog/md-dialog.jade', 'client');
@@ -58,7 +70,7 @@ Package.onUse(function (api) {
 
   api.addFiles('md-header-panel/md-header-panel.styl', 'client');
   api.addFiles('md-header-panel/md-header-panel.jade', 'client');
-  api.addFiles('md-header-panel/md-header-panel.coffee', 'client');
+  api.addFiles('md-header-panel/md-header-panel.js', 'client');
 
   api.addFiles('md-icon/md-icon.styl', 'client');
   api.addFiles('md-icon/md-icon.jade', 'client');
@@ -73,6 +85,7 @@ Package.onUse(function (api) {
   api.addAssets('md-icon/md-icon-maps.svg', 'server');
   api.addAssets('md-icon/md-icon-notification.svg', 'server');
   api.addAssets('md-icon/md-icon-social.svg', 'server');
+  api.addAssets('md-icon/md-icon-extras.svg', 'server');
 
   api.addFiles('md-image/md-image.styl', 'client');
   api.addFiles('md-image/md-image.jade', 'client');
@@ -87,6 +100,7 @@ Package.onUse(function (api) {
 
   api.addFiles('md-menu/md-menu.styl', 'client');
   api.addFiles('md-menu/md-menu.jade', 'client');
+  //api.addFiles('md-menu/md-menu.html', 'client');
   api.addFiles('md-menu/md-menu.js', 'client');
 
   api.addFiles('md-popup-menu/md-popup-menu.styl', 'client');
@@ -112,13 +126,17 @@ Package.onUse(function (api) {
   api.addFiles('md-spinner/md-spinner.jade', 'client');
   api.addFiles('md-spinner/md-spinner.coffee', 'client');
 
+  api.addFiles('md-tabs/md-tabs.styl', 'client');
+  api.addFiles('md-tabs/md-tabs.jade', 'client');
+  api.addFiles('md-tabs/md-tabs.js', 'client');
+
   api.addFiles('md-text-input/md-text-input.styl', 'client');
   api.addFiles('md-text-input/md-text-input.jade', 'client');
   api.addFiles('md-text-input/md-text-input.coffee', 'client');
 
   api.addFiles('md-toolbar/md-toolbar.styl', 'client');
   api.addFiles('md-toolbar/md-toolbar.jade', 'client');
-  api.addFiles('md-toolbar/md-toolbar.coffee', 'client');
+  api.addFiles('md-toolbar/md-toolbar.js', 'client');
 
   api.addFiles('md-tooltip/md-tooltip.styl', 'client');
   api.addFiles('md-tooltip/md-tooltip.jade', 'client');
@@ -143,6 +161,3 @@ Package.onTest(function (api) {
 
   api.addFiles('md-tests.js', 'client');
 });
-
-//\\\\\\\\\       Meteor is a beautiful thing! :-) Thanks MDG!      /////////\\
-//\\\\\\\\\\                 End of file                           //////////\\

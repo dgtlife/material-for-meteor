@@ -10,16 +10,17 @@
       * can display an image with different sizing options
       * can display a background while an image loads
       * can display another image while an image loads
-template(name="mdImage")
+template(name="md_image")
   .md-image(
     data-image=""
     id=id
     class=classes
     data-height=height
     data-width=width
+    data-bg-url=bg_url
     data-sizing=sizing
     data-position=position
-    data-placeholder-bg=bgColor
+    data-placeholder-bg=bg_color
     data-placeholder-img=placeholder
     data-preload=preload
     data-fade=fade
@@ -31,9 +32,9 @@ template(name="mdImage")
         srcset=srcset
         alt=alt
         longdesc=longdesc
-        crossorigin=crossOrigin
+        crossorigin=cross_origin
       )
     .md-image__placeholder(
       data-image-placeholder=""
-      class=placeholderClasses
+      class=placeholder_classes
     )

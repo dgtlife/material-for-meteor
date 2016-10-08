@@ -183,7 +183,7 @@ _.extend Material.prototype,
     , 350
 
 #//////////////////////    HELPERS FOR MD SNACKBAR    //////////////////////////
-Template.mdSnackbar.helpers
+Template.md_snackbar.helpers
   currentSnackbar: ->
     "use strict"
 
