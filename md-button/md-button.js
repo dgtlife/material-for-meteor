@@ -46,8 +46,6 @@ _.extend(Material.prototype, {
   }
 });
 
-//debugger;
-
 ///////////////////////  EVENT HANDLERS FOR MD BUTTON  /////////////////////////
 Template.md_button.events({
   // Enable the toggle capability of an MD button.

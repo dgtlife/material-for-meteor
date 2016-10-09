@@ -31,10 +31,10 @@ Package.onUse(function (api) {
   api.use('random', ['client', 'server']);
   api.use('ecmascript', ['client', 'server']);
 
-  api.addFiles('md-common.styl', 'client');
   api.addFiles('md.js', ['client', 'server']);
   api.addFiles('md-utils.coffee', 'client');
   api.addFiles('md-utils.js', 'client');
+  api.addFiles('md-common.styl', 'client');
 
   api.addFiles('md-button/md-button.styl', 'client');
   api.addFiles('md-button/md-button.jade', 'client');
