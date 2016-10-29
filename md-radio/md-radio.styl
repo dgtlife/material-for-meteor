@@ -7,9 +7,9 @@
 @require '../md-common'
 
 /////////////////    VARIABLES FOR MD RADIO BUTTON STYLES    ///////////////////
-$md-button--radio__unchecked-color = rgba(33,33,33,1)
-$md-button--radio__checked-color = #009688
-$md-button--radio__disabled-color = rgba(33,33,33,0.5)
+$md-button--radio__color--unchecked = rgba(0,0,0,0.54)
+$md-button--radio__color--checked = #009688
+$md-button--radio__color--disabled = rgba(0,0,0,0.26)
 
 //////////////////////    STYLES FOR MD RADIO BUTTON    ////////////////////////
 .md-radio-group
@@ -45,7 +45,7 @@ input.md-radio-button__button-input
   opacity 0
   $user-select-none()
 .md-radio-button__button-outer
-  border-color $md-button--radio__unchecked-color
+  border-color $md-button--radio__color--unchecked
   border-radius: 50%
   border solid 0.125rem
   box-sizing content-box
@@ -56,7 +56,7 @@ input.md-radio-button__button-input
   transition border-color 0.28s
   width 0.75rem
 .md-radio-button__button-inner
-  background-color $md-button--radio__checked-color
+  background-color $md-button--radio__color--checked
   border-radius 50%
   box-sizing content-box
   height 0.5rem
@@ -76,20 +76,17 @@ input.md-radio-button__button-input
   pointer-events none
   position relative
   white-space nowrap
-.md-radio-button[data-checked=true]
+.md-radio-button[data-checked]
   .md-radio-button__button-outer
-    border-color $md-button--radio__checked-color
+    border-color $md-button--radio__color--checked
   .md-radio-button__button-inner
     -webkit-transform scale(1)
     transform scale(1)
-.md-radio-button[data-disabled=true]
-  .md-radio-button__button
-    cursor default
+.md-radio-button[data-disabled]
   .md-radio-button__button-outer
-    border-color $md-button--radio__disabled-color
-    opacity 0.5
-  .md-radio-button__button-inner
-    background-color $md-button--radio__disabled-color
-    opacity 0.5
+    border-color $md-button--radio__color--disabled
+  .md-radio-button__button-inner,
+  .md-ripple__wave
+    background-color $md-button--radio__color--disabled
   .md-radio-button__label
-    opacity 0.65
+    color $md-button--radio__color--disabled

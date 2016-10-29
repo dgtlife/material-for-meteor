@@ -37,7 +37,6 @@ template(name="md_menu")
             menu_item=""
             menu=menu
             id=id
-            name=name
             classes=classes
             text=text
             text__classes=text__classes
@@ -58,7 +57,7 @@ template(name="md_menu")
           .md-menu__list-item(
             class=list_item__classes
             data-list-item=""
-            data-index="{{@index}}"
+            data-index="#{@index}"
           )
             .list-item--md-menu__selection-indicator(
               data-selection-indicator=""

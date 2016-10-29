@@ -68,7 +68,7 @@ _.extend(Material.prototype, {
     const headerPanel = this.dqS('[data-header-panel]');
     if (headerPanel) {
       const header = this.eqS(headerPanel, '[data-header]');
-      const headerShadow = this.eqS(headerPanel, '[data-header-shadow]');
+      const headerShadow = this.eqS(header, '[data-header-shadow]');
       const content = this.eqS(headerPanel, '[data-content]');
       const coveringContent = this.eqS(content, '[data-covering-content]');
       let mode;
@@ -127,7 +127,7 @@ _.extend(Material.prototype, {
          * Shadow when the Content is fully scrolled down.
          */
         let __onScrolledDown = () => {
-          if (! headerPanel.hasAttribute('data-expand-on-scroll')) {
+          if (!headerPanel.hasAttribute('data-expand-on-scroll')) {
             // Expand the header.
             this._expandHeader(header);
 
@@ -141,13 +141,13 @@ _.extend(Material.prototype, {
 
         // A callback to show the Shadow when the Content is scrolling
         let __onScrolling = (direction) => {
-          const _hasTabs = !! this.dqS('[data-tabs]');
+          const _headerHasTabs = !!this.eqS(header, '[data-tabs]');
 
           // Show the Drop Shadow.
           this._showDropShadow(headerShadow);
 
           if (direction === 'up') {
-            if (_hasTabs) {
+            if (_headerHasTabs) {
               // Collapse the Header to the Top toolbar and Tab bar.
               this._collapseHeader(header);
 
@@ -221,7 +221,7 @@ _.extend(Material.prototype, {
    */
   _showDropShadow(shadow) {
     "use strict";
-    if (! shadow.classList.contains('show-shadow')) {
+    if (!shadow.classList.contains('show-shadow')) {
       shadow.classList.add('show-shadow');
     }
   },
@@ -232,7 +232,7 @@ _.extend(Material.prototype, {
    */
   _collapseHeader(header) {
     "use strict";
-    if (! header.classList.contains('collapsed')) {
+    if (!header.classList.contains('collapsed')) {
       header.classList.add('collapsed');
     }
   },
@@ -250,13 +250,13 @@ _.extend(Material.prototype, {
 
   /**
    * Hide the Middle bar.
-   * @param {Object} Header - the Header element
+   * @param {Object} header - the Header element
    */
   _hideMiddleBar(header) {
     "use strict";
     const middleBar = this.eqS(header, '[data-middle-bar]');
     if (middleBar) {
-      if (! middleBar.classList.contains('collapsed')) {
+      if (!middleBar.classList.contains('collapsed')) {
         middleBar.classList.add('collapsed');
       }
     }
@@ -270,7 +270,7 @@ _.extend(Material.prototype, {
     "use strict";
     const bottomBar = this.eqS(header, '[data-bottom-bar]');
     if (bottomBar) {
-      if (! bottomBar.classList.contains('collapsed')) {
+      if (!bottomBar.classList.contains('collapsed')) {
         bottomBar.classList.add('collapsed');
       }
     }

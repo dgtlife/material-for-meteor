@@ -9,15 +9,16 @@
 
 /////////////////////////////  COMMON VARIABLES  ///////////////////////////////
 $md-font-family = "Roboto", "Noto", "Helvetica Neue", Helvetica, "Segoe", Arial, sans-serif !important
-$md-primary-text__color = rgba(0, 0, 0, 0.87)
-$md-secondary-text__color = rgba(0, 0, 0, 0.54)
-$md-disabled-text__color = rgba(0, 0, 0, 0.38)
-$md-field__input__color = $md-primary-text__color
+$md-color__primary = #009688
+$md-color__primary-text = rgba(0, 0, 0, 0.87)
+$md-color__secondary-text = rgba(0, 0, 0, 0.54)
+$md-color__disabled-text = rgba(0, 0, 0, 0.38)
+$md-color__text-input = $md-color__primary-text
+$md-color__backdrop-bg = #000000
+$md-color__helper-text = rgba(0, 0, 0, 0.38)
+$md-color__error-text = #DD2C00
+$md-color__divider = rgba(0, 0, 0, 0.12)
 $md-field__input__font-size = 1rem
-$md-backdrop__bg-color = #000000
-$md-helper-text__color = rgba(0, 0, 0, 0.38)
-$md-error-text__color = #DD2C00
-$md-divider__color = rgba(0, 0, 0, 0.12)
 
 //////////////////////////////  COMMON MIXINS  /////////////////////////////////
 /////  TYPOGRAPHY  /////
@@ -132,7 +133,7 @@ $user-select-none()
   background-color transparent
   border none
   box-shadow none
-  color $md-field__input__color
+  color $md-color__text-input
   display inline-block
   font-size $md-field__input__font-size
   line-height normal
@@ -160,7 +161,7 @@ $user-select-none()
 
 // Backdrop
 [data-backdrop]
-  background-color $md-backdrop__bg-color
+  background-color $md-color__backdrop-bg
   height 100vh
   left 0
   opacity 0
@@ -180,7 +181,7 @@ $user-select-none()
 
 // Helper text
 .md-helper-text
-  color $md-helper-text__color
+  color $md-color__helper-text
   font-size 0.75rem
   line-height normal
   margin 0.25rem 0
@@ -188,7 +189,7 @@ $user-select-none()
 
 // Error text
 .md-error-text
-  color $md-error-text__color
+  color $md-color__error-text
   font-size 0.75rem
   line-height normal
   margin 0.25rem 0
@@ -197,7 +198,7 @@ $user-select-none()
 // Subheader
 .md-subheader
   $align-items-center()
-  color $md-secondary-text__color
+  color $md-color__secondary-text
   $display-flex()
   font-size 0.875rem
   font-weight 500
@@ -205,10 +206,13 @@ $user-select-none()
 
 // Divider
 .md-divider
-  background-color $md-divider__color
+  background-color $md-color__divider
   height 1px
   margin 0.5rem 0
   width 100%
 
+// Miscellaneous
 .flex
   flex 1
+.md-hide
+  display none !important

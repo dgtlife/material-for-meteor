@@ -72,7 +72,7 @@ _.extend(Material.prototype, {
    */
   detectTabs(toolbarSpec) {
     "use strict";
-    const toolbar = this._getElement('toolbar', toolbarSpec);
+    const toolbar = this._getElement(toolbarSpec);
     const bottomBar = this.eqS(toolbar, '[data-bottom-bar]');
     const hasTabs = this.eqS(bottomBar, '[data-tabs]');
     if (hasTabs) {

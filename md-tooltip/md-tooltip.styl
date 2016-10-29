@@ -7,15 +7,17 @@
 @require '../md-common'
 
 ////////////////////    VARIABLES FOR MD TOOLTIP STYLES    /////////////////////
-$md-tooltip__bg-color = #313131
+$md-tooltip__bg-color = rgba(97,97,97,0.9)
 $md-tooltip__color = #FEFEFE
 $md-tooltip__font-size = 0.75rem
 
 /////////////////////////    STYLES FOR MD TOOLTIP    //////////////////////////
 .md-tooltip
   display block
-  visibility hidden
+  height 1.375rem
   position absolute
+  transition visibility 0.15s
+  visibility hidden
   z-index 1000
 .md-tooltip__text
   background-color $md-tooltip__bg-color
@@ -23,8 +25,7 @@ $md-tooltip__font-size = 0.75rem
   color $md-tooltip__color
   display block
   font-size $md-tooltip__font-size
-  opacity 0.95
-  padding 0.5rem
+  padding 0.25rem 0.5rem
   white-space nowrap
 .md-tooltip.show-tooltip
   visibility visible

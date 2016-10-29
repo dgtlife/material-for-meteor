@@ -7,33 +7,39 @@
 @require '../md-common'
 
 /////////////////    VARIABLES FOR MD RADIO BUTTON STYLES    ///////////////////
-$md-chip__background-color = #EEEEEE
-$md-chip__icon-color = rgba(0,0,0,0.54)
-$md-chip__label-color = rgba(0,0,0,0.54)
-$md-chip__delete-button-color = rgba(0,0,0,0.28)
+$md-chip__color--background = #EEEEEE
+$md-chip__color--icon = rgba(0,0,0,0.54)
+$md-chip__color--label = rgba(0,0,0,0.54)
+$md-chip__color--delete-button = rgba(0,0,0,0.28)
 
 ///////////////////////////    STYLES FOR MD CHIP    ///////////////////////////
 .md-chip
   $align-items-center()
-  background-color $md-chip__background-color
+  background-color $md-chip__color--background
   border-radius 1rem
-  $display-flex()
+  $display-inline-flex()
   $flex-direction(row)
   height 2rem
 .md-icon.md-chip__icon,
 .md-icon.md-chip__image
   border-radius 50%
   height 2rem
+  overflow hidden
+  width 2rem
+.md-icon.md-chip__image .md-icon__image
+  height 2rem
+  padding 0
   width 2rem
 .md-icon.md-chip__icon
-  color $md-chip__icon-color
+  color $md-chip__color--icon
 .md-chip__label
-  color $md-chip__label-color
+  color $md-chip__color--label
   font-size 0.8125rem
   line-height 0.8125
   padding 0 0.75rem
 .md-chip__delete
-  color $md-chip__delete-button-color
+  color $md-chip__color--delete-button
+  cursor pointer
   height 1.5rem
   margin 0 0.25rem 0 0
   width 1.5rem

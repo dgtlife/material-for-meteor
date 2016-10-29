@@ -13,85 +13,89 @@ _.extend(Material.prototype, {
 
   /**
    * Register a tooltip with its target element.
-   *
-   * @param {string} id - the id of the target element of the tooltip
+   * @param {object} tooltip - the tooltip element
+   * @param {string} targetId - the id of the target element of the tooltip
    */
-  registerTooltip: function (id) {
+  registerTooltip(tooltip, targetId) {
     "use strict";
-    var self = this;
+    const target = this.dgEBI(targetId);
 
-    if (self.dgEBI(id)) {
-      self.dgEBI(id).setAttribute('data-has-tooltip', 'true');
-    } else return false;
+    function _registerWithTarget(__target) {
+      __target.setAttribute('data-has-tooltip', 'true');
+    }
+
+    if (target) {
+      _registerWithTarget(target);
+    } else {
+      const selector = '#' + targetId;
+      this.waitForElement(document.body, selector, _registerWithTarget, 0);
+    }
   },
 
   /**
-   * Pre-position a tooltip, so that its first display is right where it should
-   * be.
+   * Position a tooltip for subsequent display.
    *
-   * @param {Object} tooltip - the tooltip element
+   * @param {object} tooltip - the tooltip element
    * @param {string} id - the id of the tooltip target
    */
-  positionTooltip: function (tooltip, id) {
+  positionTooltip(tooltip, id) {
     "use strict";
-    var self = this;
+    const target = this.dgEBI(id);
+    const targetX = target.getBoundingClientRect().left;
+    const targetY = target.getBoundingClientRect().top;
+    const targetHeight = target.getBoundingClientRect().height;
+    const targetWidth = target.getBoundingClientRect().width;
+    const tooltipHeight = tooltip.getBoundingClientRect().height;
+    const tooltipWidth = tooltip.getBoundingClientRect().width;
+    const tooltipPosition = tooltip.getAttribute('data-position');
 
-    var target, targetHeight, targetWidth, targetX, targetY, tooltipPosition,
-        tooltipHeight, tooltipWidth, tooltipX, tooltipY, tooltipMarginTop,
-        tooltipMarginLeft, tooltipStyle;
+    /*
+     * Compute the top and left values of the tooltip for fixed positioning,
+     * i.e. relative to the viewport origin.
+     */
+    let tooltipLeft, tooltipTop;
 
-    target = self.dgEBI(id);
-    targetHeight = target.getBoundingClientRect().height;
-    targetWidth = target.getBoundingClientRect().width;
-    targetX = target.getBoundingClientRect().left;
-    targetY = target.getBoundingClientRect().top;
-    tooltipHeight = tooltip.getBoundingClientRect().height;
-    tooltipWidth = tooltip.getBoundingClientRect().width;
-    tooltipX = tooltip.getBoundingClientRect().left;
-    tooltipY = tooltip.getBoundingClientRect().top;
-    tooltipPosition = tooltip.getAttribute('data-position');
-
-    // Compute and compose the style that positions the tooltip.
-    switch (tooltipPosition) {
-      case 'top':
-        tooltipMarginTop = - (targetHeight + tooltipHeight + 16);
-        if (tooltipWidth >= targetWidth) {
-          tooltipMarginLeft =
-            targetX - tooltipX - ((tooltipWidth - targetWidth) / 2);
-        } else {
-          tooltipMarginLeft =
-            targetX - tooltipX + ((targetWidth - tooltipWidth) / 2);
-        }
-        tooltipStyle = 'margin-top: ' + tooltipMarginTop + 'px; ' +
-          'margin-left: ' + tooltipMarginLeft + 'px;';
-        break;
-      case 'bottom':
-        tooltipMarginTop = 16;
-        if (tooltipWidth >= targetWidth) {
-          tooltipMarginLeft =
-            targetX - tooltipX - ((tooltipWidth - targetWidth) / 2);
-        } else {
-          tooltipMarginLeft =
-            targetX - tooltipX + ((targetWidth - tooltipWidth) / 2);
-        }
-        tooltipStyle = 'margin-top: ' + tooltipMarginTop + 'px; ' +
-          'margin-left: ' + tooltipMarginLeft + 'px;';
-        break;
-      case 'left':
-        tooltipMarginTop =
-          - (tooltipY - (targetY + (targetHeight - tooltipHeight) / 2));
-        tooltipMarginLeft = (targetX - tooltipX - tooltipWidth - 16);
-        tooltipStyle = 'margin-top: ' + tooltipMarginTop + 'px; ' +
-          'margin-left: ' + tooltipMarginLeft + 'px;';
-        break;
-      case 'right':
-        tooltipMarginTop =
-          - (tooltipY - (targetY + (targetHeight - tooltipHeight) / 2));
-        tooltipMarginLeft = (targetX - tooltipX + targetWidth + 16);
-        tooltipStyle = 'margin-top: ' + tooltipMarginTop + 'px; ' +
-          'margin-left: ' + tooltipMarginLeft + 'px;';
-        break;
+    // Computes the left value for top and bottom positions.
+    function _getTooltipLeftForVerticalAlignment() {
+      if (tooltipWidth >= targetWidth) {
+        tooltipLeft = targetX - ((tooltipWidth - targetWidth) / 2);
+      } else {
+        tooltipLeft = targetX + ((targetWidth - tooltipWidth) / 2);
+      }
+      return tooltipLeft;
     }
+
+    // Computes the top value for left and right positions.
+    function _getTooltipTopForHorizontalAlignment() {
+      if (tooltipHeight <= targetHeight) {
+        tooltipTop = targetY + ((targetHeight - tooltipHeight) / 2);
+      } else {
+        tooltipTop = targetY - ((tooltipHeight - targetHeight) / 2);
+      }
+      return tooltipTop;
+    }
+
+    if ((!tooltipPosition) || (tooltipPosition === 'bottom')) {
+      tooltipTop = targetY + targetHeight + 14;
+      tooltipLeft = _getTooltipLeftForVerticalAlignment();
+    } else if (tooltipPosition === 'top') {
+      tooltipTop = targetY - 14 - tooltipHeight;
+      tooltipLeft = _getTooltipLeftForVerticalAlignment();
+    } else if (tooltipPosition === 'left') {
+      tooltipTop = _getTooltipTopForHorizontalAlignment();
+      tooltipLeft = targetX - 14 - tooltipWidth;
+    } else if (tooltipPosition === 'right') {
+      tooltipTop = _getTooltipTopForHorizontalAlignment();
+      tooltipLeft = targetX + targetWidth + 14;
+    } else {
+      return false;
+    }
+
+    // Compose the style attribute.
+    const tooltipStyle =
+      'top: ' + tooltipTop + 'px; ' +
+      'left: ' + tooltipLeft + 'px; ' +
+      'position: fixed;';
 
     // Apply the style attribute to position the tooltip.
     tooltip.setAttribute('style', tooltipStyle);
@@ -102,14 +106,15 @@ _.extend(Material.prototype, {
    *
    * @param {string} id - the id of the tooltip target.
    */
-  showTooltip: function (id) {
+  showTooltip(id) {
     "use strict";
-    var self = this;
 
     // Get the tooltip.
-    var tooltip = self.dqS('[data-target=' + id + ']');
+    const tooltip = this.dqS('[data-target=' + id + ']');
+
     // Position the tooltip.
-    self.positionTooltip(tooltip, id);
+    this.positionTooltip(tooltip, id);
+
     // Reveal the tooltip.
     tooltip.classList.add('show-tooltip');
   },
@@ -119,41 +124,45 @@ _.extend(Material.prototype, {
    *
    * @param {string} id - the id of the tooltip target.
    */
-  hideTooltip: function (id) {
+  hideTooltip(id) {
     "use strict";
-    var self = this;
 
     // Get the tooltip.
-    var tooltip = self.dqS('[data-target=' + id + ']');
+    const tooltip = this.dqS('[data-target=' + id + ']');
+
     // Hide the tooltip.
     tooltip.classList.remove('show-tooltip');
-    // Clear the style attribute.
-    tooltip.removeAttribute('style');
+
+    Meteor.setTimeout(function () {
+      // Clear the style attribute, after transition delay has passed.
+      tooltip.removeAttribute('style');
+    }, 160);
+
   }
 });
 
 ///////////////////////  EVENT HANDLERS FOR MD TOOLTIP  ////////////////////////
 Template.body.events({
-  'mouseenter [data-has-tooltip]': function () {
+  'mouseenter [data-has-tooltip]'() {
     "use strict";
-    var self = this;
-
-    MD.showTooltip(self.id);
+    MD.showTooltip(this.id);
   },
 
-  'mouseleave [data-has-tooltip]': function () {
+  'mouseleave [data-has-tooltip]'() {
     "use strict";
-    var self = this;
 
-    MD.hideTooltip(self.id);
+    // Hide the tooltip after 1.5 seconds.
+    Meteor.setTimeout(() => {
+      MD.hideTooltip(this.id);
+    }, 1500);
+
   }
 });
 
 //////////////////    ON-RENDER CALLBACK FOR MD TOOLTIP    /////////////////////
 Template.md_tooltip.onRendered(function () {
   "use strict";
-  var self = this;
 
-  // Register with target element.
-  MD.registerTooltip(self.data.target);
+  // Register the tooltip with the target element.
+  MD.registerTooltip(this.firstNode, this.data.target);
 });

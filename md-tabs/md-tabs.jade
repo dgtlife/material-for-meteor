@@ -1,18 +1,17 @@
-//- @file Defines the templates for the MD Checkbox.
+//- @file Defines the templates for the MD Tabs and MD Tab.
     @author Derek Gransaull <derek@dgtlife.com>
     @copyright DGTLife, LLC 2016
 
     Created on 6/27/2016
 
 //-/////////////////////////////  MD TABS  /////////////////////////////////////
-//- An MD Checkbox is a ...
+//- An MD Tabs is a ...
 
 //- The MD Tabs template.
 template(name="md_tabs")
   .md-tabs(
     data-tabs=""
     id=id
-    name=name
     class=classes
     data-num-tabs=num_tabs
     data-selected=selected
@@ -20,15 +19,27 @@ template(name="md_tabs")
   )
     .md-tabs__tab-bar(class=tab_bar__classes)
       .md-tabs__indicator
-      +Template.dynamic(template=tab_bar__content)
+      if tabs
+        +each tabs
+          +md_tab(
+            id=tab__id
+            classes=tab__classes
+            index=@index
+            name=name
+            label=label
+            ripple=ripple
+          )
+      if tab_bar__content
+        +Template.dynamic(template=tab_bar__content)
 
 //- The MD Tab template.
 template(name="md_tab")
   .md-tab(
+    data-tab=""
     id=id
-    name=name
-    classes=tab__classes
-    data-tab-id=tab__id
+    class=classes
+    data-tab-index=index
+    data-tab-name=name
   )
     .md-tab__label=label
     if ripple

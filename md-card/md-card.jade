@@ -10,16 +10,14 @@ template(name="md_card")
     .md-card.md-card__selector(
       data-card=""
       id=id
-      name=name
       class=classes
-      data-index="{{@index}}"
+      data-index="#{@index}"
     )
       +Template.dynamic(template=content)
   else
     .md-card.md-card__selector(
       data-card=""
       id=id
-      name=name
       class=classes
     )
       +Template.dynamic(template=content)

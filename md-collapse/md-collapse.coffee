@@ -17,7 +17,7 @@ _.extend Material.prototype,
   expand__content: (collapseSpec) ->
     "use strict"
 
-    collapse = @_computeCollapse collapseSpec
+    collapse = @_getElement collapseSpec
     content = @eqS collapse, '[data-collapse-content]'
     sizer = @eqS content, '[data-collapse-sizer]'
     toggle = @eqS collapse, '[data-collapse-toggle]'
@@ -35,34 +35,13 @@ _.extend Material.prototype,
   collapse__content: (collapseSpec) ->
     "use strict"
 
-    collapse = @_computeCollapse collapseSpec
+    collapse = @_getElement collapseSpec
     content = @eqS collapse, '[data-collapse-content]'
     toggle = @eqS collapse, '[data-collapse-toggle]'
 
     content.classList.add 'collapsed'
     content.removeAttribute 'style'
     toggle.classList.add 'collapsed'
-
-  ###*
-  # Compute the value of the collapse element from a collapseSpec value.
-  #
-  # @param {(string|Object)} collapseSpec - a selector for the collapse element
-  #                                         or the collapse element itself
-  # @private
-  ###
-  _computeCollapse: (collapseSpec) ->
-    "use strict"
-
-    if _.isString collapseSpec
-      if @dqS(collapseSpec) is null
-        throw new Meteor.Error 'An invalid selector for a collapse returned null.'
-      else
-        @dqS collapseSpec
-    else if _.isObject collapseSpec
-      collapseSpec
-    else
-      throw new Meteor.Error 'collapseSpec must be a collapse selector (string)' +
-          ' or a collapse element (Object).'
 
 # /////////////////////  EVENT HANDLERS FOR MD COLLAPSE  ///////////////////////
 Template.md_collapse.events

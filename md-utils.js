@@ -9,23 +9,87 @@
 _.extend(Material.prototype, {
   /**
    * Get an element object from an 'elementSpec' value.
-   * @param {string} type - the element type
    * @param {(string|Object)} elementSpec - a selector for the element or the
    *                                        element itself
    */
-  _getElement(type, elementSpec) {
+  _getElement(elementSpec) {
     "use strict";
     if (_.isString(elementSpec)) {
       return this.dqS(elementSpec);
     } else if (_.isObject(elementSpec)) {
       return elementSpec;
     } else {
-      throw new Meteor.Error(
-        type + 'Spec must be a ' +
-        type + ' selector (string) or a ' +
-        type + ' element (Object).'
+      throw new Meteor.Error('An elementSpec must be a selector (string) or ' +
+        'an element (Object).'
       );
     }
+  },
+
+  /**
+   * Hide a DOM element.
+   * @param {object} element - the DOM element to be hidden
+   * @private
+   */
+  _hideElement(element) {
+    "use strict";
+    if (!element.classList.contains('md-hide')) {
+      element.classList.add('md-hide');
+    }
+  },
+
+  /**
+   * Show a DOM element (that was previously hidden).
+   * @param {object} element - the DOM element to be shown
+   * @private
+   */
+  _showElement(element) {
+    "use strict";
+    if (element.classList.contains('md-hide')) {
+      element.classList.remove('md-hide');
+    }
+  },
+
+  /**
+   * Wait for an element to be rendered before calling a callback.
+   * @param {object} parent - a parent of the element
+   * @param {string} selector - a selector for the element to wait for
+   * @param {function} callback - the callback to call upon element detection
+   * @param {number} delay - the delay after element detection before the
+   *                         callback is called
+   */
+  waitForElement(parent, selector, callback, delay) {
+    "use strict";
+
+    // A callback for the mutation observer to detect the element.
+    function _detectElement(mutations) {
+      _.each(mutations, function (mutation) {
+        if (mutation.addedNodes.length > 0) {
+          _.each(mutation.addedNodes, function (addedNode) {
+            if (addedNode.nodeName === 'DIV') {
+              if (MD.eqS(addedNode, selector)) {
+                // Get the element.
+                const element = MD.eqS(addedNode, selector);
+
+                // Call the callback with any applicable delay.
+                Meteor.setTimeout(function () {
+                  callback(element);
+                }, delay);
+
+                // Stop the observer.
+                _onRenderChildren.disconnect();
+              }
+            }
+          });
+        }
+      });
+    }
+
+    // An observer that looks for rendering of child nodes of a parent.
+    const _onRenderChildren = new MutationObserver(_detectElement);
+    _onRenderChildren.observe(parent, {
+      childList: true,
+      subtree: true
+    });
   },
 
   /**

@@ -7,15 +7,20 @@
 @require '../md-common'
 
 ///////////////////    VARIABLES FOR MD CHECKBOX STYLES    /////////////////////
+$md-checkbox__color--unchecked = rgba(0,0,0,0.54)
 $md-checkbox__color--checked = #009688
+$md-checkbox__color--disabled = rgba(0,0,0,0.26)
+
 
 ///////////////////////    STYLES FOR MD CHECKBOX    ///////////////////////////
 .md-checkbox
   $align-items-center()
+  cursor pointer
   $display-flex()
   $flex-direction(row)
   $justify-content-start()
   padding 0.5rem 0
+  white-space nowrap
 .md-checkbox__box
   position relative
 .md-checkbox__input
@@ -33,14 +38,21 @@ $md-checkbox__color--checked = #009688
 .md-checkbox__icon
   position relative
   z-index 0
-.md-checkbox__box--checked
+.md-checkbox__box--checked .md-checkbox__icon
   color $md-checkbox__color--checked
-.md-checkbox__box--checked.hide,
-.md-checkbox__box--unchecked.hide
-  display none
+.md-checkbox__box--checked.md-hide,
+.md-checkbox__box--unchecked.md-hide
+  display none !important
 .md-checkbox__box .md-ripple
   z-index 2
 .md-checkbox__label
   font-size 1rem
   line-height 1
   padding 0 0 0 2rem
+.md-checkbox[data-disabled]
+  .md-checkbox__icon
+    color $md-checkbox__color--disabled
+  .md-ripple__wave
+    background-color $md-checkbox__color--disabled
+  .md-checkbox__label
+    color $md-checkbox__color--disabled

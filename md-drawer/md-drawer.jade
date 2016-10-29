@@ -12,7 +12,6 @@ template(name="md_drawer")
   .md-drawer(
     data-drawer=position
     id=id
-    name=name
     class=classes
     data-width=width
     data-responsive-width=responsive_width
@@ -21,7 +20,6 @@ template(name="md_drawer")
       .md-drawer__header(
         data-drawer-header=""
         id=header__id
-        name=header__name
         class=header__classes
       )
         +Template.dynamic(template=header__content)
@@ -29,7 +27,6 @@ template(name="md_drawer")
       +md_toolbar(
         drawer_toolbar=""
         id=toolbar__id
-        name=toolbar__name
         classes=toolbar__classes
         content=toolbar__content
         use_bar_templates=use_bar_templates
@@ -40,7 +37,6 @@ template(name="md_drawer")
     if has_menu
       +md_menu(
         id=menu__id
-        name=menu__name
         classes="md-drawer__menu"
         _drawer_menu=""
         menu_items=menu__items

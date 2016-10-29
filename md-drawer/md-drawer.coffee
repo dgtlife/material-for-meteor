@@ -29,13 +29,6 @@ _.extend Material.prototype,
       width = drawer.getAttribute('data-width') or 192
       drawer.style.width = width + 'px'
 
-      # Set the height of any drawer toolbar to match that of any main header.
-      if @eqS(drawer, '[data-drawer-toolbar]') and @dqS('[data-header]')
-        if @dqS('[data-header]').classList.contains 'medium-tall'
-          @eqS(drawer, '[data-drawer-toolbar]').classList.add 'medium-tall'
-        if @dqS('[data-header]').classList.contains 'tall'
-          @eqS(drawer, '[data-drawer-toolbar]').classList.add 'tall'
-
       # Initialize docked/undocked state of the drawer.
       @_initializeDockedStatus drawer, width, position, headerPanel
 

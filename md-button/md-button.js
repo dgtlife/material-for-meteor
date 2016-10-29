@@ -21,7 +21,7 @@ _.extend(Material.prototype, {
     "use strict";
     var self = this;
 
-    var button = self._getElement('button', buttonSpec);
+    var button = self._getElement(buttonSpec);
 
     // Remove the 'disabled' attribute.
     if (button.hasAttribute('disabled'))
@@ -38,7 +38,7 @@ _.extend(Material.prototype, {
     "use strict";
     var self = this;
 
-    var button = self._getElement('button', buttonSpec);
+    var button = self._getElement(buttonSpec);
 
     // Set the 'disabled' attribute.
     if (! button.hasAttribute('disabled'))

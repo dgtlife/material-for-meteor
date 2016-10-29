@@ -13,6 +13,7 @@
 .md-tabs
   width 100%
 .md-tabs__tab-bar
+  background-color $md-color__primary
   $display-flex()
   $flex-direction(row)
   $justify-content-start()
@@ -41,6 +42,8 @@
 .md-tabs[data-slide] .md-tabs__indicator,
 .md-tabs[data-slide=true] .md-tabs__indicator
   transition margin 0.25s
+.md-tab-pane.hide
+  display none
 
 ////// On Desktop/tablet
 .app.desktop

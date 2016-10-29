@@ -14,19 +14,20 @@ _.extend(Material.prototype, {
 
   /**
    * Import the radio buttons for the supplied radio group.
-   * @param {Object} groupElement - the group element
+   * @param {object} groupElement - the group element
    * @returns {boolean} - returns false if no temp button container is found
    */
   importRadioButtons: function (groupElement) {
     "use strict";
     var self = this;
 
-    var groupName, tempButtonContainer, buttonNodes;
+    var group, tempButtonContainer, buttonNodes;
 
-    // Get the group name;
-    groupName = groupElement.getAttribute('name');
+    // Get the group value;
+    group = groupElement.getAttribute('data-group');
+
     // Look for any node containing radio buttons for this radio group.
-    tempButtonContainer = self.dqS('[data-buttons-for="' + groupName + '"]');
+    tempButtonContainer = self.dqS('[data-buttons-for="' + group + '"]');
     if (tempButtonContainer) {
       buttonNodes = self.nodeListToArray(tempButtonContainer.childNodes);
       _.each(buttonNodes, function (buttonNode) {
@@ -44,15 +45,15 @@ _.extend(Material.prototype, {
 
   /**
    * Handler for the click event on an MD radio button.
-   * @param {Object} buttonElement - the button element
+   * @param {object} buttonElement - the button element
    * @returns {boolean} - returns false if the button is already selected
    */
   handleClickOnRadioButton: function (buttonElement) {
     "use strict";
     var self = this;
 
-    if ((buttonElement.getAttribute('data-checked') === 'true') ||
-      (buttonElement.getAttribute('data-disabled') === 'true')) {
+    if (buttonElement.hasAttribute('data-checked') ||
+      buttonElement.hasAttribute('data-disabled')) {
       // Nothing to do.
       return false;
     } else {
@@ -64,7 +65,7 @@ _.extend(Material.prototype, {
 
   /**
    * Set a radio button in a radio group as 'checked'.
-   * @param {Object} groupElement - the radio group element
+   * @param {object} groupElement - the radio group element
    * @param {string} value - the value to be assigned to the radio group
    * @private
    */
@@ -78,7 +79,7 @@ _.extend(Material.prototype, {
     // Set the button with the matching value as 'checked'; clear the others.
     _.each(buttonElements, function (buttonElement) {
       if (buttonElement.getAttribute('data-value') === value) {
-        if (! buttonElement.hasAttribute('data-checked'))
+        if (!buttonElement.hasAttribute('data-checked'))
           buttonElement.setAttribute('data-checked', 'true');
       } else {
         if (buttonElement.hasAttribute('data-checked'))
@@ -90,18 +91,19 @@ _.extend(Material.prototype, {
   /**
    * Assign the 'data-value' of the supplied (clicked) radio button to its
    * radio group element.
-   * @param {Object} buttonElement - the button element
+   * @param {object} buttonElement - the button element
    */
   _assignButtonValueToGroup: function (buttonElement) {
     "use strict";
     var self = this;
-
     var value;
 
     // Clear 'data-checked' from all buttons in the group.
     self.clearValueOfRadioGroup(buttonElement.parentElement);
+
     // Set the 'data-checked' value for the checked button.
     buttonElement.setAttribute('data-checked', 'true');
+
     // Set the 'data-selected' attribute in the radio group element.
     value = buttonElement.getAttribute('data-value');
     buttonElement.parentElement.setAttribute('data-selected', value);
@@ -109,21 +111,20 @@ _.extend(Material.prototype, {
 
   /**
    * Compute the value of the radio group element from a groupSpec value.
-   * @param {string|Object} groupSpec - the group name or the group element
-   *                                    itself
+   * @param {string|object} groupSpec - a selector for the group or the group
+   *                                    element itself
    * @private
    */
   _computeGroup: function (groupSpec) {
     "use strict";
     var self = this;
-
     if (_.isString(groupSpec)) {
-      return self.dqS('[name=' + groupSpec + ']');
+      return self.dqS('#' + groupSpec + ']');
     } else if (_.isObject(groupSpec)) {
       return groupSpec;
     } else {
       throw new Meteor.Error(
-        'groupSpec must be the group name (string) or the group element (Object).'
+        'groupSpec must be the group id (string) or the group element (Object).'
       );
     }
   },
@@ -131,7 +132,7 @@ _.extend(Material.prototype, {
   /**
    * Initialize the value of a radio group that has its 'data-selected'
    * attribute preset.
-   * @param {Object} groupElement - the group element
+   * @param {object} groupElement - the group element
    */
   initializeValueOfRadioGroup: function (groupElement) {
     "use strict";
@@ -139,6 +140,7 @@ _.extend(Material.prototype, {
 
     // Get the 'data-selected' value from the group element.
     var value = groupElement.getAttribute('data-selected');
+
     // Set the corresponding button as 'checked'.
     self._setCheckedButton(groupElement, value);
   },
@@ -165,7 +167,7 @@ _.extend(Material.prototype, {
     var self = this;
 
     // Set the 'disabled' attribute.
-    if (! self.dqS(selector).hasAttribute('data-disabled'))
+    if (!self.dqS(selector).hasAttribute('data-disabled'))
       self.dqS(selector).setAttribute('data-disabled', 'true');
   },
 
@@ -177,17 +179,19 @@ _.extend(Material.prototype, {
   setValueOfRadioGroup: function (selector, value) {
     "use strict";
     var self = this;
-
-    if (! value)
+    if (!value)
       throw new Meteor.Error('A value must be supplied; use ' +
       '\'clearValueOfRadioGroup()\' to clear a radio group, if desired.');
 
     // Get the group element.
     var groupElement = self.dqS(selector);
+
     // Clear the value of the radio group.
     self.clearValueOfRadioGroup(groupElement);
+
     // Set the corresponding button as 'checked'.
     self._setCheckedButton(groupElement, value);
+
     // Set the data-selected' value of the radio group element.
     groupElement.setAttribute('data-selected', value);
   },
@@ -200,28 +204,28 @@ _.extend(Material.prototype, {
   getValueOfRadioGroup: function (selector) {
     "use strict";
     var self = this;
-
     return self.dqS(selector).getAttribute('data-selected');
   },
 
   /**
    * Clear the value of a radio group.
-   * @param {string|Object} groupSpec - the radio group name or the radio group
-   *                                    element
+   * @param {string|object} groupSpec - a selector for the group or the group
+   *                                    element itself
    */
   clearValueOfRadioGroup: function (groupSpec) {
     "use strict";
     var self = this;
-
     var groupElement, buttonElements;
 
     // Get the groupElement.
-    groupElement = self._computeGroup(groupSpec);
+    groupElement = self._getElement(groupSpec);
+
     // Remove the "data-checked" attribute from all buttons in this group.
     buttonElements = self.eqSA(groupElement, '[data-radio-button]');
     _.each(buttonElements, function (buttonElement) {
       buttonElement.removeAttribute('data-checked');
     });
+
     // Remove the "data-selected" attribute from the group element.
     groupElement.removeAttribute('data-selected');
   }
@@ -232,7 +236,6 @@ Template.md_radio_group.events({
   // Click on a radio button.
   'click [data-radio-button]'(event) {
     "use strict";
-
     MD.handleClickOnRadioButton(event.currentTarget);
   }
 });

@@ -25,7 +25,6 @@ template(name="md_radio_button")
   .md-radio-button(
     data-radio-button=""
     id=id
-    name=name
     class=classes
     data-group=group
     data-value=value
@@ -41,8 +40,7 @@ template(name="md_radio_button")
         )
         .md-radio-button__button-outer
         .md-radio-button__button-inner
-        if ripple
-          +md_ripple
+        +md_ripple
       span.md-radio-button__label(for=id)=label
 
 //-/////////////////////////  MD RADIO GROUP  //////////////////////////////////
@@ -64,8 +62,8 @@ template(name="md_radio_group")
   .md-radio-group(
     data-radio-group=""
     id=id
-    name=name
     class=classes
+    data-group=group
     data-selected=selected
   )
     .md-label.label--radio-group(class=classes)=label
@@ -73,7 +71,6 @@ template(name="md_radio_group")
       +each buttons
         +md_radio_button(
           id=id
-          name=name
           classes=classes
           group=group
           value=value
