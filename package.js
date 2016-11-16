@@ -11,7 +11,7 @@
 
 Package.describe({
   summary: 'A Blaze implementation of Material Design components for Meteor',
-  version: '0.6.8',
+  version: '0.6.9',
   name: 'dgtlife:material',
   git: ''
 });
