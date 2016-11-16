@@ -61,7 +61,6 @@ _.extend(Material.prototype, {
     const tabBarWidth = tabBar.offsetWidth;
     const indicator = this.eqS(tabGroup, '.md-tabs__indicator');
     const tabs = this.eqSA(tabGroup, '[data-tab]');
-
     const content = this.dqS('[data-content]');
 
     /*
@@ -73,31 +72,6 @@ _.extend(Material.prototype, {
       const tabName = tab.getAttribute('data-tab-name');
       const tabPaneSelector = '[data-tab-pane-name="' + tabName + '"]';
       let tabPane;
-
-      // Waits for a tab pane to be rendered, before calling a callback.
-      // function waitForTabPane (selector, callback) {
-      //   function _detectTabPane(mutations) {
-      //     _.each(mutations, function (mutation) {
-      //       if (mutation.addedNodes.length > 0) {
-      //         if (mutation.addedNodes[0].nodeName === 'DIV') {
-      //           if (MD.eqS(mutation.addedNodes[0], selector)) {
-      //             tabPane = MD.eqS(mutation.addedNodes[0], selector);
-      //             Meteor.setTimeout(function () {
-      //               callback(tabPane);
-      //             }, 500);
-      //             onContentChildren.disconnect();
-      //           }
-      //         }
-      //       }
-      //     });
-      //   }
-      //
-      //   const onContentChildren = new MutationObserver(_detectTabPane);
-      //   onContentChildren.observe(content, {
-      //     childList: true,
-      //     subtree: true
-      //   });
-      // }
 
       // We visit each tab, so make the selection here (vs a separate each loop).
       if (tabIndex === selectedIndex) {

@@ -94,8 +94,8 @@ _.extend Material.prototype,
     if Meteor.isServer
       iconsDefinedBySvg = MD.config.iconsDefinedBySvg
       iconsDefinedByG = MD.config.iconsDefinedByG
-      # Initialize the array that will hold all the extracted icon metadata.
-      iconMetadata = []
+      # Initialize the database that will hold all the extracted icon metadata.
+      MD.icons.remove({})
 
       # Process the icons defined by <g> tags in each specified file.
       _.each iconsDefinedByG, (config) ->
@@ -121,16 +121,16 @@ _.extend Material.prototype,
             # Apply icon selection.
             if config.include is 'all'
               # Use every <g> element.
-              # Push a metadata object into the array.
-              iconMetadata.push
+              # Insert a metadata document into the database.
+              MD.icons.insert
                 id: id
                 content: content
             else
               # Use only the <g> elements for which the _id is in the 'include'
               # list.
               if _.contains config.include, _id
-                # Push a metadata object into the array.
-                iconMetadata.push
+                # Insert a metadata document into the database.
+                MD.icons.insert
                   id: id
                   content: content
 
@@ -158,7 +158,8 @@ _.extend Material.prototype,
             # Apply icon selection.
             if config.include is 'all'
               # Use every <svg> element. Push a metadata object into the array.
-              iconMetadata.push
+              # Insert a metadata document into the database.
+              MD.icons.insert
                 id: id
                 content: content
             else
@@ -166,33 +167,18 @@ _.extend Material.prototype,
               # list.
               if _.contains config.include, _id
                 # Push a metadata object into the array.
-                iconMetadata.push
+                # Insert a metadata document into the database.
+                MD.icons.insert
                   id: id
                   content: content
-      # Assign the metadata to server-side storage.
-      @__iconMetadata = iconMetadata
-      console.log 'MD Icon: metadata for ' + iconMetadata.length +
+      # Log the completion of parsing and storage.
+      console.log 'MD Icon: metadata for ' + MD.icons.find().count() +
           ' icons is ready.'
 
-  ###*
-  # Loads a copy of icon metadata from the server to the client.
-  ###
-  loadIconMetadata: ->
-    "use strict"
-
-    if Meteor.isClient
-      # Initialize the client-side 'iconMetadataReady' reactive variable.
-      @reactive.set 'iconMetadataReady', false
-
-      # Get the array of metadata objects extracted from the icon asset file.
-      Meteor.call '_loadIconMetadata', (error, metadata) ->
-        if error
-          throw new Meteor.Error 500, 'An error occurred; icon metadata were not retrieved.'
-        else
-          # We now have metadata for all icons on the client.
-          MD._iconMetadata = metadata
-          # Set the reactive variable to indicate that icon metadata is ready.
-          MD.reactive.set 'iconMetadataReady', true
+      # Publish this 'md_icons' collection.
+      Meteor.publish('icons', ->
+        MD.icons.find()
+      );
 
   ###*
   # A helper to enable convenient icon insertion. The helper passes an
@@ -212,9 +198,10 @@ _.extend Material.prototype,
       # Otherwise, the icon id is the first argument; ignore all others.
       id = arguments[0]
       # Once icon metadata is ready on the client,
-      if MD.reactive.get 'iconMetadataReady'
-        # find the icon metadata object corresponding to this id,
-        icon = _.findWhere MD._iconMetadata, { id: id }
+      # if MD.reactive.get 'iconMetadataReady'
+      if MD.iconSub.ready()
+        # Find the icon metadata object corresponding to this id,
+        icon = MD.icons.findOne { id: id }
         if _.isUndefined icon
           throw new Meteor.Error 'The icon metadata for "' + id +
                                  '" was not found.'
@@ -354,23 +341,3 @@ _.extend Material.prototype,
       id = @__addSuffix id, config.addSuffix
 
     id
-
-#//////  ON THE SERVER  //////
-if Meteor.isServer
-  #///  Define Meteor Methods  ///
-  Meteor.methods(
-
-    ###*
-    # Returns the contents of the server-side icon metadata array.
-    #
-    # @returns {Array} - an array of icon metadata objects
-    # @private
-    ###
-    _loadIconMetadata: ->
-      "use strict"
-      @unblock();
-
-      # Once icon metadata is ready on the server, send it to the client.
-      if MD.__iconMetadata
-        MD.__iconMetadata
-  )

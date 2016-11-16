@@ -5,9 +5,7 @@
  *
  * Created on 9/29/2015
  */
-// JSHint directives
-/*jshint -W117 */     // app- and package-scoped variables not detectable by JSHint
-/*jshint -W106 */     // we are not using camelCase for every identifier
+import { Mongo } from 'meteor/mongo';
 
 ///////////////////////////////  CONSTRUCTOR  //////////////////////////////////
 Material = function () {
@@ -59,6 +57,9 @@ _.extend(Material.prototype, {
   // Manage some reactive variables.
   reactive: Meteor.isClient && new ReactiveDict,
 
+  // A database to hold icon metadata.
+  icons: new Mongo.Collection('icons'),
+
   /**
    * Configure options for the Material instance.
    *
@@ -100,8 +101,8 @@ if (Meteor.isClient) {
     if (MD.options)
       MD.configure(MD.options);
 
-    // Load a copy of the MD Icon metadata from the server.
-    MD.loadIconMetadata();
+    // Subscribe to the MD Icon metadata.
+    MD.iconSub = Meteor.subscribe('icons');
 
     // Register the icon helper.
     MD.registerIconHelper();

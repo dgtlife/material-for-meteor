@@ -60,31 +60,34 @@ _.extend(Material.prototype, {
   waitForElement(parent, selector, callback, delay) {
     "use strict";
 
-    // A callback for the mutation observer to detect the element.
+    // A callback from the mutation observer to detect the element.
     function _detectElement(mutations) {
       _.each(mutations, function (mutation) {
         if (mutation.addedNodes.length > 0) {
           _.each(mutation.addedNodes, function (addedNode) {
-            if (addedNode.nodeName === 'DIV') {
-              if (MD.eqS(addedNode, selector)) {
-                // Get the element.
-                const element = MD.eqS(addedNode, selector);
+            if (addedNode === MD.dqS(selector)) {
+              /*
+               * The element has been rendered. Call the callback with any
+               * applicable delay.
+               */
+              Meteor.setTimeout(function () {
+                callback(addedNode);
+              }, delay);
 
-                // Call the callback with any applicable delay.
-                Meteor.setTimeout(function () {
-                  callback(element);
-                }, delay);
-
-                // Stop the observer.
-                _onRenderChildren.disconnect();
-              }
+              // Since we found it; stop the observer.
+              _onRenderChildren.disconnect();
+            } else {
+              return false;
             }
           });
         }
       });
+
+      // We looked through everything and didn't find it; stop the observer.
+      _onRenderChildren.disconnect();
     }
 
-    // An observer that looks for rendering of child nodes of a parent.
+    // An observer that looks for newly rendered child nodes of a parent.
     const _onRenderChildren = new MutationObserver(_detectElement);
     _onRenderChildren.observe(parent, {
       childList: true,
