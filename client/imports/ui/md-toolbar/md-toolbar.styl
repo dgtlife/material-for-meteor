@@ -1,0 +1,123 @@
+// @file Defines the styles for the MD Toolbar.
+// @author Derek Gransaull <derek@dgtlife.com>
+// @copyright DGTLife, LLC 2015
+//
+// Created on 12/1/2015
+@require '../md-common'
+
+////////////////////    VARIABLES FOR MD TOOLBAR STYLES    /////////////////////
+$md-toolbar__bg-color = #009688
+$md-toolbar__color = #FFFFFF
+
+/////////////////////////    STYLES FOR MD TOOLBAR    //////////////////////////
+// Some styles are adapted from Polymer paper-toolbar. Some styles conform to
+// the metrics and keylines specs for Material Design at
+// https://www.google.com/design/spec/layout/metrics-keylines.html#metrics-keylines-keylines-spacing
+
+.md-toolbar
+  background-color $md-toolbar__bg-color
+  color $md-toolbar__color
+  display block
+  position relative
+  width 100%
+  z-index 1
+.md-toolbar.animate
+  transition height 0.18s ease-in
+[data-header]
+  transition height 0.2s
+.md-toolbar__bar
+  $align-items-center()
+  $display-flex()
+  $flex-direction-row()
+  padding 0 1rem
+  position relative
+.md-toolbar__bar.top
+  position relative
+  z-index 2
+.md-toolbar__bar.middle
+  left 0
+  position absolute
+  right 0
+  top 0
+  z-index 1
+.md-toolbar__bar.bottom
+  bottom 0
+  left 0
+  position absolute
+  right 0
+  z-index 0
+.md-toolbar__bar.bottom.has-tabs
+  height 3rem
+.md-toolbar.tall .md-toolbar__bar.middle,
+.md-toolbar.medium-tall .md-toolbar__bar.middle
+  -webkit-transform translateY(100%)
+  transform translateY(100%)
+[data-middle-bar].collapsed,
+[data-bottom-bar].collapsed
+  display none
+.md-toolbar__bar [data-icon-button][data-toolbar-menu-button]
+  margin-right 1.25rem
+.md-toolbar__bar .title
+  $md-title()
+  line-height normal
+  overflow hidden
+  text-overflow ellipsis
+  white-space nowrap
+.md-toolbar__bar.start-justified
+  $justify-content-start()
+.md-toolbar__bar.center-justified
+  $justify-content-center()
+.md-toolbar__bar.end-justified
+  $justify-content-end()
+.md-toolbar__bar.around-justified
+  $justify-content-around()
+.md-toolbar__bar.between-justified
+  $justify-content-between()
+.md-toolbar__bar .fit
+  bottom 0
+  left 0
+  margin 0
+  position absolute
+  right 0
+  top auto
+  width auto
+
+// Wide screens
+@media only screen and (min-width: 600px)
+  .md-toolbar
+    height 4rem
+  .md-toolbar.medium-tall
+    height 8rem
+  .md-toolbar.tall
+    height 12rem
+  .md-toolbar__bar
+    height 4rem
+  .md-toolbar__bar [data-icon-button][data-toolbar-menu-button]
+    padding-left 0.5rem
+  .md-toolbar__bar .title
+    margin-left 5.5rem
+  .md-toolbar__bar [data-icon-button][data-toolbar-menu-button] + .title
+    margin-left 1.5rem
+  .md-toolbar__bar [data-icon-button]:last-of-type
+    padding-right 0.5rem
+  [data-header-panel][data-docked-left] .md-toolbar__bar .title
+    margin-left 1.5rem
+
+// Narrow screens
+@media only screen and (max-width: 600px)
+  .md-toolbar
+    height 3.5rem
+  .md-toolbar.medium-tall
+    height 7rem
+  .md-toolbar.tall
+    height 10.5rem
+  .md-toolbar__bar
+    height 3.5rem
+  .md-toolbar__bar [data-icon-button][data-toolbar-menu-button]
+    padding-left 0
+  .md-toolbar__bar .title
+    margin-left 3.5rem
+  .md-toolbar__bar [data-icon-button][data-toolbar-menu-button] + .title
+    margin-left 0
+  .md-toolbar__bar [data-icon-button]:last-of-type
+    padding-right 0

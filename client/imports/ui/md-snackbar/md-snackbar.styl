@@ -1,0 +1,79 @@
+// @file Defines the styles for the MD Snackbar.
+// @author Derek Gransaull <derek@dgtlife.com>
+// @copyright DGTLife, LLC 2015
+//
+// Created on 11/14/2015
+
+@require '../md-common'
+@require '../md-shadow/md-shadow'
+
+///////////////////    VARIABLES FOR MD SNACKBAR STYLES    /////////////////////
+// MD Snackbar Button.
+$md-button--snackbar__margin-left = 2.5rem
+
+///////////////////////    STYLES FOR MD SNACKBAR    ///////////////////////////
+.md-snackbar
+  bottom 0
+  left 0
+  position fixed
+  margin 0
+  transition transform 0.3s
+  transform-origin bottom
+  width 100%
+  z-index 12
+.md-snackbar--current
+  align-items center
+  background-color #323232
+  color #FEFEFE
+  font-size 0.875rem
+  font-weight 400
+.md-snackbar__message
+  line-height 1.25rem
+  pointer-events none
+  text-align left
+
+// MD Button on an Action Snackbar.
+.md-button[data-snackbar-button]
+  color #FFFF8D
+  min-width 0
+
+////// Desktop/tablet screens, i.e. above 600px
+@media only screen and (min-width: 600px)
+  .md-snackbar__container
+    text-align center
+  .md-snackbar--current
+    border-radius 0.125rem
+    display inline-flex
+    margin 0 auto
+    max-width 35.5rem
+    min-width 18rem
+    white-space nowrap
+    width auto
+    $md-shadow--8dp()
+  .md-snackbar__message
+    display inline-block
+    margin 0 1.5rem
+    padding 0.875rem 0
+    overflow-x hidden
+  .md-button[data-snackbar-button]
+    margin 0 1.5rem
+
+////// Narrow/phone screens, i.e below 600px
+@media only screen and (max-width: 599px)
+  .md-snackbar__container
+    height auto
+  .md-snackbar--current
+    border-radius 0
+    display flex
+    width 100%
+  .md-snackbar__message
+    flex 1
+    margin 0 1.5rem
+    padding 0.875rem 0
+  .md-snackbar__message.multi-line
+    line-height 1rem
+    padding 1.5rem 0
+  .md-button[data-snackbar-button]
+    margin 0 1.5rem 0 0
+    .md-button__label
+      padding 0

@@ -8,4 +8,3 @@ The set of components is initially based on the author's needs. However, over ti
 This package is currently a 'work-in-progress' and as such is not recommended for wide public consumption in production apps. However, those willing to evaluate the package are welcome to do so with the understanding that there will be little to no support via the issue queue. Those advanced users who are comfortable with a package at this stage of its life cycle can use it, at their own risk, in any mode that they choose.
 ## ToDo
 * Complete documentation of the package on the MFM website.
-* Gradually convert code base to ES6.

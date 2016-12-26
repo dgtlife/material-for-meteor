@@ -1,0 +1,143 @@
+@require './ui/md-common'
+@require './ui/md-button/md-button'
+@require './ui/md-card/md-card'
+@require './ui/md-checkbox/md-checkbox'
+@require './ui/md-chip/md-chip'
+@require './ui/md-collapse/md-collapse'
+@require './ui/md-dialog/md-dialog'
+@require './ui/md-drawer/md-drawer'
+@require './ui/md-dropdown-menu/md-dropdown-menu'
+@require './ui/md-header-panel/md-header-panel'
+@require './ui/md-icon/md-icon'
+@require './ui/md-image/md-image'
+@require './ui/md-item/md-item'
+@require './ui/md-label/md-label'
+@require './ui/md-menu/md-menu'
+@require './ui/md-popup-menu/md-popup-menu'
+@require './ui/md-radio/md-radio'
+@require './ui/md-ripple/md-ripple'
+@require './ui/md-shadow/md-shadow'
+@require './ui/md-snackbar/md-snackbar'
+@require './ui/md-spinner/md-spinner'
+@require './ui/md-tabs/md-tabs'
+@require './ui/md-text-input/md-text-input'
+@require './ui/md-toolbar/md-toolbar'
+@require './ui/md-tooltip/md-tooltip'
+@require './ui/md-underline/md-underline'
+
+//////////////////////////////  COMMON STYLES  /////////////////////////////////
+// All components and elements they contain, except the inputs
+[class^=md-]:not(input)
+  -webkit-tap-highlight-color transparent
+  -webkit-touch-callout none
+
+// Font
+.md-button__label,
+.md-card,
+.md-dialog,
+.md-error-text,
+.md-field__label,
+.md-field__input,
+.md-field__prefix,
+.md-field__suffix,
+.md-helper-text,
+.md-item__text,
+.md-label,
+.md-radio-button__label,
+.md-text-area__size-detector,
+.md-tooltip__text,
+.md-snackbar__message
+  font-family $md-font-family
+
+//  Fields
+.md-field__container
+  position relative
+
+// Field inputs: suppress the native style of input elements.
+.md-field__input
+  background-color transparent
+  border none
+  box-shadow none
+  color $md-color__text-input
+  display inline-block
+  font-size $md-field__input__font-size
+  line-height normal
+  min-width 0
+  outline none
+  padding 0.5rem 0
+  text-align left
+  text-rendering optimizeLegibility
+  width 100%
+
+// Scrollable element
+[data-scrollable]::before,
+[data-scrollable]::after
+  background-color #E0E0E0
+  height 0.0625rem
+  left 0
+  right 0
+  position absolute
+[data-scrollable][data-overflow]:not([data-scroll-status="scrolled-down"])::before
+  content ''
+  top 0
+[data-scrollable][data-overflow]:not([data-scroll-status="scrolled-up"])::after
+  content ''
+  bottom 0
+
+// Backdrop
+[data-backdrop]
+  background-color $md-color__backdrop-bg
+  height 100vh
+  left 0
+  opacity 0
+  position fixed
+  top 0
+  transition opacity ease-in-out 0.38s
+  width 100vw
+[data-backdrop].md-backdrop--drawer
+  z-index 9
+[data-backdrop].md-backdrop--dialog,
+[data-backdrop].md-backdrop--modal
+  z-index 11
+.md-backdrop--drawer[data-backdrop][data-backdrop-open]
+  opacity 0.3
+.md-backdrop--modal[data-backdrop][data-backdrop-open]
+  opacity 0.75
+
+// Helper text
+.md-helper-text
+  color $md-color__helper-text
+  font-size 0.75rem
+  line-height normal
+  margin 0.25rem 0
+  text-align left
+
+// Error text
+.md-error-text
+  color $md-color__error-text
+  font-size 0.75rem
+  line-height normal
+  margin 0.25rem 0
+  text-align left
+
+// Subheader
+.md-subheader
+  $align-items-center()
+  color $md-color__secondary-text
+  $display-flex()
+  font-size 0.875rem
+  font-weight 500
+  height 3rem
+
+// Divider
+.md-divider
+  background-color $md-color__divider
+  height 1px
+  margin 0.5rem 0
+  width 100%
+
+// Miscellaneous
+.flex
+  flex 1
+.md-hide
+  display none !important
