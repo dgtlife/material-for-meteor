@@ -1,0 +1,7 @@
+#####  ToDo Items for the Package  #####
+ToDo: Create links and screens to demo different header panel modes.
+ToDo: Remove all CoffeeScript?
+ToDo: Fix broken no-ripple button
+ToDo: Add scrolling tab bar capability.
+ToDo: Complete inline ToDos ;-)
+ToDo: Tests

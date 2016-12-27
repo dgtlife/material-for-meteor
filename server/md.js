@@ -40,7 +40,7 @@ Meteor.startup(() => {
   console.log(`MD Icon: metadata for ${Icons.find().count()} icons is ready.`);
 });
 
-// Export these functions to the server.
+// Export these functions. This is the API on the server.
 export {
   defineIconAssets,
   selectIcons

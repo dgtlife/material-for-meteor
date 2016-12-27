@@ -96,7 +96,7 @@ import './imports/ui/md-toolbar/md-toolbar.js';
 import './imports/ui/md-tooltip/md-tooltip.js';
 import './imports/md-styles.styl';
 
-// Export these functions to the client.
+// Export these functions. This is the API on the client.
 export {
   run,
   // MD Button

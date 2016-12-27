@@ -27,15 +27,14 @@ const setSelectedTab = (tabGroupSpec, selectedIndex) => {
   }
 
   const tabGroup = getElement(tabGroupSpec);
-  const tabBar = eqS(tabGroup, '.md-tabs__tab-bar');
-  const tabBarWidth = tabBar.offsetWidth;
   const indicator = eqS(tabGroup, '.md-tabs__indicator');
   const tabs = eqSA(tabGroup, '[data-tab]');
   const content = dqS('[data-content]');
 
   /*
-   * Set the tab with the matching tabIndex as 'selected' and clear all others.
-   * Show the corresponding tab pane, and hide all others.
+   * Generate an array of tab widths. In the same loop, set the tab with the
+   * matching tabIndex as 'selected' and clear all others. Show the
+   * corresponding tab pane, and hide all others.
    */
   const widths = _.map(tabs, (tab) => {
     const tabIndex = tab.getAttribute('data-tab-index');
@@ -43,9 +42,9 @@ const setSelectedTab = (tabGroupSpec, selectedIndex) => {
     const tabPaneSelector = `[data-tab-pane-name="${tabName}"]`;
     let tabPane;
 
-    // We visit each tab, so make the selection here (vs a separate each loop).
+    // We visit each tab, so make the selection there.
     if (tabIndex === selectedIndex) {
-      // This is the selected tab. Ensure that it is set to 'selected'.
+      // This is the selected tab.
       tab.setAttribute('data-selected', 'true');
 
       // Show the corresponding tab pane.
@@ -59,7 +58,7 @@ const setSelectedTab = (tabGroupSpec, selectedIndex) => {
         }, 500);
       }
     } else {
-      // This is not the selected tab. Ensure that it is not set to 'selected'.
+      // This is not the selected tab.
       tab.removeAttribute('data-selected');
 
       // Hide the corresponding tab pane.
@@ -74,8 +73,14 @@ const setSelectedTab = (tabGroupSpec, selectedIndex) => {
       }
     }
 
+    // Return the tab width.
     return tab.offsetWidth;
   });
+
+  /* The selection indicator will be sized based on the selected index and will
+   * be positioned from the left edge of the tab bar to allow for any dynamic
+   * page width changes during loading.
+   */
 
   // Compute the left margin for the selection indicator.
   const marginLeft = (_tabIndex) => {
@@ -89,22 +94,10 @@ const setSelectedTab = (tabGroupSpec, selectedIndex) => {
     return margin;
   };
 
-  // Compute the right margin for the selection indicator.
-  const marginRight = (_tabIndex) => {
-    let margin = tabBarWidth;
-    _.each(widths, (width, index) => {
-      if (index <= _tabIndex) {
-        margin -= width;
-      }
-    });
-
-    return margin;
-  };
-
-  // Position the indicator by setting its style.
+  // Position the indicator by setting its left margin and width.
   indicator.setAttribute('style',
     `margin-left: ${marginLeft(selectedIndex)}px; 
-     margin-right: ${marginRight(selectedIndex)}px;`
+     width: ${widths[selectedIndex]}px;`
   );
 };
 
@@ -169,4 +162,3 @@ export const handleClickOnTab = (tab) => {
   }
 };
 
-// ToDo: Add scrolling tab bar capability.
