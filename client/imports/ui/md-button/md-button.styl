@@ -19,7 +19,7 @@ $md-button__font-weight = 500
 $md-button__color = $md-color__primary
 $md-button--hover__bg-color = #E0F2F1
 $md-button--focus__bg-color = #B2DFDB
-$md-button--active__bg-color = #80CBC4
+$md-button--active__bg-color = transparent
 $md-button--pressed__bg-color = #80CBC4
 $md-button--disabled__bg-color = rgba(0,0,0,0.12)
 $md-button--disabled__color = rgba(0,0,0,0.26)
@@ -71,8 +71,7 @@ button.md-button
     background-color $md-button--active__bg-color
 // Active state on a button in Chrome on Android
 .md-button[data-active]
-  //background-color $md-button--active__bg-color
-  background-color transparent
+  background-color $md-button--active__bg-color
 // Disabled flat button
 .md-button[disabled]
   color $md-button--disabled__color

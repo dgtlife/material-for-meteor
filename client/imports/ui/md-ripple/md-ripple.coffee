@@ -6,9 +6,8 @@
   Created on 10/13/2015
 ###
 { Template } = require 'meteor/templating'
-{ Meteor } = require 'meteor/meteor'
-launchRipple = require('../../api/md-ripple-api.coffee').launchRipple
-setRippleStyle = require('../../api/md-ripple-api.coffee').setRippleStyle
+launchRipple = require('../../api/md-ripple-api.js').launchRipple
+setRippleStyle = require('../../api/md-ripple-api.js').setRippleStyle
 require './md-ripple.jade'
 
 # On-render callback for MD Ripple.

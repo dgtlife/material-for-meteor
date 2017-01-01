@@ -1,5 +1,4 @@
 #####  ToDo Items for the Package  #####
-ToDo: Fix broken no-ripple button
 ToDo: Remove all CoffeeScript?
 ToDo: Add scrolling tab bar capability.
 ToDo: Complete inline ToDos ;-)
