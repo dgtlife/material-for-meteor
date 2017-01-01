@@ -7,7 +7,10 @@
  */
 import { run } from './imports/api/md-run.js';
 import { enableButton, disableButton } from './imports/api/md-button-api.js';
-import { setStateOfCheckbox, getStateOfCheckbox } from './imports/api/md-checkbox-api.js';
+import {
+  setStateOfCheckbox,
+  getStateOfCheckbox
+} from './imports/api/md-checkbox-api.js';
 import {
   openDialog,
   closeDialog,
@@ -49,7 +52,10 @@ import {
   clearValueOfRadioGroup
 } from './imports/api/md-radio-api.js';
 import { postSnackbar } from './imports/api/md-snackbar-api.js';
-import { setTabGroupSelection, getTabGroupSelection } from './imports/api/md-tabs-api.js';
+import {
+  setTabGroupSelection,
+  getTabGroupSelection
+} from './imports/api/md-tabs-api.js';
 import {
   getValueOfTextField,
   setValueOfTextField,

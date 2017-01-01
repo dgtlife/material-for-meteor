@@ -220,7 +220,6 @@ export const initializeScroller = (scrollableElement) => {
  */
 export const scrollMonitor = (
   scroller, state, downCallback, upCallback, scrolledCallback) => {
-
   // Handles scrolling of the scroller element.
   const scrollHandler = function handleScroll() {
     let scrollDirection;
