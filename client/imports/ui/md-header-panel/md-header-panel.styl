@@ -7,9 +7,6 @@
 @require '../md-common'
 @require '../md-shadow/md-shadow'
 
-////////////////////    VARIABLES FOR MD HEADER STYLES    /////////////////////
-// None
-
 /////////////////////////    STYLES FOR MD HEADER    ///////////////////////////
 // Some styles are adapted from Polymer paper-toolbar.
 [data-header-panel]
@@ -26,7 +23,9 @@
   overflow-x hidden
   -webkit-overflow-scrolling touch
   position relative
-  width inherit
+[data-header-panel][data-mode=scroll]
+  overflow-y auto
+  overflow-x hidden
 [data-content][data-mode=scroll]
   overflow visible
 [data-content][data-mode=cover]

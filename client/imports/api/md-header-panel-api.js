@@ -91,6 +91,9 @@ export const resetHeaderPanelSystem = () => {
       // Reset the scroll status and position of the Content.
       content.removeAttribute('data-scroll-status');
       content.scrollTop = 0;
+
+      // Turn OFF the Scroll Monitor for the Content.
+      scrollMonitor(content, 'off', null, null, null);
     }
 
     if (coveringContent) {

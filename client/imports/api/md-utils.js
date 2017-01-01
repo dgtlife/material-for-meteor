@@ -220,6 +220,7 @@ export const initializeScroller = (scrollableElement) => {
  */
 export const scrollMonitor = (
   scroller, state, downCallback, upCallback, scrolledCallback) => {
+
   // Handles scrolling of the scroller element.
   const scrollHandler = function handleScroll() {
     let scrollDirection;
@@ -231,7 +232,8 @@ export const scrollMonitor = (
       if (downCallback) {
         downCallback();
       }
-    } else if (scroller.scrollHeight - scroller.scrollTop === scroller.clientHeight) {
+    } else if (
+      (scroller.scrollHeight - scroller.scrollTop) === scroller.clientHeight) {
       // Scrolled fully up. Reflect the status on the scroller.
       scroller.setAttribute('data-scroll-status', 'scrolled-up');
 
@@ -243,34 +245,20 @@ export const scrollMonitor = (
       // Detect scroll direction.
       this.currentY = scroller.scrollTop;
       if (this.previousY) {
-        this.currentDistance = this.currentY - this.previousY;
-        if (this.previousDistance) {
-          if (this.distanceValues) {
-            if (this.distanceValues.length <= 2) {
-              this.distanceValues.push(this.currentDistance);
-            } else if (this.distanceValues[this.distanceValues.length - 1] >
-              this.distanceValues[0]) {
-              scrollDirection = 'up';
-              scroller.setAttribute('data-scroll-status', 'scrolling-up');
-            } else if (this.distanceValues[this.distanceValues.length - 1] <
-              this.distanceValues[0]) {
-              scrollDirection = 'down';
-              scroller.setAttribute('data-scroll-status', 'scrolling-down');
-            } else {
-              scrollDirection = 'unknown';
-              scroller.setAttribute('data-scroll-status', 'unknown');
-
-              // Re-initialize the distanceValues array.
-              this.distanceValues = [];
-            }
-          } else {
-            // Initialize the record of Y distances.
-            this.distanceValues = [];
-          }
+        // We are scrolling. Let's determine the direction.
+        if (this.previousY < this.currentY) {
+          scrollDirection = 'up';
+          scroller.setAttribute('data-scroll-status', 'scrolling-up');
+        } else if (this.previousY > this.currentY) {
+          scrollDirection = 'down';
+          scroller.setAttribute('data-scroll-status', 'scrolling-down');
         } else {
-          // Set the initial Y distance.
-          this.previousDistance = this.currentDistance;
+          scrollDirection = 'unknown';
+          scroller.setAttribute('data-scroll-status', 'unknown');
         }
+
+        // Reset the previous value to detect the next movement.
+        this.previousY = this.currentY;
       } else {
         // Set the initial Y coordinate.
         this.previousY = this.currentY;
