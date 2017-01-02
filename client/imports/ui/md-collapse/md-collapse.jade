@@ -12,7 +12,8 @@ template(name="md_collapse")
   )
     .md-collapse__content.collapsed(data-collapse-content="" class=content__classes)
       .md-collapse__content-sizer(data-collapse-sizer="")
-        +Template.dynamic(template=content)
+        .md-collapse__content-container
+          +Template.dynamic(template=content)
     .md-collapse__toggle(class=toggle__classes)
       +md_button(
         id=button__id

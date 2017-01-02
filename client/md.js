@@ -82,7 +82,7 @@ import './imports/ui/md-button/md-button.js';
 import './imports/ui/md-card/md-card.jade';
 import './imports/ui/md-checkbox/md-checkbox.js';
 import './imports/ui/md-chip/md-chip.js';
-import './imports/ui/md-collapse/md-collapse.coffee';
+import './imports/ui/md-collapse/md-collapse.js';
 import './imports/ui/md-dialog/md-dialog.coffee';
 import './imports/ui/md-drawer/md-drawer.coffee';
 import './imports/ui/md-dropdown-menu/md-dropdown-menu.coffee';
@@ -171,4 +171,3 @@ export {
   handleClickOnSelectableElement,
   getSelectedElements
 };
-
