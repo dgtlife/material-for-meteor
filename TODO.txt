@@ -1,4 +1,5 @@
 #####  ToDo Items for the Package  #####
+ToDo: Memoize DOM queries
 ToDo: Remove all CoffeeScript?
 ToDo: Add scrolling tab bar capability.
 ToDo: Complete inline ToDos ;-)

@@ -81,34 +81,27 @@ export const resetHeaderPanelSystem = () => {
   if (headerPanel) {
     const header = eqS(headerPanel, '[data-header]');
     const headerShadow = eqS(headerPanel, '[data-header-shadow]');
+    const contentPanel = eqS(headerPanel, '[data-content-panel]');
+    const contentContainer = eqS(headerPanel, '[data-content-container]');
     const content = eqS(headerPanel, '[data-content]');
-    const coveringContent = eqS(content, '[data-covering-content]');
 
-    if (content) {
-      // Clear the 'cover' mode from Content.
-      content.removeAttribute('data-mode');
+    // Clear the existing mode from all relevant elements.
+    content.removeAttribute('data-mode');
+    contentContainer.removeAttribute('data-mode');
+    contentPanel.removeAttribute('data-mode');
+    headerPanel.removeAttribute('data-mode');
 
-      // Reset the scroll status and position of the Content.
-      content.removeAttribute('data-scroll-status');
-      content.scrollTop = 0;
+    // Reset the scroll status and position of the Content.
+    contentContainer.removeAttribute('data-scroll-status');
+    contentContainer.scrollTop = 0;
 
-      // Turn OFF the Scroll Monitor for the Content.
-      scrollMonitor(content, 'off', null, null, null);
-    }
+    // Turn OFF the Scroll Monitor for the Content.
+    scrollMonitor(contentContainer, 'off', null, null, null);
 
-    if (coveringContent) {
-      // Clear the 'cover' mode from Covering Content.
-      coveringContent.removeAttribute('data-mode');
-
-      // Reset the scroll status and position of the Covering Content.
-      coveringContent.removeAttribute('data-scroll-status');
-      coveringContent.scrollTop = 0;
-    }
-
-    // Expand the Header, if it is collapsed.
+    // Expand the Header, then
     expandHeader(header);
 
-    // Show the Middle and Bottom bars, if they are in collapsed mode.
+    // Show the Middle and Bottom bars.
     showMiddleAndBottomBars(header);
 
     // Ensure that the Shadow is hidden.
@@ -124,8 +117,9 @@ export const initializeHeaderPanelSystem = () => {
   if (headerPanel) {
     const header = eqS(headerPanel, '[data-header]');
     const headerShadow = eqS(header, '[data-header-shadow]');
+    const contentPanel = eqS(headerPanel, '[data-content-panel]');
+    const contentContainer = eqS(headerPanel, '[data-content-container]');
     const content = eqS(headerPanel, '[data-content]');
-    const coveringContent = eqS(content, '[data-covering-content]');
     let mode;
 
     // Get the (current) mode.
@@ -136,27 +130,23 @@ export const initializeHeaderPanelSystem = () => {
       mode = 'standard';
     }
 
-    // Standard
+    // Ensure the mode is set on all other relevant elements.
+    contentPanel.setAttribute('data-mode', mode);
+    contentContainer.setAttribute('data-mode', mode);
+    content.setAttribute('data-mode', mode);
+
+    // Process the mode.
     if (mode === 'standard') {
-      // Show the Drop Shadow.
+      // Standard: show the Drop Shadow.
       showDropShadow(headerShadow);
-
-      // Seamed
     } else if (mode === 'seamed') {
-      // Ensure that the Shadow is hidden.
+      // Seamed: ensure that the Drop Shadow is hidden.
       hideDropShadow(headerShadow);
-
-      // Scroll
     } else if (mode === 'scroll') {
-      // Ensure that the Shadow is hidden.
+      // Scroll: ensure that the Shadow is hidden.
       hideDropShadow(headerShadow);
-
-      // Ensure that the 'scroll' mode is set on the Content.
-      content.setAttribute('data-mode', 'scroll');
-
-      // Waterfall
     } else if (mode === 'waterfall') {
-      // Ensure that the Shadow is initially hidden.
+      // Waterfall: ensure that the Shadow is initially hidden.
       hideDropShadow(headerShadow);
 
       // Hides the Shadow when the Content is fully scrolled down.
@@ -172,21 +162,19 @@ export const initializeHeaderPanelSystem = () => {
 
       // Turn ON a Scroll Monitor for the Content.
       scrollMonitor(
-        content, 'on', onScrolledDown, null, onScrolling
+        contentContainer, 'on', onScrolledDown, null, onScrolling
       );
-
-      // Waterfall-collapse
     } else if (mode === 'waterfall-collapse') {
       /*
-       * Expands the Header (if configured) and hides the Shadow when the
-       * Content is fully scrolled down.
+       * Waterfall-collapse: expands the Header (if configured) and hides the
+       * Shadow when the Content is fully scrolled down.
        */
       const onScrolledDown = () => {
         if (!headerPanel.hasAttribute('data-expand-on-scroll')) {
-          // Expand the header.
+          // Expand the Header, then
           expandHeader(header);
 
-          // Show the Middle, and Bottom bars.
+          // Show the Middle and Bottom bars.
           showMiddleAndBottomBars(header);
         }
 
@@ -221,20 +209,20 @@ export const initializeHeaderPanelSystem = () => {
         if (direction === 'down') {
           if (headerPanel.hasAttribute('data-expand-on-scroll')) {
             /*
-             * Expand the Header, if it's configured to expand-on-scroll rather
-             * than the implicit default of expand-on-fully-scrolled-down.
+             * Expand the Header, if it's configured to expand-on-scroll (rather
+             * than the implicit default of expand-on-fully-scrolled-down).
              */
             expandHeader(header);
 
-            // Show the Middle, and Bottom bars.
+            // Show the Middle and Bottom bars.
             showMiddleAndBottomBars(header);
           }
         }
       };
 
-      // Turn ON a Scroll Monitor for the Content.
+      // Turn ON a Scroll Monitor for the Content Container.
       scrollMonitor(
-        content, 'on', onScrolledDown, null, onScrolling
+        contentContainer, 'on', onScrolledDown, null, onScrolling
       );
 
       // Cover
@@ -244,11 +232,6 @@ export const initializeHeaderPanelSystem = () => {
        * the Content, ...
        */
       content.setAttribute('data-mode', 'cover');
-
-      // ... and the Covering Content.
-      if (coveringContent) {
-        coveringContent.setAttribute('data-mode', 'cover');
-      }
     } else {
       // We did not find a supported mode. Throw an error.
       throw new Meteor.Error('Unrecognized Header Panel mode.');

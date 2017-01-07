@@ -8,38 +8,15 @@
 @require '../md-shadow/md-shadow'
 
 /////////////////////////    STYLES FOR MD HEADER    ///////////////////////////
-// Some styles are adapted from Polymer paper-toolbar.
-[data-header-panel]
+// Some styles are adapted from Polymer paper-header-panel and paper-toolbar.
+.md-header-panel,
+.md-header-panel[data-mode=cover]
   $display-flex()
   $flex-direction(column)
-  $justify-content-start()
   position relative
   height 100%
 [data-header]
   position relative
-[data-content]
-  $flex(1)
-  overflow-y auto
-  overflow-x hidden
-  -webkit-overflow-scrolling touch
-  position relative
-[data-header-panel][data-mode=scroll]
-  overflow-y auto
-  overflow-x hidden
-[data-content][data-mode=scroll]
-  overflow visible
-[data-content][data-mode=cover]
-  bottom 0
-  left 0
-  position absolute
-  right 0
-  top 0
-[data-covering-content][data-mode=cover]
-  background-color #FFFFFF
-  margin 4rem
-  $md-shadow--2dp()
-  position relative
-  z-index 2
 [data-header-shadow]
   bottom -6px
   box-shadow inset 0 5px 6px -3px rgba(0, 0, 0, 0.4)
@@ -53,27 +30,63 @@
 [data-header-shadow].show-shadow
   opacity 1
   z-index 1
+[data-content-panel]
+  $display-flex()
+  $flex-direction(column)
+  $flex(1)
+  position relative
+[data-content-container]
+  $flex(1)
+  overflow-y auto
+  overflow-x hidden
+  -webkit-overflow-scrolling touch
+  position relative
+
+// Scroll mode
+.md-header-panel[data-mode=scroll]
+  overflow-y auto
+  overflow-x hidden
+  -webkit-overflow-scrolling touch
+[data-content-container][data-mode=scroll]
+  overflow visible
+
+// Cover mode
+[data-content-panel][data-mode=cover]
+  position static
+  z-index 2
+[data-content-container][data-mode=cover]
+  bottom 0
+  left 0
+  position absolute
+  right 0
+  top 0
+[data-content][data-mode=cover]
+  background-color #FFFFFF
+  margin 4rem
+  $md-shadow--2dp()
+  position relative
+  z-index 2
 
 // Wide screens
 @media only screen and (min-width: 600px)
-  [data-mode=waterfall-collapse] [data-header].tall.collapsed,
-  [data-mode=waterfall-collapse] [data-header].medium-tall.collapsed
+  .md-header-panel[data-mode=waterfall-collapse] [data-header].tall.collapsed,
+  .md-header-panel[data-mode=waterfall-collapse] [data-header].medium-tall.collapsed
     height 4rem
   [data-header].has-tabs,
-  [data-mode=waterfall-collapse] [data-header].tall.collapsed.has-tabs,
-  [data-mode=waterfall-collapse] [data-header].medium-tall.collapsed.has-tabs
+  .md-header-panel[data-mode=waterfall-collapse] [data-header].tall.collapsed.has-tabs,
+  .md-header-panel[data-mode=waterfall-collapse] [data-header].medium-tall.collapsed.has-tabs
     height 7rem
-  [data-covering-content][data-mode=cover]
+  [data-content][data-mode=cover]
     padding 0.5rem 1.5rem
 
 // Narrow screens
 @media only screen and (max-width: 600px)
-  [data-mode=waterfall-collapse] [data-header].tall.collapsed,
-  [data-mode=waterfall-collapse] [data-header].medium-tall.collapsed
+  .md-header-panel[data-mode=waterfall-collapse] [data-header].tall.collapsed,
+  .md-header-panel[data-mode=waterfall-collapse] [data-header].medium-tall.collapsed
     height 3.5rem
   [data-header].has-tabs,
-  [data-mode=waterfall-collapse] [data-header].tall.collapsed.has-tabs,
-  [data-mode=waterfall-collapse] [data-header].medium-tall.collapsed.has-tabs
+  .md-header-panel[data-mode=waterfall-collapse] [data-header].tall.collapsed.has-tabs,
+  .md-header-panel[data-mode=waterfall-collapse] [data-header].medium-tall.collapsed.has-tabs
     height 6.5rem
-  [data-covering-content][data-mode=cover]
+  [data-content][data-mode=cover]
     padding 0.5rem 1rem

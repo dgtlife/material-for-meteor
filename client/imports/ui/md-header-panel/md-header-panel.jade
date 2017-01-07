@@ -33,9 +33,12 @@ template(name="md_header_panel")
         bottom_content=toolbar__bottom_content
         with_shadow=true
       )
-    .md-content(data-content="" id=content__id class=content__classes)
-      if using_cover_mode
-        .md-covering-content(data-covering-content="" id=covering_content__id class=covering_content__classes)
+    .md-content__panel(data-content-panel="" data-mode=mode)
+      .md-content__container(data-content-container="" data-mode=mode)
+        .md-content(
+          data-content=""
+          data-mode=mode
+          id=content__id
+          class=content__classes
+        )
           +Template.dynamic(template=content)
-      else
-        +Template.dynamic(template=content)
