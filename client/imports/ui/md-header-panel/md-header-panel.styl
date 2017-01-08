@@ -30,12 +30,12 @@
 [data-header-shadow].show-shadow
   opacity 1
   z-index 1
-[data-content-panel]
+.md-content__panel
   $display-flex()
   $flex-direction(column)
   $flex(1)
   position relative
-[data-content-container]
+.md-content__container
   $flex(1)
   overflow-y auto
   overflow-x hidden
@@ -47,25 +47,38 @@
   overflow-y auto
   overflow-x hidden
   -webkit-overflow-scrolling touch
-[data-content-container][data-mode=scroll]
+.md-content__container[data-mode=scroll]
   overflow visible
 
 // Cover mode
-[data-content-panel][data-mode=cover]
+.md-content__panel[data-mode=cover]
   position static
   z-index 2
-[data-content-container][data-mode=cover]
+.md-content__container[data-mode=cover]
   bottom 0
-  left 0
+  left 4rem
   position absolute
-  right 0
+  right 4rem
   top 0
-[data-content][data-mode=cover]
+.md-content__container[data-mode=cover]::-webkit-scrollbar
+  width 0.25rem
+.md-content__container[data-mode=cover]::-webkit-scrollbar-track
+  background-color transparent
+.md-content__container[data-mode=cover]::-webkit-scrollbar-thumb
+  background-color #757575
+  opacity 0.5
+.md-content[data-mode=cover]
   background-color #FFFFFF
-  margin 4rem
+  margin 4rem 0.25rem
   $md-shadow--2dp()
   position relative
-  z-index 2
+  width auto
+.md-header-panel[data-docked-left]
+  .md-content__container[data-mode=cover]
+    left 15.25rem
+.md-header-panel[data-docked-right]
+  .md-content__container[data-mode=cover]
+    right 15.25rem
 
 // Wide screens
 @media only screen and (min-width: 600px)
@@ -76,7 +89,7 @@
   .md-header-panel[data-mode=waterfall-collapse] [data-header].tall.collapsed.has-tabs,
   .md-header-panel[data-mode=waterfall-collapse] [data-header].medium-tall.collapsed.has-tabs
     height 7rem
-  [data-content][data-mode=cover]
+  .md-content[data-mode=cover]
     padding 0.5rem 1.5rem
 
 // Narrow screens
@@ -88,5 +101,5 @@
   .md-header-panel[data-mode=waterfall-collapse] [data-header].tall.collapsed.has-tabs,
   .md-header-panel[data-mode=waterfall-collapse] [data-header].medium-tall.collapsed.has-tabs
     height 6.5rem
-  [data-content][data-mode=cover]
+  .md-content[data-mode=cover]
     padding 0.5rem 1rem
