@@ -44,36 +44,6 @@ const hideMiddleBar = (header) => {
 };
 
 /**
- * Hide the Bottom bar.
- * @param {Element} header - the Header element
- */
-const hideBottomBar = (header) => {
-  const bottomBar = eqS(header, '[data-bottom-bar]');
-  if (bottomBar) {
-    bottomBar.classList.add('collapsed');
-  }
-};
-
-/**
- * Show the Middle and Bottom bars.
- * @param {Element} header - the Header element
- */
-const showMiddleAndBottomBars = (header) => {
-  const middleBar = eqS(header, '[data-middle-bar]');
-  const bottomBar = eqS(header, '[data-bottom-bar]');
-
-  // Show the Middle bar.
-  if (middleBar) {
-    middleBar.classList.remove('collapsed');
-  }
-
-  // Show the Bottom bar.
-  if (bottomBar) {
-    bottomBar.classList.remove('collapsed');
-  }
-};
-
-/**
  * Reset the Header Panel, i.e clear the state from the last instantiation.
  */
 export const resetHeaderPanelSystem = () => {
@@ -98,11 +68,8 @@ export const resetHeaderPanelSystem = () => {
     // Turn OFF the Scroll Monitor for the Content.
     scrollMonitor(contentContainer, 'off', null, null, null);
 
-    // Expand the Header, then
+    // Expand the Header.
     expandHeader(header);
-
-    // Show the Middle and Bottom bars.
-    showMiddleAndBottomBars(header);
 
     // Ensure that the Shadow is hidden.
     hideDropShadow(headerShadow);
@@ -126,7 +93,7 @@ export const initializeHeaderPanelSystem = () => {
     if (headerPanel.hasAttribute('data-mode')) {
       mode = headerPanel.getAttribute('data-mode');
     } else {
-      // It's the default mode, which is 'standard'
+      // It's the default mode.
       mode = 'standard';
     }
 
@@ -166,23 +133,12 @@ export const initializeHeaderPanelSystem = () => {
       );
     } else if (mode === 'waterfall-collapse') {
       /*
-       * Waterfall-collapse: expands the Header (if configured) and hides the
-       * Shadow when the Content is fully scrolled down.
+       * Waterfall-collapse: collapses the Header on scrolling up, and expands
+       * the Header (if so configured) only when the Content is fully scrolled
+       * down.
        */
-      const onScrolledDown = () => {
-        if (!headerPanel.hasAttribute('data-expand-on-scroll')) {
-          // Expand the Header, then
-          expandHeader(header);
 
-          // Show the Middle and Bottom bars.
-          showMiddleAndBottomBars(header);
-        }
-
-        // Ensure that the Shadow is hidden.
-        hideDropShadow(headerShadow);
-      };
-
-      // Shows the Shadow when the Content is scrolling.
+      // Handles up/down scrolling.
       const onScrolling = (direction) => {
         const headerHasTabs = !!eqS(header, '[data-tabs]');
 
@@ -190,34 +146,33 @@ export const initializeHeaderPanelSystem = () => {
         showDropShadow(headerShadow);
 
         if (direction === 'up') {
+          // Collapse the Header to the Top toolbar and Tab bar.
+          collapseHeader(header);
           if (headerHasTabs) {
-            // Collapse the Header to the Top toolbar and Tab bar.
-            collapseHeader(header);
-
             // Hide the Middle bar only.
             hideMiddleBar(header);
-          } else {
-            // Collapse the Header to the Top toolbar.
-            collapseHeader(header);
-
-            // Hide the Middle, and Bottom bars.
-            hideMiddleBar(header);
-            hideBottomBar(header);
           }
         }
 
-        if (direction === 'down') {
-          if (headerPanel.hasAttribute('data-expand-on-scroll')) {
-            /*
-             * Expand the Header, if it's configured to expand-on-scroll (rather
-             * than the implicit default of expand-on-fully-scrolled-down).
-             */
-            expandHeader(header);
-
-            // Show the Middle and Bottom bars.
-            showMiddleAndBottomBars(header);
-          }
+        if ((direction === 'down') &&
+          (headerPanel.hasAttribute('data-expand-on-scroll'))) {
+          /*
+           * The Header is configured to expand-on-scroll (rather than the
+           * default of expand-on-fully-scrolled-down).
+           */
+          expandHeader(header);
         }
+      };
+
+      // Handles the fully scrolled down position.
+      const onScrolledDown = () => {
+        if (!headerPanel.hasAttribute('data-expand-on-scroll')) {
+          // Expand the Header.
+          expandHeader(header);
+        }
+
+        // Ensure that the Shadow is hidden.
+        hideDropShadow(headerShadow);
       };
 
       // Turn ON a Scroll Monitor for the Content Container.
@@ -227,10 +182,7 @@ export const initializeHeaderPanelSystem = () => {
 
       // Cover
     } else if (mode === 'cover') {
-      /*
-       * Ensure that the 'cover' mode is set on the relevant elements:
-       * the Content, ...
-       */
+      // Ensure that the 'cover' mode is set on the Content.
       content.setAttribute('data-mode', 'cover');
     } else {
       // We did not find a supported mode. Throw an error.

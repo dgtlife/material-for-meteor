@@ -21,10 +21,9 @@ $md-toolbar__color = #FFFFFF
   position relative
   width 100%
   z-index 1
-.md-toolbar.animate
-  transition height 0.18s ease-in
+.md-toolbar,
 [data-header]
-  transition height 0.2s
+  transition height 0.18s ease-in
 .md-toolbar__bar
   $align-items-center()
   $display-flex()
@@ -32,29 +31,29 @@ $md-toolbar__color = #FFFFFF
   padding 0 1rem
   position relative
 .md-toolbar__bar.top
+  background-color $md-toolbar__bg-color
   position relative
   z-index 2
-.md-toolbar__bar.middle
-  left 0
-  position absolute
-  right 0
-  top 0
-  z-index 1
+.md-toolbar__bar.middle,
 .md-toolbar__bar.bottom
-  bottom 0
+  background-color $md-toolbar__bg-color
   left 0
   position absolute
   right 0
-  z-index 0
 .md-toolbar__bar.bottom.has-tabs
   height 3rem
-.md-toolbar.tall .md-toolbar__bar.middle,
-.md-toolbar.medium-tall .md-toolbar__bar.middle
-  -webkit-transform translateY(100%)
-  transform translateY(100%)
-[data-middle-bar].collapsed,
-[data-bottom-bar].collapsed
-  display none
+.md-toolbar,
+.md-toolbar.medium-tall
+  .md-toolbar__bar.middle
+    bottom 0
+    z-index 1
+  .md-toolbar__bar.bottom
+    bottom 0
+    z-index 0
+.md-toolbar.tall
+  .md-toolbar__bar.bottom
+    bottom 0
+    z-index 0
 .md-toolbar__bar [data-icon-button][data-toolbar-menu-button]
   margin-right 1.25rem
 .md-toolbar__bar .title
@@ -82,7 +81,7 @@ $md-toolbar__color = #FFFFFF
   top auto
   width auto
 
-// Wide screens
+// Desktops and tablets
 @media only screen and (min-width: 600px)
   .md-toolbar
     height 4rem
@@ -90,20 +89,28 @@ $md-toolbar__color = #FFFFFF
     height 8rem
   .md-toolbar.tall
     height 12rem
+  .md-toolbar.tall
+    .md-toolbar__bar.middle
+      bottom 4rem
+      z-index 1
   .md-toolbar__bar
     height 4rem
+  .md-toolbar__bar.top,
+  .md-toolbar__bar.middle,
+  .md-toolbar__bar.bottom
+    .title
+      margin-left 5.5rem
+  .md-toolbar__bar [data-icon-button][data-drawer-toggle] + .title
+    margin-left 1.5rem
+  .md-header-panel[data-docked-left] > .md-toolbar
+    .md-toolbar__bar .title
+      margin-left 1.5rem
   .md-toolbar__bar [data-icon-button][data-toolbar-menu-button]
     padding-left 0.5rem
-  .md-toolbar__bar .title
-    margin-left 5.5rem
-  .md-toolbar__bar [data-icon-button][data-toolbar-menu-button] + .title
-    margin-left 1.5rem
   .md-toolbar__bar [data-icon-button]:last-of-type
     padding-right 0.5rem
-  [data-header-panel][data-docked-left] .md-toolbar__bar .title
-    margin-left 1.5rem
 
-// Narrow screens
+// Phones
 @media only screen and (max-width: 600px)
   .md-toolbar
     height 3.5rem
@@ -111,13 +118,23 @@ $md-toolbar__color = #FFFFFF
     height 7rem
   .md-toolbar.tall
     height 10.5rem
+  .md-toolbar.tall
+    .md-toolbar__bar.middle
+      bottom 3.5rem
+      z-index 1
   .md-toolbar__bar
     height 3.5rem
+  .md-toolbar__bar.top,
+  .md-toolbar__bar.middle,
+  .md-toolbar__bar.bottom
+    .title
+      margin-left 3.5rem
+  .md-toolbar__bar [data-icon-button][data-drawer-toggle] + .title
+    margin-left 0
   .md-toolbar__bar [data-icon-button][data-toolbar-menu-button]
     padding-left 0
-  .md-toolbar__bar .title
-    margin-left 3.5rem
-  .md-toolbar__bar [data-icon-button][data-toolbar-menu-button] + .title
-    margin-left 0
   .md-toolbar__bar [data-icon-button]:last-of-type
     padding-right 0
+
+
+

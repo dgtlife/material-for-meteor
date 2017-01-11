@@ -9,8 +9,7 @@
 
 /////////////////////////    STYLES FOR MD HEADER    ///////////////////////////
 // Some styles are adapted from Polymer paper-header-panel and paper-toolbar.
-.md-header-panel,
-.md-header-panel[data-mode=cover]
+.md-header-panel
   $display-flex()
   $flex-direction(column)
   position relative
@@ -25,8 +24,8 @@
   opacity 0
   position absolute
   right 0
-  -webkit-transition opacity 0.5s
-  transition opacity 0.5s
+  -webkit-transition opacity 0.3s
+  transition opacity 0.3s
 [data-header-shadow].show-shadow
   opacity 1
   z-index 1
@@ -80,7 +79,7 @@
   .md-content__container[data-mode=cover]
     right 15.25rem
 
-// Wide screens
+// Desktops and tablets
 @media only screen and (min-width: 600px)
   .md-header-panel[data-mode=waterfall-collapse] [data-header].tall.collapsed,
   .md-header-panel[data-mode=waterfall-collapse] [data-header].medium-tall.collapsed
@@ -92,7 +91,7 @@
   .md-content[data-mode=cover]
     padding 0.5rem 1.5rem
 
-// Narrow screens
+// Phones
 @media only screen and (max-width: 600px)
   .md-header-panel[data-mode=waterfall-collapse] [data-header].tall.collapsed,
   .md-header-panel[data-mode=waterfall-collapse] [data-header].medium-tall.collapsed
