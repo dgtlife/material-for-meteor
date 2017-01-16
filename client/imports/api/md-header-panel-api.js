@@ -110,32 +110,31 @@ export const initializeHeaderPanelSystem = () => {
       // Seamed: ensure that the Drop Shadow is hidden.
       hideDropShadow(headerShadow);
     } else if (mode === 'scroll') {
-      // Scroll: ensure that the Shadow is hidden.
+      // Scroll: ensure that the Drop Shadow is hidden.
       hideDropShadow(headerShadow);
     } else if (mode === 'waterfall') {
-      // Waterfall: ensure that the Shadow is initially hidden.
+      // Waterfall: ensure that the Drop Shadow is initially hidden.
       hideDropShadow(headerShadow);
 
-      // Hides the Shadow when the Content is fully scrolled down.
-      const onScrolledDown = () => {
-        // Ensure that the Shadow is hidden.
+      // Hides the Drop Shadow when the Content is fully scrolled up.
+      const onScrolledUp = () => {
         hideDropShadow(headerShadow);
       };
 
-      // Shows the Shadow when the Content is scrolling.
+      // Shows the Drop Shadow when the Content is scrolling.
       const onScrolling = () => {
         showDropShadow(headerShadow);
       };
 
       // Turn ON a Scroll Monitor for the Content.
       scrollMonitor(
-        contentContainer, 'on', onScrolledDown, null, onScrolling
+        contentContainer, 'on', onScrolledUp, null, onScrolling
       );
     } else if (mode === 'waterfall-collapse') {
       /*
-       * Waterfall-collapse: collapses the Header on scrolling up, and expands
+       * Waterfall-collapse: collapses the Header on scrolling down, and expands
        * the Header (if so configured) only when the Content is fully scrolled
-       * down.
+       * up.
        */
 
       // Handles up/down scrolling.
@@ -145,7 +144,7 @@ export const initializeHeaderPanelSystem = () => {
         // Show the Drop Shadow.
         showDropShadow(headerShadow);
 
-        if (direction === 'up') {
+        if (direction === 'down') {
           // Collapse the Header to the Top toolbar and Tab bar.
           collapseHeader(header);
           if (headerHasTabs) {
@@ -154,18 +153,18 @@ export const initializeHeaderPanelSystem = () => {
           }
         }
 
-        if ((direction === 'down') &&
+        if ((direction === 'up') &&
           (headerPanel.hasAttribute('data-expand-on-scroll'))) {
           /*
            * The Header is configured to expand-on-scroll (rather than the
-           * default of expand-on-fully-scrolled-down).
+           * default of expand-on-fully-scrolled-up).
            */
           expandHeader(header);
         }
       };
 
-      // Handles the fully scrolled down position.
-      const onScrolledDown = () => {
+      // Handles the fully scrolled up position.
+      const onScrolledUp = () => {
         if (!headerPanel.hasAttribute('data-expand-on-scroll')) {
           // Expand the Header.
           expandHeader(header);
@@ -177,7 +176,7 @@ export const initializeHeaderPanelSystem = () => {
 
       // Turn ON a Scroll Monitor for the Content Container.
       scrollMonitor(
-        contentContainer, 'on', onScrolledDown, null, onScrolling
+        contentContainer, 'on', onScrolledUp, null, onScrolling
       );
 
       // Cover

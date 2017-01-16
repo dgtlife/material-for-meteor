@@ -69,10 +69,8 @@ const setDialogSizeAndPosition = (dialog) => {
   if (dialog.hasAttribute('data-height')) {
     dialogHeight = dialog.getAttribute('data-height');
   } else {
-    dialogStyle = `opacity: 0;
-                   display: block;
-                   height: auto;
-                   width: ${dialogWidth}px;`;
+    dialogStyle =
+      `opacity: 0; display: block; height: auto; width: ${dialogWidth}px;`;
 
     // Style the dialog so that it's 'natural' height can be obtained.
     dialog.setAttribute('style', dialogStyle);
@@ -88,10 +86,8 @@ const setDialogSizeAndPosition = (dialog) => {
   const top = (window.innerHeight - dialogHeight) / 2;
 
   // Set the final position of the dialog.
-  dialogStyle = `height: auto;
-                 width: ${dialogWidth}px;
-                 top: ${top}px;
-                 left: ${left}px;`;
+  dialogStyle =
+    `height: auto; width: ${dialogWidth}px; top: ${top}px; left: ${left}px;`;
   dialog.setAttribute('style', dialogStyle);
 };
 

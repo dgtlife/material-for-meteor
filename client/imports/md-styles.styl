@@ -69,20 +69,22 @@
   text-rendering optimizeLegibility
   width 100%
 
-// Scrollable element
-[data-scrollable]::before,
-[data-scrollable]::after
-  background-color #E0E0E0
+// Overflow indicators on scrollable element
+[data-overflow-indicator]
+  background-color $md-color__divider
   height 0.0625rem
   left 0
   right 0
+  opacity 1
   position absolute
-[data-scrollable][data-overflow]:not([data-scroll-status="scrolled-down"])::before
-  content ''
+[data-overflow-indicator=top]
   top 0
-[data-scrollable][data-overflow]:not([data-scroll-status="scrolled-up"])::after
-  content ''
+[data-overflow-indicator=bottom]
   bottom 0
+[data-overflow-indicator].at-top
+  opacity 0
+[data-overflow-indicator].at-bottom
+  opacity 0
 
 // Backdrop
 [data-backdrop]

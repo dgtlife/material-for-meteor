@@ -45,19 +45,6 @@ $md-dialog__bg-color = #FFFFFF
   overflow-y auto
   text-align left
   -webkit-overflow-scrolling touch
-.md-dialog__content-to-scroll::before,
-.md-dialog__content-to-scroll::after
-  background-color #e0e0e0
-  height 0.0625rem
-  left 0
-  right 0
-  position absolute
-.md-dialog__content-to-scroll:not([data-scroll-status="scrolled-down"])::before
-  content ''
-  top 0
-.md-dialog__content-to-scroll:not([data-scroll-status="scrolled-up"])::after
-  content ''
-  bottom 0
 .md-dialog__container .md-dialog__actions
   $align-items-center()
   $display-flex()

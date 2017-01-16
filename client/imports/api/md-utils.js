@@ -190,7 +190,7 @@ export const getSelectedElements = groupName => selected[groupName];
 /**
  * Checks whether a scrollable element is visible, i.e. not concealed by
  * 'display: none', and actually has overflow, then sets an overflow attribute
- * and an initial scroll position of 'fully down'. Elements that are not
+ * and an initial scroll position of 'fully up'. Elements that are not
  * visible must be initialized when they are.
  * @param {Element} scrollableElement - the scrollable element
  */
@@ -198,74 +198,105 @@ export const initializeScroller = (scrollableElement) => {
   const element = scrollableElement;
   if ((element.scrollHeight > 0) &&
     (element.scrollHeight > element.clientHeight)) {
-    // Set the overflow attribute, and scroll down fully.
+    // Set the overflow attribute, and scroll up fully.
     element.setAttribute('data-overflow', 'true');
     element.scrollTop = 0;
-    element.setAttribute('data-scroll-status', 'scrolled-down');
+    element.setAttribute('data-scroll-status', 'scrolled-up');
+
+    // Hide the top overflow indicator, if present.
+    const topOverflowIndicator = eqS(element.parentElement,
+      '[data-overflow-indicator=top]');
+    if (topOverflowIndicator) {
+      topOverflowIndicator.classList.add('at-top');
+    }
   }
 };
 
 /**
- * Monitor a scrollable content div (scroller) to determine when it is at the
- * top and bottom of the scroll range, or somewhere in between.
- * @param {Element} scroller - the scrollable content div
- * @param {string} state - the state (on|off) of the scroller monitor
- * @param {Function} [downCallback] - the function to call when the scroller is
- *                                    fully scrolled down
- * @param {Function} [upCallback] - the function to call when the scroller is
- *                                  fully scrolled up
- * @param {Function} [scrolledCallback] - the function to call when the
- *                                        scroller is scrolled somewhere in
- *                                        between
+ * Monitor a scrollable content DIV (scroller) to determine when it is at the
+ * top and bottom of the scroll range, or somewhere in between. If scrolling
+ * indicators are present, hide/show them appropriately.
+ * @param {Element} scroller - the scrollable content DIV
+ * @param {string} state - the state (on|off) of the scroll monitor
+ * @param {Function} [topCallback] - the function to call when the scroller is
+ *                                   fully scrolled up
+ * @param {Function} [bottomCallback] - the function to call when the scroller
+ *                                      is fully scrolled down
+ * @param {Function} [scrollingCallback] - the function to call when the
+ *                                         scroller is (scrolling) somewhere in
+ *                                         between the top and the bottom
  */
 export const scrollMonitor = (
-  scroller, state, downCallback, upCallback, scrolledCallback) => {
+  scroller, state, topCallback, bottomCallback, scrollingCallback) => {
   // Handles scrolling of the scroller element.
   const scrollHandler = function handleScroll() {
-    let scrollDirection;
-    if (scroller.scrollTop === 0) {
-      // Scrolled fully down. Reflect the status on the scroller.
-      scroller.setAttribute('data-scroll-status', 'scrolled-down');
-
-      // Call the related callback, if one was supplied.
-      if (downCallback) {
-        downCallback();
-      }
-    } else if (
-      (scroller.scrollHeight - scroller.scrollTop) === scroller.clientHeight) {
-      // Scrolled fully up. Reflect the status on the scroller.
+    this.currentY = scroller.scrollTop;
+    const topOverflowIndicator = eqS(scroller.parentElement,
+      '[data-overflow-indicator=top]');
+    const bottomOverflowIndicator = eqS(scroller.parentElement,
+      '[data-overflow-indicator=bottom]');
+    if (this.currentY <= 0) {
+      // Scroller is at the top (or overshot on iOS/OS X).
       scroller.setAttribute('data-scroll-status', 'scrolled-up');
 
       // Call the related callback, if one was supplied.
-      if (upCallback) {
-        upCallback();
+      if (topCallback) {
+        topCallback();
+      }
+
+      // Hide the top overflow indicator, if present.
+      if (topOverflowIndicator) {
+        topOverflowIndicator.classList.add('at-top');
+      }
+    } else if (
+      (scroller.scrollHeight - this.currentY - scroller.clientHeight) <= 0) {
+      // Scroller is at the bottom (or overshot on iOS/OS X).
+      scroller.setAttribute('data-scroll-status', 'scrolled-down');
+
+      // Call the related callback, if one was supplied.
+      if (bottomCallback) {
+        bottomCallback();
+      }
+
+      // Hide the bottom overflow indicator, if present.
+      if (bottomOverflowIndicator) {
+        bottomOverflowIndicator.classList.add('at-bottom');
       }
     } else {
-      // Detect scroll direction.
-      this.currentY = scroller.scrollTop;
       if (this.previousY) {
-        // We are scrolling. Let's determine the direction.
-        if (this.previousY < this.currentY) {
-          scrollDirection = 'up';
-          scroller.setAttribute('data-scroll-status', 'scrolling-up');
-        } else if (this.previousY > this.currentY) {
-          scrollDirection = 'down';
+        // We are scrolling ...
+        if (this.currentY > this.previousY) {
+          // ... downward.
+          this.currentDirection = 'down';
           scroller.setAttribute('data-scroll-status', 'scrolling-down');
+        } else if (this.currentY < this.previousY) {
+          // ... upward.
+          this.currentDirection = 'up';
+          scroller.setAttribute('data-scroll-status', 'scrolling-up');
         } else {
-          scrollDirection = 'unknown';
+          this.currentDirection = 'unknown';
           scroller.setAttribute('data-scroll-status', 'unknown');
         }
 
-        // Reset the previous value to detect the next movement.
+        // Reset the previous tracking value to detect the next movement.
         this.previousY = this.currentY;
       } else {
-        // Set the initial Y coordinate.
+        // Initialize the scroll tracking value.
         this.previousY = this.currentY;
       }
 
       // Call the related callback, if one was supplied.
-      if (scrolledCallback) {
-        scrolledCallback(scrollDirection);
+      if (scrollingCallback) {
+        scrollingCallback(this.currentDirection);
+      }
+
+      // Show both overflow indicators, if present.
+      if (topOverflowIndicator) {
+        topOverflowIndicator.classList.remove('at-top');
+      }
+
+      if (bottomOverflowIndicator) {
+        bottomOverflowIndicator.classList.remove('at-bottom');
       }
     }
   };
