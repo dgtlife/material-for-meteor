@@ -1,0 +1,26 @@
+// @file Defines the styles for the MD Scrollable.
+// @author Derek Gransaull <derek@dgtlife.com>
+// @copyright DGTLife, LLC 2017
+
+@require '../md-common'
+
+// Overflow indicators
+[data-overflow-indicator],
+.md-scrollable__overflow-indicator
+  background-color $md-color__divider
+  height 0.0625rem
+  left 0
+  right 0
+  opacity 1
+  position absolute
+[data-overflow-indicator=top],
+.md-scrollable__overflow-indicator.top
+  top 0
+[data-overflow-indicator=bottom],
+.md-scrollable__overflow-indicator.bottom
+  bottom 0
+[data-overflow-indicator].at-top,
+[data-overflow-indicator].at-bottom,
+.md-scrollable__overflow-indicator.at-top,
+.md-scrollable__overflow-indicator.at-bottom
+  opacity 0

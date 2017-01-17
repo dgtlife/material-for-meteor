@@ -7,6 +7,12 @@
  */
 import { _ } from 'meteor/underscore';
 import { Meteor } from 'meteor/meteor';
+import {
+  hideBottomOverflowIndicator,
+  hideTopOverflowIndicator,
+  showBottomOverflowIndicator,
+  showTopOverflowIndicator
+} from './md-scrollable-api.js';
 
 // An object to hold arrays of selected element.
 const selected = {};
@@ -207,7 +213,7 @@ export const initializeScroller = (scrollableElement) => {
     const topOverflowIndicator = eqS(element.parentElement,
       '[data-overflow-indicator=top]');
     if (topOverflowIndicator) {
-      topOverflowIndicator.classList.add('at-top');
+      hideTopOverflowIndicator(topOverflowIndicator);
     }
   }
 };
@@ -246,7 +252,7 @@ export const scrollMonitor = (
 
       // Hide the top overflow indicator, if present.
       if (topOverflowIndicator) {
-        topOverflowIndicator.classList.add('at-top');
+        hideTopOverflowIndicator(topOverflowIndicator);
       }
     } else if (
       (scroller.scrollHeight - this.currentY - scroller.clientHeight) <= 0) {
@@ -260,7 +266,7 @@ export const scrollMonitor = (
 
       // Hide the bottom overflow indicator, if present.
       if (bottomOverflowIndicator) {
-        bottomOverflowIndicator.classList.add('at-bottom');
+        hideBottomOverflowIndicator(bottomOverflowIndicator);
       }
     } else {
       if (this.previousY) {
@@ -292,11 +298,11 @@ export const scrollMonitor = (
 
       // Show both overflow indicators, if present.
       if (topOverflowIndicator) {
-        topOverflowIndicator.classList.remove('at-top');
+        showTopOverflowIndicator(topOverflowIndicator);
       }
 
       if (bottomOverflowIndicator) {
-        bottomOverflowIndicator.classList.remove('at-bottom');
+        showBottomOverflowIndicator(bottomOverflowIndicator);
       }
     }
   };

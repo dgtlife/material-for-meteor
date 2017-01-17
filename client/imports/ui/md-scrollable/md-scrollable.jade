@@ -1,0 +1,9 @@
+//- @file Defines the template for the MD Scrollable.
+    @author Derek Gransaull <derek@dgtlife.com>
+    @copyright DGTLife, LLC 2017
+
+template(name="md_scrollable")
+  .md-scrollable__overflow-indicator.top(data-overflow-indicator="top")
+  .md-scrollable__content(data-scrollable="" class=classes)
+    +Template.dynamic(template=content)
+  .md-scrollable__overflow-indicator.bottom(data-overflow-indicator="bottom")
