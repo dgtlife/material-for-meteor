@@ -2,7 +2,6 @@
  * @file Defines the on-render callback for the MD Chip.
  * @author Derek Gransaull <derek@dgtlife.com>
  * @copyright DGTLife, LLC 2016
- * Created on 7/20/2016
  */
 import { eqS } from '../../api/md-utils.js';
 import './md-chip.jade';

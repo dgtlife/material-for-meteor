@@ -2,8 +2,6 @@
   @file API and on-render callback for the MD Dialog.
   @author Derek Gransaull <derek@dgtlife.com>
   @copyright DGTLife, LLC 2015
-
-  Created on 11/6/2015
 ###
 { Template } = require 'meteor/templating'
 importDialogContent = require('../../api/md-dialog-api.js').importDialogContent

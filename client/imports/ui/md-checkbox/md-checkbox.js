@@ -2,8 +2,6 @@
  * @file Defines the API, and event handler for MD Checkbox.
  * @author Derek Gransaull <derek@dgtlife.com>
  * @copyright DGTLife, LLC 2016
- *
- * Created on 6/26/2016
  */
 
 import { Template } from 'meteor/templating';

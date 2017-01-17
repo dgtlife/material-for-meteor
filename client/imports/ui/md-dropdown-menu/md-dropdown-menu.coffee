@@ -2,7 +2,6 @@
   @file Defines on-render callback for MD Dropdown Menu.
   @author Derek Gransaull <derek@dgtlife.com>
   @copyright DGTLife, LLC 2015
-  Created on 10/15/2015
 ###
 { Template } = require 'meteor/templating'
 require './md-dropdown-menu.jade'

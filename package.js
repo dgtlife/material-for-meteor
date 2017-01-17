@@ -2,8 +2,6 @@
  * @file Defines the Material package
  * @author Derek Gransaull <derek@dgtlife.com>
  * @copyright DGTLife, LLC 2015
- *
- * Created on 9/29/2015
  */
 Package.describe({
   summary: 'A Blaze implementation of Material Design components for Meteor',

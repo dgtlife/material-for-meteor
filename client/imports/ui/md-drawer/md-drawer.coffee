@@ -2,8 +2,6 @@
   @file Defines the on-render callback for MD Drawer
   @author Derek Gransaull <derek@dgtlife.com>
   @copyright DGTLife, LLC 2015
-
-  Created on 12/11/2015
 ###
 
 { Template } = require 'meteor/templating'

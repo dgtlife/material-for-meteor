@@ -2,8 +2,6 @@
  * @file Defines the on-render callback and event handler(s) for MD Tooltip.
  * @author Derek Gransaull <derek@dgtlife.com>
  * @copyright DGTLife, LLC 2016
- *
- * Created on 10/13/2015
  */
 import { Template } from 'meteor/templating';
 import {

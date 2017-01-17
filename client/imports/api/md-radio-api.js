@@ -2,8 +2,6 @@
  * @file Defines the API for MD Radio
  * @author Derek Gransaull <derek@dgtlife.com>
  * @copyright DGTLife, LLC 2016
- *
- * Created on 11/29/16
  */
 import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';

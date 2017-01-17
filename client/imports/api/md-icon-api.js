@@ -2,7 +2,6 @@
  * @file Defines the API for MD Icon on the client
  * @author Derek Gransaull <derek@dgtlife.com>
  * @copyright DGTLife, LLC 2016
- * Created on 11/17/2016
  */
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';

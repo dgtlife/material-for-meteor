@@ -2,8 +2,6 @@
  * @file Defines the API for MD Scrollable
  * @author Derek Gransaull <derek@dgtlife.com>
  * @copyright DGTLife, LLC 2017
- *
- * Created on 1/16/2017
  */
 
 /**

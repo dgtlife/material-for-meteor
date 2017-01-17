@@ -2,8 +2,6 @@
  * @file Defines the API for MD Snackbar
  * @author Derek Gransaull <derek@dgtlife.com>
  * @copyright DGTLife, LLC 2016
- *
- * Created on 11/27/16
  */
 import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';

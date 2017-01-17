@@ -2,8 +2,6 @@
   @file API and on-render callback for MD Image.
   @author Derek Gransaull <derek@dgtlife.com>
   @copyright DGTLife, LLC 2015
-
-  Created on 11/4/2015
 ###
 { Template } = require 'meteor/templating'
 { _ } = require 'meteor/underscore'

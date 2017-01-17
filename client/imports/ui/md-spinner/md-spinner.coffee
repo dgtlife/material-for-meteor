@@ -2,8 +2,6 @@
   @file Defines the on-render callback for MD Spinner
   @author Derek Gransaull <derek@dgtlife.com>
   @copyright DGTLife, LLC 2015
-
-  Created on 10/30/2015
 ###
 eqS = require('../../api/md-utils.js').eqS
 require './md-spinner.jade'

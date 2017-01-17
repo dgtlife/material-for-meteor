@@ -2,8 +2,6 @@
  * @file Defines the API for MD Popup Menu
  * @author Derek Gransaull <derek@dgtlife.com>
  * @copyright DGTLife, LLC 2016
- *
- * Created on 11/20/16
  */
 import { Meteor } from 'meteor/meteor';
 import { dgEBI } from './md-utils.js';

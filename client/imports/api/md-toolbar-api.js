@@ -2,8 +2,6 @@
  * @file Defines the API for MD Toolbar
  * @author Derek Gransaull <derek@dgtlife.com>
  * @copyright DGTLife, LLC 2016
- *
- * Created on 11/20/16
  */
 import { _ } from 'meteor/underscore';
 import { dgEBI, dqS, dqSA, eqS, getElement } from './md-utils.js';

@@ -3,8 +3,6 @@
  * otherwise be involved in circular imports.
  * @author Derek Gransaull <derek@dgtlife.com>
  * @copyright DGTLife, LLC 2016
- *
- * Created on 11/30/16
  */
 import { dqS } from './md-utils.js';
 

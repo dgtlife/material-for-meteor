@@ -2,8 +2,6 @@
  * @file Defines the on-render callback and the event handler for MD Tabs.
  * @author Derek Gransaull <derek@dgtlife.com>
  * @copyright DGTLife, LLC 2016
- *
- * Created on 6/27/2016
  */
 import { Template } from 'meteor/templating';
 import {

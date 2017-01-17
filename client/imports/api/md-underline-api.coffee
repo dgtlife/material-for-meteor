@@ -2,8 +2,6 @@
  * @file Defines the API for MD Underline
  * @author Derek Gransaull <derek@dgtlife.com>
  * @copyright DGTLife, LLC 2016
- *
- * Created on 11/28/16
 ###
 eqS = require('./md-utils.js').eqS
 

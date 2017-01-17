@@ -2,8 +2,6 @@
  * @file Main module of this package on the server
  * @author Derek Gransaull <derek@dgtlife.com>
  * @copyright DGTLife, LLC 2016
- *
- * Created on 11/22/16
  */
 import { Meteor } from 'meteor/meteor';
 import {

@@ -2,8 +2,6 @@
  * @file Defines MD utility functions for client and server.
  * @author Derek Gransaull <derek@dgtlife.com>
  * @copyright DGTLife, LLC 2015
- *
- * Created on 6/29/2016
  */
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';

@@ -2,8 +2,6 @@
  * @file Defines MD utility functions for the client.
  * @author Derek Gransaull <derek@dgtlife.com>
  * @copyright DGTLife, LLC 2015
- *
- * Created on 11/22/16
  */
 import { _ } from 'meteor/underscore';
 import { Meteor } from 'meteor/meteor';

@@ -2,8 +2,6 @@
  * @file Defines the on-render callback for MD Toolbar
  * @author Derek Gransaull <derek@dgtlife.com>
  * @copyright DGTLife, LLC 2015
- *
- * Created on 12/1/2015
  */
 import { Template } from 'meteor/templating';
 import { importToolbarContent } from '../../api/md-toolbar-api.js';

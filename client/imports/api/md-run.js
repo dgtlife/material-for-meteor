@@ -2,8 +2,6 @@
  * @file Defines the config object and related functions.
  * @author Derek Gransaull <derek@dgtlife.com>
  * @copyright DGTLife, LLC 2016
- *
- * Created on 12/26/2016
  */
 import { _ } from 'meteor/underscore';
 import { check, Match } from 'meteor/check';

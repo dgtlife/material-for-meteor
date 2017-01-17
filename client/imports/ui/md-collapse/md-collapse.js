@@ -2,8 +2,6 @@
  * @file Defines the event handler for the MD Collapse.
  * @author Derek Gransaull <derek@dgtlife.com>
  * @copyright DGTLife, LLC 2016
- *
- * Created on 1/19/2016
  */
 import { Template } from 'meteor/templating';
 import {

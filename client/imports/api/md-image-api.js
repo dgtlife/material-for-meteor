@@ -2,8 +2,6 @@
  * @file Defines the API for MD Image
  * @author Derek Gransaull <derek@dgtlife.com>
  * @copyright DGTLife, LLC 2016
- *
- * Created on 11/30/16
  */
 
 /**

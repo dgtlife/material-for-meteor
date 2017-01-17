@@ -3,8 +3,6 @@
         MD Snackbar.
   @author Derek Gransaull <derek@dgtlife.com>
   @copyright DGTLife, LLC 2015
-
-  Created on 10/13/2015
 ###
 
 { Template } = require 'meteor/templating'

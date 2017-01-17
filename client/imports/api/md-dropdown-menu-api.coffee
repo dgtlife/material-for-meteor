@@ -2,8 +2,6 @@
  * @file Defines the API for MD Dropdown Menu
  * @author Derek Gransaull <derek@dgtlife.com>
  * @copyright DGTLife, LLC 2016
- *
- * Created on 11/20/16
 ###
 { Meteor } = require 'meteor/meteor'
 dqS = require('./md-utils.js').dqS

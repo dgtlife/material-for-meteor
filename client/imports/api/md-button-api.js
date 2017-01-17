@@ -2,8 +2,6 @@
  * @file Defines the API for MD Button
  * @author Derek Gransaull <derek@dgtlife.com>
  * @copyright DGTLife, LLC 2016
- *
- * Created on 11/29/16
  */
 import { getElement } from './md-utils.js';
 

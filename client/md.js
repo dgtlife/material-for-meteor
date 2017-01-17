@@ -2,8 +2,6 @@
  * @file Main module of this package on the client.
  * @author Derek Gransaull <derek@dgtlife.com>
  * @copyright DGTLife, LLC 2016
- *
- * Created on 11/17/16
  */
 import { run } from './imports/api/md-run.js';
 import { enableButton, disableButton } from './imports/api/md-button-api.js';
