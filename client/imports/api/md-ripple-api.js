@@ -125,8 +125,9 @@ export const setRippleStyle = (ripple, eventX, eventY) => {
 export const launchRipple = (ripple, eventX, eventY) => {
   // Don't ripple on a disabled element.
   if (ripple.parentElement.hasAttribute('disabled') ||
-  ripple.parentElement.hasAttribute('data-disabled') ||
-  ripple.parentElement.parentElement.hasAttribute('data-disabled')) {
+    ripple.parentElement.hasAttribute('data-disabled') ||
+    ripple.parentElement.parentElement.hasAttribute('data-disabled') ||
+    ripple.parentElement.parentElement.parentElement.hasAttribute('data-disabled')) {
     return false;
   }
 
