@@ -13,7 +13,7 @@ Package.describe({
 Package.onUse((api) => {
   api.use('ecmascript', ['client', 'server']);
   api.use('templating', 'client');
-  api.use('dalgard:jade', 'client');
+  api.use('pacreach:jade', 'client');
   api.use('stylus', 'client');
   api.use('hammer:hammer@=2.0.4_1', 'client');
   api.use('reactive-dict', ['client', 'server']);
