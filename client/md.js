@@ -51,6 +51,7 @@ import {
 } from './imports/api/md-radio-api.js';
 import { postSnackbar } from './imports/api/md-snackbar-api.js';
 import {
+  initializeTabs,
   setTabGroupSelection,
   getTabGroupSelection
 } from './imports/api/md-tabs-api.js';
@@ -146,6 +147,7 @@ export {
   // MD Snackbar
   postSnackbar,
   // MD Tabs
+  initializeTabs,
   setTabGroupSelection,
   getTabGroupSelection,
   // MD Text Input
