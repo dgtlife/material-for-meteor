@@ -12,6 +12,9 @@ import {
   waitForElement
 } from './md-utils.js';
 
+// Stores (reactively) the current tab of each rendered tab group.
+export const currentTab = new ReactiveDict;
+
 /**
  * Set the selected tab in a tab group. Show/hide the relevant tab panes. Wait
  * for tab panes to render in the onload/reload case.
@@ -25,6 +28,7 @@ const setSelectedTab = (tabGroupSpec, selectedIndex) => {
   }
 
   const tabGroup = getElement(tabGroupSpec);
+  const tabGroupId = tabGroup.id;
   const indicator = eqS(tabGroup, '.md-tabs__indicator');
   const tabs = eqSA(tabGroup, '[data-tab]');
   const content = dqS('[data-content]');
@@ -44,6 +48,9 @@ const setSelectedTab = (tabGroupSpec, selectedIndex) => {
     if (tabIndex === selectedIndex) {
       // This is the selected tab.
       tab.setAttribute('data-selected', 'true');
+
+      // Update the current-tab reactive variable.
+      currentTab.set(tabGroupId, tabName);
 
       // Show the corresponding tab pane.
       if (dqS(tabPaneSelector)) {
