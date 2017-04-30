@@ -36,7 +36,9 @@ Template.md_text_field.onRendered ->
 
   # Activate an observer in order to detect value changes and set the label
   # style.
-  unfocusLabelOnValueChange field
+  # ToDo: Commented out on 4/29/2017 as it interfered with text field validation
+  # styling. I forgot why I put this here. I need to figure out why.
+  # unfocusLabelOnValueChange field
 
 # Event handlers for MD Text Field
 Template.md_text_field.events

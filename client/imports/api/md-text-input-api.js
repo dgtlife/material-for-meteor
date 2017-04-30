@@ -12,7 +12,8 @@ import {
 import {
   setStyleOfUnderlineFocused,
   setStyleOfUnderlineUnfocused,
-  setStyleOfUnderlineErrored
+  setStyleOfUnderlineErrored,
+  setStyleOfUnderlineValid
 } from './md-underline-api.coffee';
 import {
   setStyleOfLabelFocused,
@@ -58,7 +59,7 @@ export const setLabelAndUnderlineErrored = (field) => {
  */
 export const setLabelAndUnderlineValid = (field) => {
   setStyleOfLabelValid(field);
-  setStyleOfUnderlineErrored(field);
+  setStyleOfUnderlineValid(field);
 };
 
 /**
