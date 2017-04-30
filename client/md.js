@@ -64,7 +64,9 @@ import {
   enableTextField,
   getValueOfTextArea,
   setValueOfTextArea,
-  clearValueOfTextArea
+  clearValueOfTextArea,
+  setErrorOnTextInputField,
+  clearErrorOnTextInputField
 } from './imports/api/md-text-input-api.js';
 import { detectTabs } from './imports/api/md-toolbar-api.js';
 import {
@@ -161,6 +163,8 @@ export {
   getValueOfTextArea,
   setValueOfTextArea,
   clearValueOfTextArea,
+  setErrorOnTextInputField,
+  clearErrorOnTextInputField,
   // MD Toolbar
   detectTabs,
   // MD Utils
