@@ -8,6 +8,8 @@ $md-shadow__umbra-color = rgba(0,0,0,0.2)
 $md-shadow__ambient-color = rgba(0, 0, 0, 0.12)
 
 ///////////////////////  MIXINS FOR MD SHADOW STYLES  //////////////////////////
+$md-shadow--0dp()
+  box-shadow: none
 $md-shadow--1dp()
   box-shadow:
     0 1px 1px 0 $md-shadow__penumbra-color,
@@ -50,6 +52,8 @@ $md-shadow--16dp()
     0  6px 30px 5px $md-shadow__ambient-color
 
 ////////////////////////    STYLES FOR MD SHADOW    ////////////////////////////
+.md-shadow--0dp
+  $md-shadow--0dp()
 .md-shadow--1dp
   $md-shadow--1dp()
 .md-shadow--2dp

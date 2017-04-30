@@ -193,3 +193,11 @@ button.md-button
     transform: scale(0) rotate(-45deg)
   100%
     transform scale(1)  rotate(0deg)
+
+// Conform to MD Spec for Desktop
+.desktop
+  .md-button[data-raised]
+    $md-shadow--0dp()
+  .md-button[data-raised]
+    &:hover
+      $md-shadow--2dp()
