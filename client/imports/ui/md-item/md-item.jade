@@ -38,7 +38,7 @@ template(name="md_item")
     data-context=_data
   )
     if icon
-      +md_icon(icon=icon classes="md-item__icon")
+      +md_icon(icon=icon classes="md-item__icon" badge_count=badge_count)
     if image
       +md_icon(image=image classes="md-item__icon")
     .md-item__text(class=text__classes)=text
