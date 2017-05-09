@@ -116,9 +116,11 @@ export const hideTooltip = (id) => {
   // Get the tooltip.
   const tooltip = dqS(`[data-target=${id}]`);
 
-  // Hide the tooltip.
-  tooltip.classList.remove('show-tooltip');
+  if (tooltip) {
+    // Hide the tooltip.
+    tooltip.classList.remove('show-tooltip');
 
-  // Clear the style attribute, after transition delay has passed.
-  Meteor.setTimeout(() => tooltip.removeAttribute('style'), 160);
+    // Clear the style attribute, after transition delay has passed.
+    Meteor.setTimeout(() => tooltip.removeAttribute('style'), 160);
+  }
 };
