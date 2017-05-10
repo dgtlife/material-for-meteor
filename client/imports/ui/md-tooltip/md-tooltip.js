@@ -19,15 +19,13 @@ Template.md_tooltip.onRendered(function onRenderedTooltip() {
 
 // Event handlers for MD Tooltip.
 Template.body.events({
-  'mouseenter [data-has-tooltip]'() {
+  'mouseover [data-has-tooltip]'() {
     showTooltip(this.id);
   },
 
-  'mouseleave [data-has-tooltip]'() {
-    // Hide the tooltip after 1.5 seconds.
-    Meteor.setTimeout(() => {
-      hideTooltip(this.id);
-    }, 1500);
+  'mouseout [data-has-tooltip]'() {
+    // Hide the tooltip, if necessary.
+    hideTooltip(this.id);
   }
 });
 

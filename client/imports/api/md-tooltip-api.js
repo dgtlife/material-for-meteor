@@ -6,6 +6,8 @@
 import { Meteor } from 'meteor/meteor';
 import { dgEBI, dqS, waitForElement } from './md-utils.js';
 
+const tooltipState = new ReactiveDict;
+
 /**
  * Register a tooltip with its target element.
  * @param {Element} tooltip - the tooltip element
@@ -100,27 +102,45 @@ const positionTooltip = (tooltip, id) => {
 export const showTooltip = (id) => {
   // Get the tooltip.
   const tooltip = dqS(`[data-target=${id}]`);
-
   // Position the tooltip.
   positionTooltip(tooltip, id);
 
-  // Reveal the tooltip.
-  tooltip.classList.add('show-tooltip');
+  // Engage a 'hover-intent' mechanism
+  tooltipState.set(id, 'pending');
+  Meteor.setTimeout(() => {
+    if (tooltipState.get(id) === 'pending') {
+      // Reveal the tooltip.
+      tooltip.classList.add('show-tooltip');
+
+      // Update the state.
+      tooltipState.set(id, 'displayed');
+    }
+  }, 300);
 };
 
 /**
- * Hide a tooltip.
+ * Hide a tooltip, if it has been displayed.
  * @param {string} id - the id of the tooltip target.
  */
 export const hideTooltip = (id) => {
-  // Get the tooltip.
+  const state = tooltipState.get(id);
   const tooltip = dqS(`[data-target=${id}]`);
+  if (state === 'pending') {
+    // Don't let it display.
+    tooltipState.set(id, 'cancelled');
+    tooltip.removeAttribute('style');
+    delete tooltipState.keys[id];
+  }
 
-  if (tooltip) {
-    // Hide the tooltip.
-    tooltip.classList.remove('show-tooltip');
+  if (state === 'displayed') {
+    // Hide after 1.5 seconds.
+    Meteor.setTimeout(() => {
+      // Hide the tooltip.
+      tooltip.classList.remove('show-tooltip');
+      delete tooltipState.keys[id];
 
-    // Clear the style attribute, after transition delay has passed.
-    Meteor.setTimeout(() => tooltip.removeAttribute('style'), 160);
+      // Clear the style attribute, after transition delay has passed.
+      Meteor.setTimeout(() => tooltip.removeAttribute('style'), 160);
+    }, 1500);
   }
 };
