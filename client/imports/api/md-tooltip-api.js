@@ -135,12 +135,16 @@ export const hideTooltip = (id) => {
   if (state === 'displayed') {
     // Hide after 1.5 seconds.
     Meteor.setTimeout(() => {
-      // Hide the tooltip.
-      tooltip.classList.remove('show-tooltip');
+      // Clear tooltip state.
       delete tooltipState.keys[id];
 
-      // Clear the style attribute, after transition delay has passed.
-      Meteor.setTimeout(() => tooltip.removeAttribute('style'), 160);
+      // Hide the tooltip, if it has not been destroyed by a screen transition.
+      if (tooltip) {
+        tooltip.classList.remove('show-tooltip');
+
+        // Clear the style attribute, after transition delay has passed.
+        Meteor.setTimeout(() => tooltip.removeAttribute('style'), 160);
+      }
     }, 1500);
   }
 };
