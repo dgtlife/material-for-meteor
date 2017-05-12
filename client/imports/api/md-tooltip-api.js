@@ -10,10 +10,9 @@ const tooltipState = new ReactiveDict;
 
 /**
  * Register a tooltip with its target element.
- * @param {Element} tooltip - the tooltip element
  * @param {string} targetId - the id of the target element of the tooltip
  */
-export const registerTooltip = (tooltip, targetId) => {
+export const registerTooltip = (targetId) => {
   const target = dgEBI(targetId);
   const registerWithTarget = (_target) => {
     _target.setAttribute('data-has-tooltip', 'true');
@@ -22,8 +21,22 @@ export const registerTooltip = (tooltip, targetId) => {
   if (target) {
     registerWithTarget(target);
   } else {
-    const selector = `#${targetId}`;
-    waitForElement(document.body, selector, registerWithTarget, 0);
+    waitForElement(
+      document.body,
+      true,
+      `#${targetId}`,
+      (mutation) => {
+        const nodes = mutation.addedNodes;
+        return (
+          (nodes.length > 0) &&
+          (nodes[0].nodeName !== '#text') &&
+          (nodes[0].nodeName !== 'svg') &&
+          (targetId === nodes[0].id)
+        );
+      },
+      registerWithTarget,
+      0
+    );
   }
 };
 

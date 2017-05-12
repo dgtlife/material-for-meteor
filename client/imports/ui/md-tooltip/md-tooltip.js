@@ -14,7 +14,7 @@ import './md-tooltip.jade';
 // On-render callback for MD Popup Menu
 Template.md_tooltip.onRendered(function onRenderedTooltip() {
   // Register the tooltip with the target element.
-  registerTooltip(this.firstNode, this.data.target);
+  registerTooltip(this.data.target);
 });
 
 // Event handlers for MD Tooltip.

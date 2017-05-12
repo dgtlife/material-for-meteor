@@ -44,6 +44,17 @@ const setSelectedTab = (tabGroupSpec, selectedIndex) => {
     const tabPaneSelector = `[data-tab-pane-name="${tabName}"]`;
     let tabPane;
 
+    // Tests a mutation object for the existence of a tab pane.
+    function tabPaneExists(mutation) {
+      const nodes = mutation.addedNodes;
+      return (
+        (nodes.length > 0) &&
+        (nodes[0].nodeName === 'DIV') &&
+        nodes[0].classList.contains('__screen') &&
+        !!(eqS(nodes[0], tabPaneSelector))
+      );
+    }
+
     // We visit each tab, so make the selection there.
     if (tabIndex === selectedIndex) {
       // This is the selected tab.
@@ -58,9 +69,14 @@ const setSelectedTab = (tabGroupSpec, selectedIndex) => {
         tabPane.classList.remove('hide');
       } else {
         // Wait for this pane to render.
-        waitForElement(content, tabPaneSelector, (pane) => {
-          pane.classList.remove('hide');
-        }, 500);
+        waitForElement(
+          content,
+          true,
+          tabPaneSelector,
+          tabPaneExists,
+          pane => pane.classList.remove('hide'),
+          1
+        );
       }
     } else {
       // This is not the selected tab.
@@ -72,9 +88,14 @@ const setSelectedTab = (tabGroupSpec, selectedIndex) => {
         tabPane.classList.add('hide');
       } else {
         // Wait for this pane to render.
-        waitForElement(content, tabPaneSelector, (pane) => {
-          pane.classList.add('hide');
-        }, 500);
+        waitForElement(
+          content,
+          true,
+          tabPaneSelector,
+          tabPaneExists,
+          pane => pane.classList.add('hide'),
+          1
+        );
       }
     }
 
@@ -131,7 +152,7 @@ export const getTabGroupSelection = (tabGroupSpec) => {
   const tabGroup = getElement(tabGroupSpec);
   const selectedIndex = tabGroup.getAttribute('data-selected');
   const selectedTab = eqS(tabGroup, `[data-tab-index="${selectedIndex}"]`);
-  const selectedLabel = eqS(selectedTab, '.md-tab__label').innerHTML;
+  const selectedLabel = eqS(selectedTab, '.md-tab__label').innerText;
   return {
     index: selectedIndex,
     label: selectedLabel
