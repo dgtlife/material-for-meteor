@@ -157,7 +157,13 @@ export const openDrawer = (drawerSpec) => {
     drawer.classList.add('with-shadow');
 
     // Attach a click listener to the backdrop to close the drawer.
-    dqS('[data-backdrop]').onclick = () => closeDrawer(drawer);
+    dqS('[data-backdrop]').onclick = function handleClick() {
+      if (!this.classList.contains('md-backdrop--modal')) {
+        closeDrawer(drawer);
+      } else {
+        closeDrawer(drawer, true);
+      }
+    };
 
     /*
      * Attach a listener to the drawer panel for an edge pan to close the
