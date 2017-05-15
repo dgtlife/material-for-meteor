@@ -1,30 +1,39 @@
 //- @file Defines the template for MD Item
     @author Derek Gransaull <derek@dgtlife.com>
-    @copyright DGTLife, LLC 2015
+    @copyright DGTLife, LLC 2017
 
-//-/////////////////////////////  MD ITEM //////////////////////////////////////
-//- MD Item is a generic list item (cf. paper-item/paper-icon-item). An MD item
-      * can include an MD icon
+//------------------------------  MD ITEM --------------------------------------
+//- MD Item is a generic list item (cf. paper-item/paper-icon-item).
+    An MD item
+      * can contain a single line of text or arbitrary content
+      * can include an MD Icon
       * can ripple when clicked
       * can display a tooltip on hover (item must have an id to enable tooltip)
-      * can be an item in an MD menu
+      * can be an item in an MD Menu
       * uses the 'md_item' template which supports the following parameters.
 
-      @param {string} [id] - the id of the item
-      @param {string} [name] - the name of the item
-      @param {string} [classes] - a space-separate list of classes of the item
-      @param {string} text - the text content of the item
-      @param {string} [menu_item] - indicates that it is a menu item
-      @param {string} [menu] - the id of the menu that the item is in
-      @param {string} [disabled] - "" disables the item
-      @param {string} [icon] - the icon id of an icon to include in the item
-      @param {string} [text__classes] - a space-separate list of classes of the
-                                      item text
-      @param {boolean} [ripple] - TRUE if the item should ripple on click
-      @param {string} [offset_ripple] - to set the origin of the ripple
-      @param {boolean} [has_tooltip] - TRUE if the item should have a tooltip
-      @param {string} [tooltip__position] - TRUE if the item should have a tooltip
-      @param {string} [tooltip__text] - the text if the item should have a tooltip
+    @param {string} [id] - the id of the item
+    @param {string} [classes] - a space-separate list of classes of the item
+    @param {string} text - the text content of the item
+    @param {string} [text__classes] - a space-separate list of classes for the
+                                          item text
+    @param {string} [content] - the template that provides the content of the
+                                item instead of the text
+    @param {string} [content__classes] - a space-separate list of classes for
+                                         the content div
+    @param {string} [menu_item] - indicates that it is a menu item
+    @param {string} [menu] - the id of the menu that the item is in
+    @param {string} [disabled] - "" disables the item
+    @param {string} [_data] - contextual data to be embedded
+    @param {string} [icon] - the icon id of an icon to include in the item
+    @param {string} [badge_count] - the number displayed for badged icon
+    @param {string} [image] - the src of an image file to use as an icon
+
+    @param {boolean} [ripple] - TRUE if the item should ripple on click
+    @param {string} [offset_ripple] - TRUE to offset the origin of the ripple
+    @param {boolean} [has_tooltip] - TRUE if the item should have a tooltip
+    @param {string} [tooltip__position] - the position spec for the tooltip
+    @param {string} [tooltip__text] - the tooltip text
 
 template(name="md_item")
   .md-item(
@@ -41,7 +50,11 @@ template(name="md_item")
       +md_icon(icon=icon classes="md-item__icon" badge_count=badge_count)
     if image
       +md_icon(image=image classes="md-item__icon")
-    .md-item__text(class=text__classes)=text
+    unless content
+      .md-item__text(class=text__classes)=text
+    if content
+      .md-item__content(class=content__classes)
+        +Template.dynamic(template=content)
     if ripple
       +md_ripple(offset=offset_ripple)
   if has_tooltip
