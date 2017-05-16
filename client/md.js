@@ -50,6 +50,7 @@ import {
   clearValueOfRadioGroup
 } from './imports/api/md-radio-api.js';
 import { postSnackbar } from './imports/api/md-snackbar-api.js';
+import makeDots from './imports/api/md-stepdots-api.js';
 import {
   currentTab,
   initializeTabs,
@@ -99,6 +100,7 @@ import './imports/ui/md-ripple/md-ripple.coffee';
 import './imports/ui/md-scrollable/md-scrollable.js';
 import './imports/ui/md-snackbar/md-snackbar.coffee';
 import './imports/ui/md-spinner/md-spinner.coffee';
+import './imports/ui/md-stepdots/md-stepdots.jade';
 import './imports/ui/md-tabs/md-tabs.js';
 import './imports/ui/md-text-input/md-text-input.coffee';
 import './imports/ui/md-toolbar/md-toolbar.js';
@@ -149,6 +151,8 @@ export {
   clearValueOfRadioGroup,
   // MD Snackbar
   postSnackbar,
+  // MD Stepdots
+  makeDots,
   // MD Tabs
   currentTab,
   initializeTabs,

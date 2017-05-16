@@ -1,0 +1,33 @@
+// @file Defines styles for the MD Stepdots
+// @author Derek Gransaull <derek@dgtlife.com>
+// @copyright DGTLife, LLC 2017
+
+@require '../md-common'
+
+// VARIABLES FOR MD STEPDOTS STYLES
+$md-color__stepdot = #9E9E9E
+$md-color__stepdot--active = #009688
+
+// STYLES FOR MD STEPDOTS
+.md-step-dots__container
+  $align-items-center()
+  $display-flex()
+  height 1.5rem
+  $flex-direction(row)
+  $justify-content-center()
+.md-step-dot
+  background-color $md-color__stepdot
+  border-radius 50%
+  height 0.25rem
+  margin 0 0.25rem
+  width 0.25rem
+.md-step-dots.step-1-active .step-1,
+.md-step-dots.step-2-active .step-2,
+.md-step-dots.step-3-active .step-3,
+.md-step-dots.step-4-active .step-4,
+.md-step-dots.step-5-active .step-5,
+.md-step-dots.step-6-active .step-6,
+.md-step-dots.step-7-active .step-7
+  background-color $md-color__stepdot--active
+  height 0.5rem
+  width 0.5rem
