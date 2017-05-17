@@ -53,9 +53,11 @@ import { postSnackbar } from './imports/api/md-snackbar-api.js';
 import makeDots from './imports/api/md-stepdots-api.js';
 import {
   currentTab,
-  initializeTabs,
+  initializeTabGroup,
   setTabGroupSelection,
-  getTabGroupSelection
+  getTabGroupSelection,
+  resetTabGroup,
+  restoreTabGroup
 } from './imports/api/md-tabs-api.js';
 import {
   getValueOfTextField,
@@ -155,9 +157,11 @@ export {
   makeDots,
   // MD Tabs
   currentTab,
-  initializeTabs,
+  initializeTabGroup,
   setTabGroupSelection,
   getTabGroupSelection,
+  resetTabGroup,
+  restoreTabGroup,
   // MD Text Input
   getValueOfTextField,
   setValueOfTextField,

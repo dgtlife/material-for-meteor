@@ -1,7 +1,7 @@
 /**
  * @file Defines the API for MD Toolbar
  * @author Derek Gransaull <derek@dgtlife.com>
- * @copyright DGTLife, LLC 2016
+ * @copyright DGTLife, LLC 2017
  */
 import { _ } from 'meteor/underscore';
 import {
@@ -16,14 +16,16 @@ import {
 export const currentTab = new ReactiveDict;
 
 /**
- * Set the selected tab in a tab group. Show/hide the relevant tab panes. Wait
- * for tab panes to render in the onload/reload case.
- * @param {string|Element} tabGroupSpec - a selector for the tab group or the
+ * In a tab group, set the selected tab and show/hide the relevant tab panes.
+ * Wait for tab panes to render in the app startup case.
+ * @param {String|Element} tabGroupSpec - a selector for the tab group or the
  *                                        tab group element itself
- * @param {string} selectedIndex - the index of the selected tab
+ * @param {Number} selectedIndex - the (numerical) index of the selected tab
+ * @param {Boolean} [untracked] - TRUE if 'currentTab' should not be updated (as
+ *                                for resetTabGroup)
  */
-const setSelectedTab = (tabGroupSpec, selectedIndex) => {
-  if (!selectedIndex) {
+const setSelectedTabAndPane = (tabGroupSpec, selectedIndex, untracked) => {
+  if (_.isUndefined(selectedIndex)) {
     throw new Meteor.Error('A tab index must be supplied.');
   }
 
@@ -39,7 +41,7 @@ const setSelectedTab = (tabGroupSpec, selectedIndex) => {
    * corresponding tab pane, and hide all others.
    */
   const widths = _.map(tabs, (tab) => {
-    const tabIndex = tab.getAttribute('data-tab-index');
+    const tabIndex = parseInt(tab.getAttribute('data-tab-index'), 10);
     const tabName = tab.getAttribute('data-tab-name');
     const tabPaneSelector = `[data-tab-pane-name="${tabName}"]`;
     let tabPane;
@@ -60,8 +62,15 @@ const setSelectedTab = (tabGroupSpec, selectedIndex) => {
       // This is the selected tab.
       tab.setAttribute('data-selected', 'true');
 
-      // Update the current-tab reactive variable.
-      currentTab.set(tabGroupId, tabName);
+      /*
+       * Update the current-tab reactive variable, if required
+       */
+      if (!untracked) {
+        currentTab.set(tabGroupId, {
+          name: tabName,
+          index: tabIndex
+        });
+      }
 
       // Show the corresponding tab pane.
       if (dqS(tabPaneSelector)) {
@@ -111,13 +120,16 @@ const setSelectedTab = (tabGroupSpec, selectedIndex) => {
   // Compute the left margin for the selection indicator.
   const marginLeft = (_tabIndex) => {
     let margin = 0;
-    _.each(widths, (width, index) => {
-      if (index < _tabIndex) {
-        margin += width;
+    _.each(
+      widths,
+      (width, index) => {
+        if (index < _tabIndex) {
+          margin += width;
+        }
       }
-    });
+    );
 
-    return margin;
+    return margin.toString();
   };
 
   // Position the indicator by setting its left margin and width.
@@ -129,23 +141,23 @@ const setSelectedTab = (tabGroupSpec, selectedIndex) => {
 
 /**
  * Set the selected tab (and show the corresponding pane).
- * @param {string|Element} tabGroupSpec - a selector for the tab group or the
+ * @param {String|Element} tabGroupSpec - a selector for the tab group or the
  *                                        tab group element itself
- * @param {string} selectedIndex - the index of the selected tab
+ * @param {Number} selectedIndex - the index of the selected tab
  */
 export const setTabGroupSelection = (tabGroupSpec, selectedIndex) => {
   const tabGroup = getElement(tabGroupSpec);
 
   // Set the selected value of the tab group.
-  tabGroup.setAttribute('data-selected', selectedIndex);
+  tabGroup.setAttribute('data-selected', selectedIndex.toString());
 
-  // Set the selected tab.
-  setSelectedTab(tabGroup, selectedIndex);
+  // Set the selected tab (and pane).
+  setSelectedTabAndPane(tabGroup, selectedIndex);
 };
 
 /**
  * Get the index and label of the selected tab.
- * @param {string|Element} tabGroupSpec - a selector for the tab group or the
+ * @param {String|Element} tabGroupSpec - a selector for the tab group or the
  *                                        tab group element itself
  */
 export const getTabGroupSelection = (tabGroupSpec) => {
@@ -160,17 +172,48 @@ export const getTabGroupSelection = (tabGroupSpec) => {
 };
 
 /**
- * Initialize the display of an MD Tab group ('md-tabs' element) that has its
- * 'data-selected' attribute preset.
- * @param {string|Element} tabGroupSpec - a selector for the tab group or the
+ * Reset the selected tab (and show the corresponding pane).
+ * @param {String|Element} tabGroupSpec - a selector for the tab group or the
  *                                        tab group element itself
  */
-export const initializeTabs = (tabGroupSpec) => {
+export const resetTabGroup = (tabGroupSpec) => {
   const tabGroup = getElement(tabGroupSpec);
-  const selectedIndex = tabGroup.getAttribute('data-selected');
 
-  // Set the selected tab.
-  setSelectedTab(tabGroup, selectedIndex);
+  // Set the selected value of the tab group back to 0;
+  tabGroup.setAttribute('data-selected', '0');
+
+  // Set the selected tab and pane to 0.
+  setSelectedTabAndPane(tabGroup, 0, true);
+};
+
+/**
+ * Initialize the state of an MD Tab group ('md-tabs' element) per its
+ * 'data-selected' attribute value as preset in the rendered template.
+ * @param {String|Element} tabGroupSpec - a selector for the tab group or the
+ *                                        tab group element itself
+ */
+export const initializeTabGroup = (tabGroupSpec) => {
+  const tabGroup = getElement(tabGroupSpec);
+
+  // Read the selected value from the DOM.
+  const selectedIndex = parseInt(tabGroup.getAttribute('data-selected'), 10);
+
+  // Set the selected tab to match this value.
+  setSelectedTabAndPane(tabGroup, selectedIndex);
+};
+
+/**
+ * Restore an MD Tab group to its last/stored state as provided by currentTab.
+ * @param {String} tabGroupId - the tab group id
+ */
+export const restoreTabGroup = (tabGroupId) => {
+  if (currentTab.get(tabGroupId)) {
+    // Set the selected tab to match this state.
+    setTabGroupSelection(`#${tabGroupId}`, currentTab.get(tabGroupId).index);
+  } else {
+    // Reset the tab group.
+    resetTabGroup(`#${tabGroupId}`);
+  }
 };
 
 /**
@@ -183,7 +226,7 @@ export const handleClickOnTab = (tab) => {
     // Do nothing.
   } else {
     // Set this tab as the selected tab in the group.
-    const selectedIndex = tab.getAttribute('data-tab-index');
+    const selectedIndex = parseInt(tab.getAttribute('data-tab-index'), 10);
     setTabGroupSelection(tabGroup, selectedIndex);
   }
 };
