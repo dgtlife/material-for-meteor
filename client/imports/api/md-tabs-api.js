@@ -57,25 +57,26 @@ const setSelectedTabAndPane = (tabGroupSpec, selectedIndex, untracked) => {
       );
     }
 
-    // We visit each tab, so make the selection there.
-    if (tabIndex === selectedIndex) {
-      // This is the selected tab.
-      tab.setAttribute('data-selected', 'true');
-
-      /*
-       * Update the current-tab reactive variable, if required
-       */
+    // Sets the current tab.
+    function setCurrentTab() {
       if (!untracked) {
         currentTab.set(tabGroupId, {
           name: tabName,
           index: tabIndex
         });
       }
+    }
+
+    // We visit each tab, so make the selection there.
+    if (tabIndex === selectedIndex) {
+      // This is the selected tab.
+      tab.setAttribute('data-selected', 'true');
 
       // Show the corresponding tab pane.
       if (dqS(tabPaneSelector)) {
         tabPane = dqS(tabPaneSelector);
         tabPane.classList.remove('hide');
+        setCurrentTab();
       } else {
         // Wait for this pane to render.
         waitForElement(
@@ -83,7 +84,10 @@ const setSelectedTabAndPane = (tabGroupSpec, selectedIndex, untracked) => {
           true,
           tabPaneSelector,
           tabPaneExists,
-          pane => pane.classList.remove('hide'),
+          (pane) => {
+            pane.classList.remove('hide');
+            setCurrentTab();
+          },
           1
         );
       }
@@ -211,8 +215,8 @@ export const restoreTabGroup = (tabGroupId) => {
     // Set the selected tab to match this state.
     setTabGroupSelection(`#${tabGroupId}`, currentTab.get(tabGroupId).index);
   } else {
-    // Reset the tab group.
-    resetTabGroup(`#${tabGroupId}`);
+    // Initialize the tab group.
+    initializeTabGroup(`#${tabGroupId}`);
   }
 };
 
