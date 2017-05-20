@@ -10,7 +10,7 @@ const tooltipState = new ReactiveDict;
 
 /**
  * Register a tooltip with its target element.
- * @param {string} targetId - the id of the target element of the tooltip
+ * @param {string} targetId - the id of the tooltip target.
  */
 export const registerTooltip = (targetId) => {
   const target = dgEBI(targetId);
@@ -159,5 +159,16 @@ export const hideTooltip = (id) => {
         Meteor.setTimeout(() => tooltip.removeAttribute('style'), 160);
       }
     }, 1500);
+  }
+};
+
+/**
+ * Dismiss (hide immediately) a tooltip.
+ * @param {String} id - the id of the tooltip target.
+ */
+export const dismissTooltip = (id) => {
+  const tooltip = dqS(`[data-target=${id}]`);
+  if (tooltip) {
+    tooltip.classList.remove('show-tooltip');
   }
 };

@@ -72,6 +72,7 @@ import {
   clearErrorOnTextInputField
 } from './imports/api/md-text-input-api.js';
 import { detectTabs } from './imports/api/md-toolbar-api.js';
+import { dismissTooltip } from './imports/api/md-tooltip-api.js';
 import {
   dgEBI,
   dqS,
@@ -175,6 +176,8 @@ export {
   clearErrorOnTextInputField,
   // MD Toolbar
   detectTabs,
+  // MD Tooltip
+  dismissTooltip,
   // MD Utils
   dgEBI,
   dqS,
