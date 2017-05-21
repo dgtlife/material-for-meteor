@@ -213,25 +213,35 @@ export const toggleDrawer = (position) => {
 };
 
 /**
- * Initialize the drawer toggle buttons. This attaches an onclick event listener
- * to each drawer-toggle button, if it exists, and defines a handler to toggle
- * the corresponding drawer.
+ * Initialize a left drawer-toggle button, by attaching an onclick event
+ * listener to the drawer-toggle button, if it exists, and a click handler to
+ * toggle the corresponding drawer.
  */
-const initializeDrawerToggles = () => {
-  // Define click handlers for the left and right drawer-toggle buttons.
-  const toggleLeftDrawer = () => toggleDrawer('left');
-  const toggleRightDrawer = () => toggleDrawer('right');
-
-  // Attach click listeners to the drawer-toggle buttons, if they exist.
-  const leftToggle = dqS('[data-drawer-toggle=left]');
-  if (leftToggle && !leftToggle.onclick) {
-    leftToggle.onclick = toggleLeftDrawer;
+export const initializeLeftDrawerToggle = () => {
+  const leftDrawerToggle = dqS('[data-drawer-toggle=left]');
+  if (leftDrawerToggle && !leftDrawerToggle.onclick) {
+    leftDrawerToggle.onclick = () => toggleDrawer('left');
   }
+};
 
-  const rightToggle = dqS('[data-drawer-toggle=right]');
-  if (rightToggle && !rightToggle.onclick) {
-    rightToggle.onclick = toggleRightDrawer;
+/**
+ * Initialize a right drawer-toggle button, by attaching an onclick event
+ * listener to the drawer-toggle button, if it exists, and a click handler to
+ * toggle the corresponding drawer.
+ */
+export const initializeRightDrawerToggle = () => {
+  const rightDrawerToggle = dqS('[data-drawer-toggle=right]');
+  if (rightDrawerToggle && !rightDrawerToggle.onclick) {
+    rightDrawerToggle.onclick = () => toggleDrawer('right');
   }
+};
+
+/**
+ * Initialize drawer-toggle buttons for both drawers.
+ */
+export const initializeDrawerToggles = () => {
+  initializeLeftDrawerToggle();
+  initializeRightDrawerToggle();
 };
 
 /**
