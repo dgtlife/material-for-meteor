@@ -93,6 +93,6 @@ Template.md_text_area.events
     # Set the label and underline styles.
     setStyleOfNonFloatableLabelOnInput field
     # Mirror the input into the size detector.
-    eqS(input.parentElement, '[data-size-detector]').innerHTML = input.value
+    eqS(input.parentElement, '[data-size-detector]').innerText = input.value
     # Auto-grow the textarea as input wraps.
     setHeightOfTextarea field

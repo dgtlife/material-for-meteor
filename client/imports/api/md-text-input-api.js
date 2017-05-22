@@ -183,7 +183,7 @@ export const setValueOfTextArea = (selector, value) => {
   eqS(field, '[data-text-area-input]').value = value;
 
   // Mirror the input value into the size detector.
-  eqS(field, '[data-size-detector]').innerHTML = value;
+  eqS(field, '[data-size-detector]').innerText = value;
 
   // Reset the label position.
   setStyleOfLabelUnfocused(field);
@@ -203,7 +203,7 @@ export const clearValueOfTextArea = (selector) => {
   eqS(field, '[data-text-area-input').value = null;
 
   // Mirror the input value into the size detector.
-  eqS(field, '[data-size-detector]').innerHTML = '';
+  eqS(field, '[data-size-detector]').innerText = '';
 
   // Reset the label position.
   setStyleOfLabelUnfocused(field);
@@ -276,7 +276,7 @@ export const setErrorOnTextInputField = (
   setLabelAndUnderlineErrored(field);
 
   // Set the error text for the field.
-  eqS(field, '[data-text-input-error-text]').innerHTML = errorText;
+  eqS(field, '[data-text-input-error-text]').innerText = errorText;
 
   // Set the 'data-errored' attribute for the field.
   field.setAttribute('data-errored', 'true');
@@ -302,7 +302,7 @@ export const clearErrorOnTextInputField = (selector, validMessage) => {
   setLabelAndUnderlineValid(field);
 
   // Clear the error text for the field.
-  eqS(field, '[data-text-input-error-text]').innerHTML = '';
+  eqS(field, '[data-text-input-error-text]').innerText = '';
 
   // Remove the 'data-errored' attribute.
   field.removeAttribute('data-errored');
@@ -312,7 +312,7 @@ export const clearErrorOnTextInputField = (selector, validMessage) => {
   if (helperTextElement) {
     if (validMessage) {
       // Optionally override the helper text, with a validation message.
-      helperTextElement.innerHTML = validMessage;
+      helperTextElement.innerText = validMessage;
     }
 
     // Show the helper text.
