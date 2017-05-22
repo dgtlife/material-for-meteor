@@ -57,12 +57,12 @@ template(name="md_menu")
             data-list-item=""
             data-index="#{@index}"
           )
-            .list-item--md-menu__selection-indicator(
+            .md-menu__list-item__selection-indicator(
               data-selection-indicator=""
               class="unselected"
             )
               +md_icon(icon="check")
-            .list-item--md-menu__content
+            .md-menu__list-item__content(class=list_item_content__classes)
               +Template.dynamic(template=list_item_content data=list_item)
     if content
       +Template.dynamic(template=content)
