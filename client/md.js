@@ -6,6 +6,10 @@
 import { run } from './imports/api/md-run.js';
 import { enableButton, disableButton } from './imports/api/md-button-api.js';
 import {
+  collapseContent,
+  expandContent
+} from './imports/api/md-collapse-api.js';
+import {
   setStateOfCheckbox,
   getStateOfCheckbox
 } from './imports/api/md-checkbox-api.js';
@@ -119,6 +123,9 @@ export {
   // MD Button
   enableButton,
   disableButton,
+  // MD Collapse
+  collapseContent,
+  expandContent,
   // MD Checkbox
   setStateOfCheckbox,
   getStateOfCheckbox,
