@@ -119,23 +119,24 @@ export const displayCurrentSnackbar = (_id) => {
   if ((window.innerWidth < 600) && (elementsToMove.length > 0)) {
     _.each(elementsToMove, (elementId) => {
       const element = dgEBI(elementId);
+      if (element) {
+        // Animate the element upwards the same distance as the snackbar.
+        element.style.transition = 'transform 0.3s';
+        element.style.transform = `translateY(${upSpec}px)`;
 
-      // Animate the element upwards the same distance as the snackbar.
-      element.style.transition = 'transform 0.3s';
-      element.style.transform = `translateY(${upSpec}px)`;
+        // Let the element remain in this position for 3 sec.
+        Meteor.setTimeout(() => {
+          /*
+           * Animate the element down with the snackbar.
+           * For some reason, the element appears to be included in the downward
+           * translation of the snackbar, and does not need to be directly
+           * translated down itself.
+           */
+          element.style.transform = 'translateY(0)';
 
-      // Let the element remain in this position for 3 sec.
-      Meteor.setTimeout(() => {
-        /*
-         * Animate the element down with the snackbar.
-         * For some reason, the element appears to be included in the downward
-         * translation of the snackbar, and does not need to be directly
-         * translated down itself.
-         */
-        element.style.transform = 'translateY(0)';
-
-        // For some reason, removal of the style is not necessary.
-      }, 3300);
+          // For some reason, removal of the style is not necessary.
+        }, 3300);
+      }
     });
   }
 };
