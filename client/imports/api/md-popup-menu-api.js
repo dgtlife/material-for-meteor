@@ -4,7 +4,7 @@
  * @copyright DGTLife, LLC 2016
  */
 import { Meteor } from 'meteor/meteor';
-import { dgEBI } from './md-utils.js';
+import { eqS } from './md-utils.js';
 import { closePopupMenu, closeOpenMenus } from './md-menu-common-api.js';
 import { openDropdownMenu } from './md-dropdown-menu-api.coffee';
 
@@ -95,7 +95,7 @@ export const openPopupMenu = (menu) => {
  */
 export const handleClickOnMenuTrigger = (trigger) => {
   // Get the target popup menu element.
-  const menu = dgEBI(trigger.getAttribute('data-trigger-target'));
+  const menu = eqS(trigger.parentElement, '[data-menu]');
   if (menu.hasAttribute('data-menu-open')) {
     // The menu is already open; do nothing.
   } else if (menu.hasAttribute('data-popup-menu')) {
