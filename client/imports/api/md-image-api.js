@@ -62,31 +62,38 @@ export const setImgSize = (image, img) => {
 /**
  * Set the image as a background image for the .md-image, and apply the sizing.
  * @param {Element} image - the MD Image element
- * @param {string} [data] - data from the md_image template
+ * @param {string} [data__template] - data from the md_image template
  */
-export const setImageAsBackground = (image, data) => {
-  let _data;
-  if (!data) {
+export const setImageAsBackground = (image, data__template) => {
+  let data__style;
+  if (!data__template) {
     /*
      * The image is being re-rendered after a change in data-bg-url. Compose the
      * data object from the values in the changed element.
      */
-    _data = {};
-    _data.height = image.getAttribute('data-height');
-    _data.width = image.getAttribute('data-width');
-    _data.bg_url = image.getAttribute('data-bg-url');
-    _data.sizing = image.getAttribute('data-sizing');
+    data__style = {};
+    data__style.height = image.getAttribute('data-height');
+    data__style.width = image.getAttribute('data-width');
+    data__style.bg_url = image.getAttribute('data-bg-url');
+    data__style.sizing = image.getAttribute('data-sizing');
   } else {
-    _data = data;
+    data__style = data__template;
+  }
+
+  let bg_image;
+  if (data__style.bg_url) {
+    bg_image = `url(${data__style.bg_url})`;
+  } else {
+    bg_image = 'none';
   }
 
   // Compose a style string.
-  const imageStyle = `height: ${_data.height}px; 
-                      width: ${_data.width}px; 
-                      background-image: url(${_data.bg_url}); 
+  const imageStyle = `height: ${data__style.height}px; 
+                      width: ${data__style.width}px; 
+                      background-image: ${bg_image}; 
                       background-position: 50% 50%; 
                       background-repeat: no-repeat; 
-                      background-size: ${_data.sizing};`;
+                      background-size: ${data__style.sizing};`;
 
   // Set the style attribute.
   image.setAttribute('style', imageStyle);
