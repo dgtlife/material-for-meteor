@@ -56,6 +56,13 @@ import {
   getValueOfRadioGroup,
   clearValueOfRadioGroup
 } from './imports/api/md-radio-api.js';
+import {
+  menuMode,
+  clearQuery,
+  exitSearch,
+  enableSearchBox,
+  disableSearchBox
+} from './imports/api/md-search-box-api.js';
 import { postSnackbar } from './imports/api/md-snackbar-api.js';
 import makeDots from './imports/api/md-stepdots-api.js';
 import {
@@ -108,6 +115,7 @@ import './imports/ui/md-popup-menu/md-popup-menu.coffee';
 import './imports/ui/md-radio/md-radio.js';
 import './imports/ui/md-ripple/md-ripple.coffee';
 import './imports/ui/md-scrollable/md-scrollable.js';
+import './imports/ui/md-search-box/md-search-box.js';
 import './imports/ui/md-snackbar/md-snackbar.coffee';
 import './imports/ui/md-spinner/md-spinner.coffee';
 import './imports/ui/md-stepdots/md-stepdots.jade';
@@ -165,6 +173,12 @@ export {
   setValueOfRadioGroup,
   getValueOfRadioGroup,
   clearValueOfRadioGroup,
+  // MD Search Box
+  menuMode,
+  clearQuery,
+  exitSearch,
+  enableSearchBox,
+  disableSearchBox,
   // MD Snackbar
   postSnackbar,
   // MD Stepdots

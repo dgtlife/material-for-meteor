@@ -24,7 +24,7 @@
     @param {string} [menu_item] - indicates that it is a menu item
     @param {string} [menu] - the id of the menu that the item is in
     @param {string} [disabled] - "" disables the item
-    @param {string} [_data] - contextual data to be embedded
+    @param {string} [embed] - contextual data to be embedded
     @param {string} [icon] - the icon id of an icon to include in the item
     @param {string} [badge_count] - the number displayed for badged icon
     @param {string} [image] - the src of an image file to use as an icon
@@ -44,7 +44,7 @@ template(name="md_item")
     data-menu-item=menu_item
     data-menu=menu
     data-disabled=disabled
-    data-context=_data
+    data-embed=embed
   )
     if icon
       +md_icon(icon=icon classes="md-item__icon" badge_count=badge_count)

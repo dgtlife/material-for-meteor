@@ -1,0 +1,27 @@
+// @file Defines the styles for the MD Search Box.
+// @author Derek Gransaull <derek@dgtlife.com>
+// @copyright DGTLife, LLC 2017
+@require '../md-common'
+
+.md-search-box
+  background-color #FFFFFF
+  border-radius 0.125rem
+  color $md-color__primary-text
+  $display-flex()
+  $flex-direction(column)
+.md-search-box__input-container
+  $align-items-center()
+  $display-flex()
+  $flex-direction(row)
+.md-menu.md-search-box__menu.history,
+.md-menu.md-search-box__menu.suggestions
+  padding 0
+.md-button.button__start-search,
+.md-button.button__exit-search
+  margin 0
+.md-search-box__input
+  margin 0 0 0 1.25rem
+.md-item.md-search-box__history-item
+  padding 0 0.75rem
+.md-item.md-search-box__suggestion-item
+  padding 0 0.75rem 0 4.25rem

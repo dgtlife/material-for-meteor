@@ -27,7 +27,7 @@
         attribute 'badge_count=someCount'
       * can be a trigger for a popup menu
       * can carry arbitrary data in the template attribute
-        '_data=someDataAsString'
+        'embed=someDataAsString'
 template(name="md_button")
   button.md-button(
     data-button=""
@@ -50,7 +50,7 @@ template(name="md_button")
     data-popup-trigger=_popup_trigger
     data-dropdown-trigger=_dropdown_trigger
     data-trigger-target=_trigger_target
-    data-context=_data
+    data-embed=embed
   )
     if icon
       +md_icon(icon=icon classes="md-button__icon" badge_count=badge_count)
