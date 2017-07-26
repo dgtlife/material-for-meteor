@@ -21,7 +21,7 @@ setStyleOfLabelUnfocused =
   require('../../api/md-label-api.coffee').setStyleOfLabelUnfocused
 require './md-text-input.jade'
 require '../md-label/md-label.coffee'
-require '../md-underline/md-underline.coffee'
+require '../md-underline/md-underline.js'
 
 # On-render callback for MD Text Field.
 Template.md_text_field.onRendered ->
