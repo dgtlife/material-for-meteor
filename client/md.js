@@ -38,7 +38,7 @@ import {
   setValueOfDropdownMenu,
   getValueOfDropdownMenu,
   clearValueOfDropdownMenu
-} from './imports/api/md-dropdown-menu-api.coffee';
+} from './imports/api/md-dropdown-menu-api.js';
 import {
   resetHeaderPanelSystem,
   initializeHeaderPanelSystem
@@ -105,7 +105,7 @@ import './imports/ui/md-chip/md-chip.js';
 import './imports/ui/md-collapse/md-collapse.js';
 import './imports/ui/md-dialog/md-dialog.coffee';
 import './imports/ui/md-drawer/md-drawer.coffee';
-import './imports/ui/md-dropdown-menu/md-dropdown-menu.coffee';
+import './imports/ui/md-dropdown-menu/md-dropdown-menu.js';
 import './imports/ui/md-header-panel/md-header-panel.js';
 import './imports/ui/md-icon/md-icon.jade';
 import './imports/ui/md-image/md-image.coffee';

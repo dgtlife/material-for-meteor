@@ -7,7 +7,7 @@ import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';
 import { dgEBI, dqS, eqSA, getElement } from './md-utils.js';
 import { assignValueOfPopupMenu } from './md-popup-menu-api.js';
-import { assignValueOfDropdownMenu } from './md-dropdown-menu-api.coffee';
+import { assignValueOfDropdownMenu } from './md-dropdown-menu-api.js';
 
 /**
  * Import the menu items for the identified menu.

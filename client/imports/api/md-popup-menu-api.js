@@ -6,7 +6,7 @@
 import { Meteor } from 'meteor/meteor';
 import { eqS } from './md-utils.js';
 import { closePopupMenu, closeOpenMenus } from './md-menu-common-api.js';
-import { openDropdownMenu } from './md-dropdown-menu-api.coffee';
+import { openDropdownMenu } from './md-dropdown-menu-api.js';
 
 /**
  * Set the size and position of a popup menu via the style attribute.
