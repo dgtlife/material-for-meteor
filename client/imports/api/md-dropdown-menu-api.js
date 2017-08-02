@@ -157,8 +157,10 @@ export function setValueOfDropdownMenu(selector, value) {
  */
 export function getValueOfDropdownMenu(selector) {
   if (selector) {
-    dqS(selector).getAttribute('data-selected');
+    return dqS(selector).getAttribute('data-selected');
   }
+
+  return undefined;
 }
 
 /**
