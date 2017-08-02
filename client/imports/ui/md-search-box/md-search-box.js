@@ -17,6 +17,7 @@ import './md-search-box.jade';
 
 let inSearchMode = false;
 
+// This helper is controlled externally using reactiveVar, menuMode.
 Template.registerHelper(
   'md_search_box__mode_is_history',
   () => menuMode.get() === 'history'
