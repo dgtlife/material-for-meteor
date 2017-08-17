@@ -7,6 +7,8 @@
 import { Template } from 'meteor/templating';
 import { eqS } from '../../api/md-utils.js';
 import {
+  activateSearch,
+  deactivateSearch,
   menuMode,
   showMenu,
   showShadow,
@@ -43,8 +45,10 @@ Template.md_search_box.events({
     // Show the menu (which expands the search box).
     showMenu(searchBox);
 
-    // Show the Shadow to indicate Search is active.
+    // Indicate that Search is active.
     showShadow(searchBox);
+    eqS(searchBox, '.button__start-search').classList.add('active');
+    inSearchMode = true;
   },
 
   'input .md-search-box__input'(event) {
@@ -77,6 +81,16 @@ Template.md_search_box.events({
 
     // Show the menu.
     showMenu(searchBox);
+  },
+
+  'click .button__start-search'(event) {
+    if (!inSearchMode) {
+      activateSearch(event);
+      inSearchMode = true;
+    } else {
+      deactivateSearch(event);
+      inSearchMode = false;
+    }
   },
 
   'click .button__exit-search'() {

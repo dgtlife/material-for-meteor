@@ -10,6 +10,36 @@ import { dqS, eqS } from './md-utils.js';
 export const menuMode = new ReactiveVar(null);
 
 /**
+ * Activate Search
+ * @param {Object} event - the event associated with the Start Search button.
+ */
+export function activateSearch(event) {
+  const searchbox = dqS('.md-search-box');
+  eqS(searchbox, '.md-search-box__input').focus();
+  showShadow(searchbox);
+  if (event) {
+    event.currentTarget.classList.add('active');
+  } else {
+    eqS(searchbox, '.button__start-search').classList.add('active');
+  }
+}
+
+/**
+ * Deactivate Search
+ * @param {Object} event - the event associated with the Start Search button.
+ */
+export function deactivateSearch(event) {
+  const searchbox = dqS('.md-search-box');
+  eqS(searchbox, '.md-search-box__input').blur();
+  hideShadow(searchbox);
+  if (event) {
+    event.currentTarget.classList.remove('active');
+  } else {
+    eqS(searchbox, '.button__start-search').classList.remove('active');
+  }
+}
+
+/**
  * Reset/clear the Search Box input.
  * @param {Element} searchbox - the Search Box element
  */
@@ -84,7 +114,7 @@ export function exitSearch() {
   // Reset the buttons.
   eqS(searchBox, '.button__exit-search').classList.add('md-hide');
   eqS(searchBox, '.button__clear-query').classList.add('md-hide');
-  eqS(searchBox, '.button__start-search').classList.remove('md-hide', 'started');
+  eqS(searchBox, '.button__start-search').classList.remove('md-hide', 'active');
 
   // Reset the input.
   resetInput(searchBox);
