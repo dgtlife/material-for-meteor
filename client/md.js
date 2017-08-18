@@ -59,6 +59,7 @@ import {
 import {
   menuMode,
   clearQuery,
+  showExitButton,
   exitSearch,
   enableSearchBox,
   disableSearchBox
@@ -176,6 +177,7 @@ export {
   // MD Search Box
   menuMode,
   clearQuery,
+  showExitButton,
   exitSearch,
   enableSearchBox,
   disableSearchBox,

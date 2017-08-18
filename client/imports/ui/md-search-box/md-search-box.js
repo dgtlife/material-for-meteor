@@ -13,13 +13,14 @@ import {
   showMenu,
   showShadow,
   clearQuery,
+  showExitButton,
   exitSearch
 } from '../../api/md-search-box-api.js';
 import './md-search-box.jade';
 
 let inSearchMode = false;
 
-// This helper is controlled externally using reactiveVar, menuMode.
+// This helper is controlled externally using the reactiveVar, menuMode.
 Template.registerHelper(
   'md_search_box__mode_is_history',
   () => menuMode.get() === 'history'
@@ -59,9 +60,7 @@ Template.md_search_box.events({
       inSearchMode = true;
     }
 
-    // Replace the Start Search button by the Exit Search button.
-    eqS(searchBox, '.button__start-search').classList.add('md-hide');
-    eqS(searchBox, '.button__exit-search').classList.remove('md-hide');
+    showExitButton(searchBox);
     if (
       (event.currentTarget.value === null) ||
       (event.currentTarget.value === '')

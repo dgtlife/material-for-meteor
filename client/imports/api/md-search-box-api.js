@@ -10,37 +10,55 @@ import { dqS, eqS } from './md-utils.js';
 export const menuMode = new ReactiveVar(null);
 
 /**
- * Activate Search
- * @param {Object} event - the event associated with the Start Search button.
+ * Returns the Search Box element from the optional parameter.
+ * @param {Element} [searchbox] - the Search Box element
+ * @returns {Element}
  */
-export function activateSearch(event) {
-  const searchbox = dqS('.md-search-box');
-  eqS(searchbox, '.md-search-box__input').focus();
-  showShadow(searchbox);
+function getSearchBox(searchbox) {
+  if (!searchbox) {
+    return dqS('.md-search-box');
+  }
+
+  return searchbox;
+}
+
+/**
+ * Activates Search
+ * @param {Object} event - the event associated with the Start Search button.
+ * @param {Element} [searchbox] - the Search Box element
+ */
+export function activateSearch(event, searchbox) {
+  const searchBox = getSearchBox(searchbox);
+
+  eqS(searchBox, '.md-search-box__input').focus();
+  showShadow(searchBox);
   if (event) {
     event.currentTarget.classList.add('active');
   } else {
-    eqS(searchbox, '.button__start-search').classList.add('active');
+    eqS(searchBox, '.button__start-search').classList.add('active');
   }
 }
 
 /**
- * Deactivate Search
+ * Deactivates Search
  * @param {Object} event - the event associated with the Start Search button.
+ * @param {Element} [searchbox] - the Search Box element
  */
-export function deactivateSearch(event) {
-  const searchbox = dqS('.md-search-box');
-  eqS(searchbox, '.md-search-box__input').blur();
-  hideShadow(searchbox);
+export function deactivateSearch(event, searchbox) {
+  const searchBox = getSearchBox(searchbox);
+
+  eqS(searchBox, '.md-search-box__input').blur();
+  hideMenu(searchBox);
+  hideShadow(searchBox);
   if (event) {
     event.currentTarget.classList.remove('active');
   } else {
-    eqS(searchbox, '.button__start-search').classList.remove('active');
+    eqS(searchBox, '.button__start-search').classList.remove('active');
   }
 }
 
 /**
- * Reset/clear the Search Box input.
+ * Resets/clears the Search Box input.
  * @param {Element} searchbox - the Search Box element
  */
 function resetInput(searchbox) {
@@ -52,7 +70,7 @@ function resetInput(searchbox) {
 }
 
 /**
- * Show the Search Box menu.
+ * Shows the Search Box menu.
  * @param {Element} searchbox - the Search Box element
  */
 export function showMenu(searchbox) {
@@ -60,7 +78,7 @@ export function showMenu(searchbox) {
 }
 
 /**
- * Show the Drop Shadow.
+ * Shows the Drop Shadow.
  * @param {Element} searchbox - the Search Box element
  */
 export function showShadow(searchbox) {
@@ -68,7 +86,7 @@ export function showShadow(searchbox) {
 }
 
 /**
- * Hide the Search Box menu.
+ * Hides the Search Box menu.
  * @param {Element} searchbox - the Search Box element
  */
 export function hideMenu(searchbox) {
@@ -76,7 +94,7 @@ export function hideMenu(searchbox) {
 }
 
 /**
- * Hide the Drop Shadow.
+ * Hides the Drop Shadow.
  * @param {Element} searchbox - the Search Box element
  */
 export function hideShadow(searchbox) {
@@ -84,10 +102,10 @@ export function hideShadow(searchbox) {
 }
 
 /**
- * Clear the current query from the Search Box.
+ * Clears the current query from the Search Box.
  */
-export function clearQuery() {
-  const searchBox = dqS('.md-search-box');
+export function clearQuery(searchbox) {
+  const searchBox = getSearchBox(searchbox);
 
   // Hide the menu (which collapses the search box).
   hideMenu(searchBox);
@@ -100,10 +118,22 @@ export function clearQuery() {
 }
 
 /**
- * Exit the Search mode of the Search Box.
+ * Shows the Exit Search button when a menu selection is clicked.
+ * @param searchbox
  */
-export function exitSearch() {
-  const searchBox = dqS('.md-search-box');
+export function showExitButton(searchbox) {
+  const searchBox = getSearchBox(searchbox);
+
+  // Replace the Start Search button by the Exit Search button.
+  eqS(searchBox, '.button__start-search').classList.add('md-hide');
+  eqS(searchBox, '.button__exit-search').classList.remove('md-hide');
+}
+
+/**
+ * Exits the Search mode of the Search Box.
+ */
+export function exitSearch(searchbox) {
+  const searchBox = getSearchBox(searchbox);
 
   // Hide the menu (which collapses the search box).
   hideMenu(searchBox);
@@ -121,7 +151,7 @@ export function exitSearch() {
 }
 
 /**
- * Enable the Search Box.
+ * Enables the Search Box.
  * @param {Element} searchbox - the Search Box element
  */
 export function enableSearchBox(searchbox) {
@@ -130,7 +160,7 @@ export function enableSearchBox(searchbox) {
 }
 
 /**
- * Disable the Search Box.
+ * Disables the Search Box.
  * @param {Element} searchbox - the Search Box element
  */
 export function disableSearchBox(searchbox) {
