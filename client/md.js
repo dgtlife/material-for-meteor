@@ -114,7 +114,7 @@ import './imports/ui/md-item/md-item.jade';
 import './imports/ui/md-menu/md-menu.js';
 import './imports/ui/md-popup-menu/md-popup-menu.coffee';
 import './imports/ui/md-radio/md-radio.js';
-import './imports/ui/md-ripple/md-ripple.coffee';
+import './imports/ui/md-ripple/md-ripple.js';
 import './imports/ui/md-scrollable/md-scrollable.js';
 import './imports/ui/md-search-box/md-search-box.js';
 import './imports/ui/md-snackbar/md-snackbar.coffee';
