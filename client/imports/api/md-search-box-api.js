@@ -6,8 +6,9 @@
 import { ReactiveVar } from 'meteor/reactive-var';
 import { dqS, eqS } from './md-utils.js';
 
-// Sets the menu mode for the inside and outside worlds.
+// The Menu and Search modes and for the inside and outside worlds.
 export const menuMode = new ReactiveVar(null);
+export const inSearchMode = new ReactiveVar('false');
 
 /**
  * Returns the Search Box element from the optional parameter.

@@ -1,7 +1,7 @@
 /**
  * @file Main module of this package on the client.
  * @author Derek Gransaull <derek@dgtlife.com>
- * @copyright DGTLife, LLC 2016
+ * @copyright DGTLife, LLC 2017
  */
 import { run } from './imports/api/md-run.js';
 import { enableButton, disableButton } from './imports/api/md-button-api.js';
@@ -57,6 +57,7 @@ import {
   clearValueOfRadioGroup
 } from './imports/api/md-radio-api.js';
 import {
+  inSearchMode,
   menuMode,
   clearQuery,
   showExitButton,
@@ -175,6 +176,7 @@ export {
   getValueOfRadioGroup,
   clearValueOfRadioGroup,
   // MD Search Box
+  inSearchMode,
   menuMode,
   clearQuery,
   showExitButton,

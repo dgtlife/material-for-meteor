@@ -9,6 +9,7 @@ import { eqS } from '../../api/md-utils.js';
 import {
   activateSearch,
   deactivateSearch,
+  inSearchMode,
   menuMode,
   showMenu,
   showShadow,
@@ -17,8 +18,6 @@ import {
   exitSearch
 } from '../../api/md-search-box-api.js';
 import './md-search-box.jade';
-
-let inSearchMode = false;
 
 // This helper is controlled externally using the reactiveVar, menuMode.
 Template.registerHelper(
@@ -49,15 +48,15 @@ Template.md_search_box.events({
     // Indicate that Search is active.
     showShadow(searchBox);
     eqS(searchBox, '.button__start-search').classList.add('active');
-    inSearchMode = true;
+    inSearchMode.set('true');
   },
 
   'input .md-search-box__input'(event) {
     const searchBox = event.currentTarget.parentElement.parentElement;
 
     // Set Search Mode.
-    if (!inSearchMode) {
-      inSearchMode = true;
+    if (inSearchMode.get() === 'false') {
+      inSearchMode.set('true');
     }
 
     showExitButton(searchBox);
@@ -83,18 +82,18 @@ Template.md_search_box.events({
   },
 
   'click .button__start-search'(event) {
-    if (!inSearchMode) {
+    if (inSearchMode.get() === 'false') {
       activateSearch(event);
-      inSearchMode = true;
+      inSearchMode.set('true');
     } else {
       deactivateSearch(event);
-      inSearchMode = false;
+      inSearchMode.set('false');
     }
   },
 
   'click .button__exit-search'() {
-    if (inSearchMode) {
-      inSearchMode = false;
+    if (inSearchMode.get() === 'true') {
+      inSearchMode.set('false');
     }
 
     exitSearch();
