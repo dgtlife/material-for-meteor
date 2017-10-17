@@ -32,7 +32,8 @@ import {
   toggleDrawer,
   initializeLeftDrawerToggle,
   initializeRightDrawerToggle,
-  initializeDrawerToggles
+  initializeDrawerToggles,
+  initializeDrawer
 } from './imports/api/md-drawer-api.js';
 import {
   setValueOfDropdownMenu,
@@ -158,6 +159,7 @@ export {
   initializeLeftDrawerToggle,
   initializeRightDrawerToggle,
   initializeDrawerToggles,
+  initializeDrawer,
   // MD Dropdown Menu
   setValueOfDropdownMenu,
   getValueOfDropdownMenu,
