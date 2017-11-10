@@ -6,12 +6,13 @@
 import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';
 import { Hammer } from 'meteor/hammer:hammer';
-import { dqS, insertBackdrop, removeBackdrop, platform } from './md-utils.js';
-
-// Whether the pan gesture is available for use on a platform.
-const canUsePan = (platform.isPhone || platform.isTablet) &&
-        !((platform.isSafariOnIphone || platform.isSafariOnIpad) &&
-        (!window.navigator.standalone));
+import {
+  dgEBI,
+  dqS,
+  insertBackdrop,
+  removeBackdrop,
+  platform
+} from './md-utils.js';
 
 /**
  * Dock a drawer.
@@ -164,30 +165,6 @@ export const openDrawer = (drawerSpec) => {
         closeDrawer(drawer, true);
       }
     };
-
-    /*
-     * Attach a listener to the drawer panel for an edge pan to close the
-     * drawer, unless we are in iOS Safari in browser mode. In iOS Safari in
-     * browser mode a left/right swipe is used for Back/Forward navigation.
-     */
-    if (canUsePan) {
-      // A callback to close the drawer with a pan. ToDo: FixMe
-      const closeWithPan = (event) => {
-        console.log(event);
-        const position = event.target.getAttribute('data-drawer');
-        if ((event.type === 'panleft') && (position === 'left')) {
-          closeDrawer('left', true);
-        }
-
-        if ((event.type === 'panright') && (position === 'right')) {
-          closeDrawer('right', true);
-        }
-      };
-
-      // Define a listener for the pan.
-      const drawerListener = new Hammer(drawer);
-      drawerListener.on('panright panleft', closeWithPan);
-    }
   }
 };
 
@@ -248,31 +225,38 @@ export const initializeDrawerToggles = () => {
  * Initialize a listener/handler to open the drawer with a pan gesture. A right
  * pan on the header panel opens the left drawer, while the left pan opens the
  * right drawer.
- * @param {Element} drawer - the drawer element
- * @param {Element} headerPanel - the header panel element
+ * @param {Element} targetElement - the element that receives the gesture
  */
-const initializePanToOpen = (drawer, headerPanel) => {
+const initializePanToOpen = (targetElement) => {
   /*
-   * Attach an event listener to the header panel for an edge pan to open the
-   * drawer, unless we are in iOS Safari in browser mode. In iOS Safari in
-   * browser mode a left/right pan/swipe is used for Back/Forward navigation.
+   * Attach an event listener to the target element (screen container) for edge
+   * pans to open the drawers (unless we are in iOS Safari in browser mode.
+   * In iOS Safari in browser mode a left/right pan/swipe is used for
+   * Back/Forward navigation).
    */
-  if (canUsePan) {
-    // A callback to open the drawer with a pan.
-    const openWithPan = (event) => {
-      const panX = event.center.x;
-      if ((event.type === 'panright') && (panX <= 30)) {
-        openDrawer('left');
-      }
+  if (
+    (platform.isPhone || platform.isTablet) &&
+    !(
+      (platform.isSafariOnIphone || platform.isSafariOnIpad) &&
+      (!window.navigator.standalone)
+    )
+  ) {
+    const panListener = new Hammer(targetElement);
+    panListener.on(
+      'panright panleft',
+      (event) => {
+        const panX = event.center.x;
 
-      if ((event.type === 'panleft') && ((window.innerWidth - panX) <= 30)) {
-        openDrawer('right');
-      }
-    };
+        // panX !== 0 is needed to mitigate a bug with the event firing position.
+        if ((event.type === 'panright') && (panX !== 0) && (panX <= 40)) {
+          openDrawer('left');
+        }
 
-    // Define a listener for the pan.
-    const headerPanelListener = new Hammer(headerPanel);
-    headerPanelListener.on('panright panleft', openWithPan);
+        if ((event.type === 'panleft') && ((window.innerWidth - panX) <= 40)) {
+          openDrawer('right');
+        }
+      }
+    );
   }
 };
 
@@ -284,6 +268,7 @@ const initializePanToOpen = (drawer, headerPanel) => {
 export const initializeDrawer = (position) => {
   const drawer = dqS(`[data-drawer=${position}]`);
   const headerPanel = dqS('[data-header-panel]');
+  const screenContainer = dgEBI('__screen-container');
   if (drawer && headerPanel) {
     // Register with the header panel.
     headerPanel.setAttribute('data-with-drawer', 'true');
@@ -302,10 +287,10 @@ export const initializeDrawer = (position) => {
     initializeDrawerToggles();
 
     /*
-     * Initialize a pan-to-open listener/handler for the drawer (for touch
-     * screens).
+     * Initialize a pan-to-open listener and handler to open drawers on touch
+     * devices.
      */
-    initializePanToOpen(drawer, headerPanel);
+    initializePanToOpen(screenContainer);
   } else {
     throw new Meteor.Error('An MD Drawer requires an MD Header Panel.');
   }
