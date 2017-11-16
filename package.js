@@ -1,11 +1,11 @@
 /**
  * @file Defines the Material package
  * @author Derek Gransaull <derek@dgtlife.com>
- * @copyright DGTLife, LLC 2015
+ * @copyright DGTLife, LLC 2017
  */
 Package.describe({
   summary: 'A Blaze implementation of Material Design components for Meteor',
-  version: '0.7.2',
+  version: '0.7.5',
   name: 'dgtlife:material',
   git: 'https://github.com/dgtlife/material-for-meteor.git'
 });
@@ -15,7 +15,7 @@ Package.onUse((api) => {
   api.use('templating', 'client');
   api.use('pacreach:jade', 'client');
   api.use('stylus', 'client');
-  api.use('hammer:hammer@=2.0.4_1', 'client');
+  api.use('hammer:hammer', 'client');
   api.use('reactive-dict', ['client', 'server']);
   api.use('reactive-var', 'client');
   api.use('tracker', 'client');

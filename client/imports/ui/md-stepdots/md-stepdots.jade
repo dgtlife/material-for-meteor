@@ -1,0 +1,9 @@
+//- @file Defines the Stepdots template
+    @author Derek Gransaull <derek@dgtlife.com>
+    @copyright DGTLife, LLC 2017
+
+template(name="md_step_dots")
+  .md-step-dots(id=id class=classes)
+    .md-step-dots__container
+      +each dots
+        .md-step-dot(class="step-#{i}")

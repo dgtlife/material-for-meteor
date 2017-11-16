@@ -8,4 +8,6 @@ import { initializeHeaderPanelSystem } from '../../api/md-header-panel-api.js';
 import './md-header-panel.jade';
 
 // On render callback for MD Header Panel.
-Template.body.onRendered(() => initializeHeaderPanelSystem());
+Template.md_header_panel.onRendered(
+  () => initializeHeaderPanelSystem()
+);

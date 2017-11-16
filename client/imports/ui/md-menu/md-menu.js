@@ -4,7 +4,6 @@
  * @copyright DGTLife, LLC 2015
  */
 import { Template } from 'meteor/templating';
-import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';
 import { eqS, eqSA, runScroller } from '../../api/md-utils.js';
 import { handleClickOnMenuItem, importMenuItems } from '../../api/md-menu-api.js';

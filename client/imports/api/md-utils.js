@@ -88,47 +88,52 @@ export const showElement = element => element.classList.remove('md-hide');
 /**
  * Wait for an element to be rendered before calling a callback.
  * @param {Element} parent - a parent of the element
+ * @param {Boolean} subtree - TRUE if the observer should look for descendants
  * @param {string} selector - a selector for the element to wait for
+ * @param {Function} exists - the function of a mutation object that detects
+ *                            the existence of the element
  * @param {Function} callback - the callback to call upon element detection
- * @param {array} params - the parameters for the callback
- * @param {Number} delay - the delay after element detection before the
+ * @param {array} [params] - the parameters for the callback
+ * @param {Number} [delay] - the delay after element detection before the
  *                         callback is called
  */
 export const waitForElement = (
-  parent, selector, callback, delay, ...params) => {
+  parent,
+  subtree,
+  selector,
+  exists,
+  callback,
+  delay,
+  ...params
+) => {
   // An observer that looks for newly rendered child nodes of a parent.
-  const onRenderChildren = new MutationObserver((mutations) => {
-    _.each(mutations, (mutation) => {
-      if (mutation.addedNodes.length > 0) {
-        _.each(mutation.addedNodes, (addedNode) => {
-          if (addedNode === eqS(parent, selector)) {
-            /*
-             * The element has been rendered. Call the callback with any
-             * applicable delay.
-             */
-            Meteor.setTimeout(() => {
-              callback(addedNode, ...params);
-            }, delay);
+  const onRenderChildren = new MutationObserver(
+    (mutations) => {
+      _.each(
+        mutations,
+        (mutation) => {
+          if (exists(mutation)) {
+            // The element was rendered. Call the callback after the delay.
+            Meteor.setTimeout(
+              () => {
+                callback(eqS(parent, selector), ...params);
+              },
+              delay
+            );
 
-            // Since we found it; stop the observer.
+            // We're done! Stop the observer.
             onRenderChildren.disconnect();
-            return true;
           }
+        }
+      );
 
-          return false;
-        });
-      }
-    });
-
-    // We looked through everything and didn't find it; stop the observer.
-    onRenderChildren.disconnect();
-  });
+      // We looked through everything and didn't find it; stop the observer.
+      onRenderChildren.disconnect();
+    }
+  );
 
   // Call the observer.
-  onRenderChildren.observe(parent, {
-    childList: true,
-    subtree: true
-  });
+  onRenderChildren.observe(parent, { childList: true, subtree: subtree });
 };
 
 /**

@@ -20,8 +20,8 @@ setStyleOfNonFloatableLabelOnInput =
 setStyleOfLabelUnfocused =
   require('../../api/md-label-api.coffee').setStyleOfLabelUnfocused
 require './md-text-input.jade'
-require '../md-label/md-label.coffee'
-require '../md-underline/md-underline.coffee'
+require '../md-label/md-label.js'
+require '../md-underline/md-underline.js'
 
 # On-render callback for MD Text Field.
 Template.md_text_field.onRendered ->
@@ -36,7 +36,9 @@ Template.md_text_field.onRendered ->
 
   # Activate an observer in order to detect value changes and set the label
   # style.
-  unfocusLabelOnValueChange field
+  # ToDo: Commented out on 4/29/2017 as it interfered with text field validation
+  # styling. I forgot why I put this here. I need to figure out why.
+  # unfocusLabelOnValueChange field
 
 # Event handlers for MD Text Field
 Template.md_text_field.events
@@ -91,6 +93,6 @@ Template.md_text_area.events
     # Set the label and underline styles.
     setStyleOfNonFloatableLabelOnInput field
     # Mirror the input into the size detector.
-    eqS(input.parentElement, '[data-size-detector]').innerHTML = input.value
+    eqS(input.parentElement, '[data-size-detector]').innerText = input.value
     # Auto-grow the textarea as input wraps.
     setHeightOfTextarea field

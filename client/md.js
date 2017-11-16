@@ -1,10 +1,14 @@
 /**
  * @file Main module of this package on the client.
  * @author Derek Gransaull <derek@dgtlife.com>
- * @copyright DGTLife, LLC 2016
+ * @copyright DGTLife, LLC 2017
  */
 import { run } from './imports/api/md-run.js';
 import { enableButton, disableButton } from './imports/api/md-button-api.js';
+import {
+  collapseContent,
+  expandContent
+} from './imports/api/md-collapse-api.js';
 import {
   setStateOfCheckbox,
   getStateOfCheckbox
@@ -25,13 +29,17 @@ import {
   undockDrawer,
   closeDrawer,
   openDrawer,
-  toggleDrawer
+  toggleDrawer,
+  initializeLeftDrawerToggle,
+  initializeRightDrawerToggle,
+  initializeDrawerToggles,
+  initializeDrawer
 } from './imports/api/md-drawer-api.js';
 import {
   setValueOfDropdownMenu,
   getValueOfDropdownMenu,
   clearValueOfDropdownMenu
-} from './imports/api/md-dropdown-menu-api.coffee';
+} from './imports/api/md-dropdown-menu-api.js';
 import {
   resetHeaderPanelSystem,
   initializeHeaderPanelSystem
@@ -49,12 +57,24 @@ import {
   getValueOfRadioGroup,
   clearValueOfRadioGroup
 } from './imports/api/md-radio-api.js';
+import {
+  inSearchMode,
+  menuMode,
+  clearQuery,
+  showExitButton,
+  exitSearch,
+  enableSearchBox,
+  disableSearchBox
+} from './imports/api/md-search-box-api.js';
 import { postSnackbar } from './imports/api/md-snackbar-api.js';
+import makeDots from './imports/api/md-stepdots-api.js';
 import {
   currentTab,
-  initializeTabs,
+  initializeTabGroup,
   setTabGroupSelection,
-  getTabGroupSelection
+  getTabGroupSelection,
+  resetTabGroup,
+  restoreTabGroup
 } from './imports/api/md-tabs-api.js';
 import {
   getValueOfTextField,
@@ -69,6 +89,7 @@ import {
   clearErrorOnTextInputField
 } from './imports/api/md-text-input-api.js';
 import { detectTabs } from './imports/api/md-toolbar-api.js';
+import { dismissTooltip } from './imports/api/md-tooltip-api.js';
 import {
   dgEBI,
   dqS,
@@ -85,9 +106,9 @@ import './imports/ui/md-card/md-card.jade';
 import './imports/ui/md-checkbox/md-checkbox.js';
 import './imports/ui/md-chip/md-chip.js';
 import './imports/ui/md-collapse/md-collapse.js';
-import './imports/ui/md-dialog/md-dialog.coffee';
-import './imports/ui/md-drawer/md-drawer.coffee';
-import './imports/ui/md-dropdown-menu/md-dropdown-menu.coffee';
+import './imports/ui/md-dialog/md-dialog.js';
+import './imports/ui/md-drawer/md-drawer.js';
+import './imports/ui/md-dropdown-menu/md-dropdown-menu.js';
 import './imports/ui/md-header-panel/md-header-panel.js';
 import './imports/ui/md-icon/md-icon.jade';
 import './imports/ui/md-image/md-image.coffee';
@@ -95,10 +116,12 @@ import './imports/ui/md-item/md-item.jade';
 import './imports/ui/md-menu/md-menu.js';
 import './imports/ui/md-popup-menu/md-popup-menu.coffee';
 import './imports/ui/md-radio/md-radio.js';
-import './imports/ui/md-ripple/md-ripple.coffee';
+import './imports/ui/md-ripple/md-ripple.js';
 import './imports/ui/md-scrollable/md-scrollable.js';
+import './imports/ui/md-search-box/md-search-box.js';
 import './imports/ui/md-snackbar/md-snackbar.coffee';
 import './imports/ui/md-spinner/md-spinner.coffee';
+import './imports/ui/md-stepdots/md-stepdots.jade';
 import './imports/ui/md-tabs/md-tabs.js';
 import './imports/ui/md-text-input/md-text-input.coffee';
 import './imports/ui/md-toolbar/md-toolbar.js';
@@ -111,6 +134,9 @@ export {
   // MD Button
   enableButton,
   disableButton,
+  // MD Collapse
+  collapseContent,
+  expandContent,
   // MD Checkbox
   setStateOfCheckbox,
   getStateOfCheckbox,
@@ -130,6 +156,10 @@ export {
   openDrawer,
   closeDrawer,
   toggleDrawer,
+  initializeLeftDrawerToggle,
+  initializeRightDrawerToggle,
+  initializeDrawerToggles,
+  initializeDrawer,
   // MD Dropdown Menu
   setValueOfDropdownMenu,
   getValueOfDropdownMenu,
@@ -147,13 +177,25 @@ export {
   setValueOfRadioGroup,
   getValueOfRadioGroup,
   clearValueOfRadioGroup,
+  // MD Search Box
+  inSearchMode,
+  menuMode,
+  clearQuery,
+  showExitButton,
+  exitSearch,
+  enableSearchBox,
+  disableSearchBox,
   // MD Snackbar
   postSnackbar,
+  // MD Stepdots
+  makeDots,
   // MD Tabs
   currentTab,
-  initializeTabs,
+  initializeTabGroup,
   setTabGroupSelection,
   getTabGroupSelection,
+  resetTabGroup,
+  restoreTabGroup,
   // MD Text Input
   getValueOfTextField,
   setValueOfTextField,
@@ -167,6 +209,8 @@ export {
   clearErrorOnTextInputField,
   // MD Toolbar
   detectTabs,
+  // MD Tooltip
+  dismissTooltip,
   // MD Utils
   dgEBI,
   dqS,

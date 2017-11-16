@@ -65,24 +65,30 @@ export const setRippleStyle = (ripple, eventX, eventY) => {
 
   // The style for this ripple is not yet set.
   let rippleStyle;
-  if (ripple && ripple.parentElement &&
+  if (
+    ripple && ripple.parentElement &&
     ripple.parentElement.parentElement &&
-    ripple.parentElement.parentElement.hasAttribute('data-radio-button')) {
+    ripple.parentElement.parentElement.hasAttribute('data-radio-button')
+  ) {
     /*
      * It's an MD Radio button. Set the pre-determined size and position of its
      * ripple.
      */
     rippleStyle = 'width: 3rem; height: 3rem; top: -1rem; left: -1rem;';
-  } else if (ripple && ripple.parentElement &&
+  } else if (
+    ripple && ripple.parentElement &&
     ripple.parentElement.parentElement &&
-    ripple.parentElement.parentElement.hasAttribute('data-checkbox')) {
+    ripple.parentElement.parentElement.hasAttribute('data-checkbox')
+  ) {
     /*
      * It's an MD Checkbox. Set the pre-determined size and position of its
      * ripple.
      */
     rippleStyle = 'width: 3rem; height: 3rem; top: -0.75rem; left: -0.75rem;';
-  } else if (ripple && ripple.parentElement &&
-    ripple.parentElement.hasAttribute('data-fab')) {
+  } else if (
+    ripple && ripple.parentElement &&
+    ripple.parentElement.hasAttribute('data-fab')
+  ) {
     if (ripple.parentElement.getAttribute('data-fab') === 'mini') {
       /*
        * It's a mini MD FAB. Set the pre-determined size and position of its
@@ -93,8 +99,10 @@ export const setRippleStyle = (ripple, eventX, eventY) => {
       // It's an MD FAB. Set a pre-determined size and position for its ripple.
       rippleStyle = 'width: 3.5rem; height: 3.5rem; top: 0; left: 0;';
     }
-  } else if (ripple && ripple.parentElement &&
-    ripple.parentElement.hasAttribute('data-icon-button')) {
+  } else if (
+    ripple && ripple.parentElement &&
+    ripple.parentElement.hasAttribute('data-icon-button')
+  ) {
     /*
      * It's an Icon Button. Set the pre-determined size and position of its
      * ripple.
@@ -132,25 +140,31 @@ export const launchRipple = (ripple, eventX, eventY) => {
   }
 
   // Set the size and position of the ripple, if necessary.
-  if (ripple.hasAttribute('data-offset') || (!ripple.hasAttribute('style'))) {
+  if (
+    ripple.hasAttribute('data-offset') ||
+    (!ripple.hasAttribute('style'))
+  ) {
     setRippleStyle(ripple, eventX, eventY);
   }
 
   // Add the class to trigger animation of the wave.
   ripple.classList.add('is-rippling');
 
-  Meteor.setTimeout(() => {
-    // Remove the class after 350ms
-    ripple.classList.remove('is-rippling');
+  Meteor.setTimeout(
+    () => {
+      // Remove the class after 350ms
+      ripple.classList.remove('is-rippling');
 
-    /*
-     * If it's an offset ripple remove the style as it's a function of the
-     * touch coordinates.
-     */
-    if (ripple.hasAttribute('data-offset')) {
-      ripple.removeAttribute('style');
-    }
-  }, 350);
+      /*
+       * If it's an offset ripple remove the style as it's a function of the
+       * touch coordinates.
+       */
+      if (ripple.hasAttribute('data-offset')) {
+        ripple.removeAttribute('style');
+      }
+    },
+    350
+  );
 
   return true;
 };

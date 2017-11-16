@@ -42,6 +42,17 @@ const hideMiddleBar = (header) => {
 };
 
 /**
+ * Show the Middle bar.
+ * @param {Element} header - the Header element
+ */
+const showMiddleBar = (header) => {
+  const middleBar = eqS(header, '[data-middle-bar]');
+  if (middleBar) {
+    middleBar.classList.remove('collapsed');
+  }
+};
+
+/**
  * Reset the Header Panel, i.e clear the state from the last instantiation.
  */
 export const resetHeaderPanelSystem = () => {
@@ -137,18 +148,13 @@ export const initializeHeaderPanelSystem = () => {
 
       // Handles up/down scrolling.
       const onScrolling = (direction) => {
-        const headerHasTabs = !!eqS(header, '[data-tabs]');
-
         // Show the Drop Shadow.
         showDropShadow(headerShadow);
 
         if (direction === 'down') {
           // Collapse the Header to the Top toolbar and Tab bar.
           collapseHeader(header);
-          if (headerHasTabs) {
-            // Hide the Middle bar only.
-            hideMiddleBar(header);
-          }
+          hideMiddleBar(header);
         }
 
         if ((direction === 'up') &&
@@ -166,6 +172,7 @@ export const initializeHeaderPanelSystem = () => {
         if (!headerPanel.hasAttribute('data-expand-on-scroll')) {
           // Expand the Header.
           expandHeader(header);
+          showMiddleBar(header);
         }
 
         // Ensure that the Shadow is hidden.

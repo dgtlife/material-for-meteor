@@ -1,0 +1,64 @@
+//- @file Defines the template for the MD Search Box.
+    @author Derek Gransaull <derek@dgtlife.com>
+    @copyright DGTLife, LLC 2017
+
+template(name="md_search_box")
+  .md-search-box(
+    data-search-box=""
+    id=id
+    class=classes
+    data-value=value
+  )
+    .md-search-box__input-container
+      +md_button(
+        classes="button__start-search"
+        icon_button=""
+        icon="search"
+      )
+      +md_button(
+        classes="button__exit-search md-hide"
+        icon_button=""
+        icon="arrow-back"
+      )
+      input.md-search-box__input.md-field__input.flex(
+        id=input__id
+        name=input__name
+        class=input__classes
+        type="text"
+        value=value
+        disabled=disabled
+        autocomplete=autocomplete
+        autofocus=autofocus
+        form=form
+        list=list
+        max=max
+        maxlength=maxlength
+        min=min
+        minlength=minlength
+        pattern=pattern
+        placeholder=placeholder
+        readonly=readonly
+        required=required
+        size=size
+        data-search-box-input=""
+      )
+      +md_button(
+        classes="button__clear-query md-hide"
+        icon_button=""
+        icon="close"
+      )
+    .md-search-box__menu-container.md-hide
+      if md_search_box__mode_is_history
+        +md_menu(
+          id="md-search-box__menu"
+          name="md-search-box__menu"
+          classes="md-search-box__menu history"
+          menu_items=search_menu_items
+        )
+      else
+        +md_menu(
+          id="md-search-box__menu"
+          name="md-search-box__menu"
+          classes="md-search-box__menu suggestions"
+          menu_items=search_menu_items
+        )

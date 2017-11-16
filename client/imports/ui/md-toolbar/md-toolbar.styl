@@ -31,27 +31,24 @@ $md-toolbar__color = #FFFFFF
 .md-toolbar__bar.top
   background-color $md-toolbar__bg-color
   position relative
-  z-index 2
+  z-index 5
 .md-toolbar__bar.middle,
 .md-toolbar__bar.bottom
   background-color $md-toolbar__bg-color
   left 0
   position absolute
   right 0
+.md-toolbar__bar.middle
+  z-index 3
+.md-toolbar__bar.bottom
+  bottom 0
+  z-index 2
 .md-toolbar__bar.bottom.has-tabs
   height 3rem
-.md-toolbar,
-.md-toolbar.medium-tall
+  z-index 4
+.md-toolbar:not(.tall)
   .md-toolbar__bar.middle
-    bottom 0
-    z-index 1
-  .md-toolbar__bar.bottom
-    bottom 0
-    z-index 0
-.md-toolbar.tall
-  .md-toolbar__bar.bottom
-    bottom 0
-    z-index 0
+    top 0
 .md-toolbar__bar [data-icon-button][data-toolbar-menu-button]
   margin-right 1.25rem
 .md-toolbar__bar .title
@@ -81,58 +78,53 @@ $md-toolbar__color = #FFFFFF
 
 // Desktops and tablets
 @media only screen and (min-width: 600px)
-  .md-toolbar
+  .md-toolbar,
+  .md-toolbar__bar
     height 4rem
   .md-toolbar.medium-tall
     height 8rem
   .md-toolbar.tall
     height 12rem
   .md-toolbar.tall
-    .md-toolbar__bar.middle
-      bottom 4rem
-      z-index 1
-  .md-toolbar__bar
-    height 4rem
-  .md-toolbar__bar.top,
+    .md-toolbar__bar.middle:not(.collapsed)
+      top 4rem
+    .md-toolbar__bar.middle.collapsed
+      top 0
+  .md-toolbar__bar.top
+    padding 0 0.75rem
   .md-toolbar__bar.middle,
   .md-toolbar__bar.bottom
     .title
       margin-left 5.5rem
-  .md-toolbar__bar [data-icon-button][data-drawer-toggle] + .title
+  .md-toolbar__bar [data-toolbar-menu-button] + .title
     margin-left 1.5rem
   .md-header-panel[data-docked-left] > .md-toolbar
     .md-toolbar__bar .title
       margin-left 1.5rem
-  .md-toolbar__bar [data-icon-button][data-toolbar-menu-button]
-    padding-left 0.5rem
-  .md-toolbar__bar [data-icon-button]:last-of-type
-    padding-right 0.5rem
 
 // Phones
 @media only screen and (max-width: 600px)
-  .md-toolbar
+  .md-toolbar,
+  .md-toolbar__bar
     height 3.5rem
   .md-toolbar.medium-tall
     height 7rem
   .md-toolbar.tall
     height 10.5rem
   .md-toolbar.tall
-    .md-toolbar__bar.middle
-      bottom 3.5rem
-      z-index 1
-  .md-toolbar__bar
-    height 3.5rem
-  .md-toolbar__bar.top,
+    .md-toolbar__bar.middle:not(.collapsed)
+      top 3.5rem
+    .md-toolbar__bar.middle.collapsed
+      top 0
+  .md-toolbar__bar [data-toolbar-menu-button] + .title
+    margin-left 0
+  .md-toolbar__bar.top
+    padding 0 0.25rem
   .md-toolbar__bar.middle,
   .md-toolbar__bar.bottom
     .title
       margin-left 3.5rem
-  .md-toolbar__bar [data-icon-button][data-drawer-toggle] + .title
-    margin-left 0
-  .md-toolbar__bar [data-icon-button][data-toolbar-menu-button]
-    padding-left 0
-  .md-toolbar__bar [data-icon-button]:last-of-type
-    padding-right 0
-
-
-
+  .md-toolbar__bar.bottom.has-tabs
+    padding 0
+  .md-toolbar.has-tabs > .md-toolbar__bar.middle
+    top 0
